@@ -1,0 +1,2907 @@
+{
+    "types": [
+        "text",
+        "textarea",
+        "radio",
+        "checkbox",
+        "checkboxMultiple",
+        "checkboxGroup",
+        "select",
+        "multiselect",
+        "tel",
+        "date-picker",
+        "email",
+        "address",
+        "currency",
+        "number"
+    ],
+    "tooltips": [
+        {
+            "label": "Is there anyone other than you dependent on your income?",
+            "labelTool": "A dependant is anyone who is wholly or partially dependant on your income."
+        },
+        {
+            "label": "Income details",
+            "labelTool": "If you are unsure of your after-tax income but know your gross income, head to www.paye.net.nz/calculator/ to calculate"
+        },
+        {
+            "label": "Other than the joint applicant, is there anyone else dependent on your income?",
+            "labelTool": "A dependant is anyone who is wholly or partially dependant on your income."
+        },
+        {
+            "label": "Are you aware of any reason or potential event/occurrence over the next year that is likely to significantly increase your expenses?",
+            "labelTool": "For example, you’re expecting an increase in dependents"
+        },
+        {
+            "label": "Are your combined expenses likely to change in the next 12 months?",
+            "labelTool": "If you have (for example) a ‘debt spreading’ arrangement for a car loan or are paying off a large purchase in instalments, we’ll want to account for this when verifying your expenses."
+        },
+        {
+            "label": "Do you have a loan or other financial product where you are required to make one or more lump sum payments (instead of, or in addition to, your regular payments)? Please exclude any buy-now-pay-later facilities.",
+            "labelTool": "An example of a lump sum payment is a balloon payment on a car loan"
+        },
+        {
+            "label": "Loan balance:",
+            "labelTool": "Please ensure you have captured the total loan amount that you are applying for. We will confirm the final structure of the loan a bit later."
+        },
+        {
+            "label": "Loan amount:",
+            "labelTool": "Please ensure you have captured the total loan amount that you are applying for. We will confirm the final structure of the loan a bit later."
+        },
+        {
+            "label": "Total interest:",
+            "labelTool": "Calculations are based on the interest rate(s) selected being constant for the entire term of the loan(s)."
+        },
+        {
+            "label": "Desired revolving credit limit",
+            "labelTool": "Interest is charged at the end of each month on any funds drawn from the account and added to your unpaid balance."
+        },
+        {
+            "label": "DisclosedUIRatio",
+            "labelTool": "Enter decimal more than 0.1 for premium customer, or less than 0.1 for non-premium customer"
+        },
+        {
+            "label": "Is the property a standalone, single section house, or a&nbsp;terraced&nbsp;house&nbsp;/&nbsp;townhouse?",
+            "labelTool": "A standalone house is a freestanding residential building.<br><br>A terraced / townhouse is a property that shares its walls (or a wall) with its neighbours, but does not have other properties below or above it like apartments do."
+        },
+        {
+            "label": "essential living expenses",
+            "labelTool": "An expense is essential if it’s necessary for you and/or your family to maintain a reasonable standard of living"
+        }
+    ],
+    "fields": {
+        "Submitted": {
+            "name": "Submitted",
+            "value": ""
+        },
+        "Exact_Address_Known": {
+            "name": "Exact_Address_Known",
+            "type": "radio",
+            "label": "Do you know the address of the property yet?",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": true,
+            "rate": null
+        },
+        "Own_Live_House": {
+            "name": "Own_Live_House",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Will you live in the property?",
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ]
+        },
+        "Property_Single_Standalone": {
+            "name": "Property_Single_Standalone",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Is the property a standalone, single section house, or a&nbsp;terraced&nbsp;house&nbsp;/&nbsp;townhouse?",
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ]
+        },
+        "Property_Freehold_CrossLease_UnitTitle": {
+            "name": "Property_Freehold_CrossLease_UnitTitle",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Is the property freehold, cross lease or unit title land?",
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ]
+        },
+        "Accepted_Privacy_Declaration": {
+            "name": "Accepted_Privacy_Declaration",
+            "type": "checkbox",
+            "value": false,
+            "validations": {
+                "required": true
+            }
+        },
+        "Accepted_Illion_Policy": {
+            "name": "Accepted_Illion_Policy",
+            "type": "checkbox",
+            "value": false,
+            "validations": {
+                "required": true
+            }
+        },
+        "Accepted_Illion_Policy_CoApp": {
+            "name": "Accepted_Illion_Policy_CoApp",
+            "type": "checkbox",
+            "value": false,
+            "validations": {
+                "required": true
+            }
+        },
+        "Accepted_Financial_Statement": {
+            "name": "Accepted_Financial_Statement",
+            "type": "checkbox",
+            "value": false,
+            "validations": {
+                "required": true
+            }
+        },
+        "Contact_Name": {
+            "name": "Contact_Name",
+            "type": "text",
+            "value": ""
+        },
+        "Contact_Phone": {
+            "name": "Contact_Phone",
+            "type": "tel",
+            "value": ""
+        },
+        "Verification_Phone": {
+            "name": "Verification_Phone",
+            "type": "tel",
+            "value": "",
+            "label": "Your mobile number",
+            "placeholder": "Enter mobile number",
+            "validations": {
+                "required": true,
+                "minLength": 7
+            }
+        },
+        "Verification_Phone_CoApp": {
+            "name": "Verification_Phone_CoApp",
+            "type": "tel",
+            "value": "",
+            "label": "Other applicant's mobile number",
+            "placeholder": "Enter mobile number",
+            "validations": {
+                "required": true,
+                "minLength": 7
+            }
+        },
+        "Loan_Purpose": {
+            "name": "Loan_Purpose",
+            "type": "radio",
+            "value": "new-home",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Buy a new home",
+                    "value": "new-home"
+                },
+                {
+                    "name": "Refinance",
+                    "value": "refinance"
+                }
+            ],
+            "label": "Are you looking to:"
+        },
+        "First_Name": {
+            "name": "First_Name",
+            "type": "text",
+            "value": "",
+            "noSpecialChars": true,
+            "validations": {
+                "required": true
+            },
+            "label": "First name"
+        },
+        "Middle_Name": {
+            "name": "Middle_Name",
+            "type": "text",
+            "value": "",
+            "noSpecialChars": true,
+            "label": "Middle name (optional)"
+        },
+        "Last_Name": {
+            "name": "Last_Name",
+            "type": "text",
+            "value": "",
+            "noSpecialChars": true,
+            "validations": {
+                "required": true
+            },
+            "label": "Last name"
+        },
+        "Citizenship": {
+            "name": "Citizenship",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Are you a NZ citizen or permanent resident?",
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "name": "No",
+                    "value": "Other"
+                }
+            ]
+        },
+        "Address_Text": {
+            "name": "Address_Text",
+            "type": "address",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Address",
+            "placeholder": "Current address"
+        },
+        "Phone_Number": {
+            "name": "Phone_Number",
+            "type": "tel",
+            "value": "",
+            "validations": {
+                "required": true,
+                "minLength": 7
+            },
+            "label": "Mobile phone number"
+        },
+        "EmailAddress": {
+            "name": "EmailAddress",
+            "type": "email",
+            "value": "",
+            "validations": {
+                "required": true,
+                "email": true
+            },
+            "label": "Email address",
+            "placeholder": "Enter email address"
+        },
+        "Unit_Number": {
+            "name": "Unit_Number",
+            "type": "text",
+            "value": ""
+        },
+        "Street_Number": {
+            "name": "Street_Number",
+            "type": "text",
+            "value": ""
+        },
+        "Situation_Number": {
+            "name": "Situation_Number",
+            "type": "text",
+            "value": ""
+        },
+        "Street_Name": {
+            "name": "Street_Name",
+            "type": "text",
+            "value": ""
+        },
+        "Street_Type": {
+            "name": "Street_Type",
+            "type": "text",
+            "value": ""
+        },
+        "Suburb": {
+            "name": "Suburb",
+            "type": "text",
+            "value": ""
+        },
+        "Town": {
+            "name": "Town",
+            "type": "text",
+            "value": ""
+        },
+        "Location": {
+            "name": "Location",
+            "type": "autocomplete",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Location of property",
+            "placeholder": "Start typing city/town name",
+            "options": [],
+            "notFound": "No supported location found"
+        },
+        "Postal_Code": {
+            "name": "Postal_Code",
+            "type": "text",
+            "value": ""
+        },
+        "Country": {
+            "name": "Country",
+            "type": "select",
+            "value": ""
+        },
+        "Address_Longitude": {
+            "name": "Address_Longitude",
+            "type": "text",
+            "value": ""
+        },
+        "CoreLogic_Address_Id": {
+            "name": "CoreLogic_Address_Id",
+            "type": "text",
+            "value": ""
+        },
+        "Date_of_Birth": {
+            "name": "Date_of_Birth",
+            "type": "date",
+            "value": "",
+            "validations": {
+                "required": true,
+                "minValue": "1800-01-01"
+            },
+            "adult": true,
+            "placeholder": "dd/mm/yyyy",
+            "label": "Date of birth"
+        },
+        "Gender": {
+            "name": "Gender",
+            "type": "radio",
+            "value": ""
+        },
+        "Dependants": {
+            "name": "Dependants",
+            "type": "text",
+            "value": ""
+        },
+        "Annual_Household_Income_Before_Tax": {
+            "name": "Annual_Household_Income_Before_Tax",
+            "type": "currency",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Annual household income before tax"
+        },
+        "Pre_Approved": {
+            "name": "Pre_Approved",
+            "type": "checkbox",
+            "value": false
+        },
+        "Inteflow_Id": {
+            "name": "Inteflow_Id",
+            "type": "text",
+            "value": ""
+        },
+        "Property_Type": {
+            "name": "Property_Type",
+            "type": "text",
+            "value": ""
+        },
+        "Has_RVC": {
+            "name": "Has_RVC",
+            "type": "radio",
+            "label": "Would you like a revolving credit account?",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": false,
+            "rate": null
+        },
+        "Disclosed_Existing_Revolving_Credit_Limit": {
+            "name": "Disclosed_Existing_Revolving_Credit_Limit",
+            "type": "currency",
+            "value": null,
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Limit"
+        },
+        "Had_Defaults": {
+            "name": "Had_Defaults",
+            "type": "radio",
+            "label": "Have you had your existing home loan for three or more years?",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": null,
+            "rate": null
+        },
+        "Met_Repayments": {
+            "name": "Met_Repayments",
+            "type": "radio",
+            "label": "Have you met all of the home loan repayments on time during that period?",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": null,
+            "rate": null
+        },
+        "Desired_RVC_Limit": {
+            "name": "Desired_RVC_Limit",
+            "type": "currency",
+            "value": null,
+            "validations": {
+                "required": true,
+                "maxValue": 100000,
+                "minValue": 5000
+            },
+            "label": "Desired revolving credit limit"
+        },
+        "Approved_RVC_Limit": {
+            "name": "Approved_RVC_Limit",
+            "type": "text",
+            "value": ""
+        },
+        "Has_Required_RVC_Limit": {
+            "name": "Has_Required_RVC_Limit",
+            "type": "radio",
+            "label": "Do you intend to put some or all of your limit towards",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": false
+        },
+        "Required_RVC_Limit": {
+            "name": "Required_RVC_Limit",
+            "type": "currency",
+            "value": null,
+            "label": "How much?",
+            "validations": {
+                "required": true,
+                "maxValue": 100000
+            }
+        },
+        "Requried_RVC_Limit_Processed": {
+            "name": "Requried_RVC_Limit_Processed",
+            "value": false
+        },
+        "Loan_Term": {
+            "name": "Loan_Term",
+            "type": "range",
+            "value": 30,
+            "default": 30,
+            "settings": {
+                "min": 1,
+                "max": 30,
+                "step": 1,
+                "measure": "year"
+            },
+            "label": "Select your term (years)"
+        },
+        "Original_Loan_Term": {
+            "name": "OfferedLoan_Term",
+            "type": "text",
+            "value": ""
+        },
+        "OfferedLoan_Term": {
+            "name": "OfferedLoan_Term",
+            "type": "text",
+            "value": ""
+        },
+        "OldestApplicantAge": {
+            "name": "OldestApplicantAge",
+            "type": "text",
+            "value": ""
+        },
+        "Loan_Interest_Rate": {
+            "name": "Loan_Interest_Rate",
+            "type": "select",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Click here to select",
+            "options": [],
+            "label": "Choose your rate"
+        },
+        "Unit_Number_Property": {
+            "name": "Unit_Number_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Street_Number_Property": {
+            "name": "Street_Number_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Situation_Number_Property": {
+            "name": "Situation_Number_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Street_Name_Property": {
+            "name": "Street_Name_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Street_Type_Property": {
+            "name": "Street_Type_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Suburb_Property": {
+            "name": "Suburb_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Town_Property": {
+            "name": "Town_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Region_Property": {
+            "name": "Region_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Postal_Code_Property": {
+            "name": "Postal_Code_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Country_Property": {
+            "name": "Country_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Address_Latitude_Property": {
+            "name": "Address_Latitude_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Address_Longitude_Property": {
+            "name": "Address_Longitude_Property",
+            "type": "text",
+            "value": ""
+        },
+        "CoreLogic_Address_Id_Property": {
+            "name": "CoreLogic_Address_Id_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Addressright_Text_Property": {
+            "name": "Addressright_Text_Property",
+            "type": "addressright",
+            "corresponding_field": "Addressright_ID_Text_Property",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Enter the general location of the property",
+            "placeholder": "Start typing..."
+        },
+        "Addressright_ID_Text_Property": {
+            "name": "Addressright_ID_Text_Property",
+            "type": "text",
+            "value": ""
+        },
+        "Address_Text_Property": {
+            "name": "Address_Text_Property",
+            "type": "address",
+            "value": "",
+            "validations": {
+                "required": true,
+                "fullAddress": false
+            },
+            "label": "Enter location or address of property",
+            "placeholder": "Start typing..."
+        },
+        "Deposit": {
+            "name": "Deposit",
+            "type": "currency",
+            "value": "",
+            "amountField": true,
+            "validations": {
+                "required": true,
+                "lookLoanAmount": true
+            },
+            "label": "Deposit amount"
+        },
+        "LVR": {
+            "name": "LVR",
+            "type": "text",
+            "value": ""
+        },
+        "Property_Type_Other": {
+            "name": "Property_Type_Other",
+            "type": "text",
+            "value": ""
+        },
+        "Citizenship_Other": {
+            "name": "Citizenship_Other",
+            "type": "text",
+            "value": ""
+        },
+        "Term_Loan_Amount": {
+            "name": "Term_Loan_Amount",
+            "type": "currency",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Enter loan amount"
+        },
+        "Loan_Amount": {
+            "name": "Loan_Amount",
+            "type": "currency",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Enter loan amount"
+        },
+        "Repayments_Frequency": {
+            "name": "Repayments_Frequency",
+            "type": "select",
+            "value": "1",
+            "default": "1",
+            "options": [
+                {
+                    "name": "Weekly",
+                    "value": "2"
+                },
+                {
+                    "name": "Fortnightly",
+                    "value": "1"
+                },
+                {
+                    "name": "Monthly",
+                    "value": "0"
+                }
+            ],
+            "label": "Select the frequency of your repayments",
+            "placeholder": "Click here to select"
+        },
+        "Estimated_Home_Value": {
+            "name": "Estimated_Home_Value",
+            "type": "currency",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Enter the value of your home"
+        },
+        "Purchase_Price": {
+            "name": "Purchase_Price",
+            "type": "currency",
+            "value": "",
+            "amountField": true,
+            "validations": {
+                "required": true,
+                "lookLoanAmount": true
+            },
+            "label": "Purchase price"
+        },
+        "Mortgage_Balance": {
+            "name": "Mortgage_Balance",
+            "type": "currency",
+            "value": "",
+            "amountField": true,
+            "validations": {
+                "required": true,
+                "lookLoanAmount": true
+            },
+            "label": "Loan balance"
+        },
+        "Loan_topup": {
+            "name": "Loan_topup",
+            "type": "currency",
+            "value": "",
+            "label": "Top up amount (optional)",
+            "resetValue": "0",
+            "amountField": true,
+            "validations": {
+                "lookLoanAmount": true
+            }
+        },
+        "Accepted_Marketing_Communication": {
+            "name": "Accepted_Marketing_Communication",
+            "type": "checkbox",
+            "value": true,
+            "reversed": true,
+            "label": "If you do not wish to receive marketing material about Heartland products, please tick this box."
+        },
+        "Joint_Application": {
+            "name": "Joint_Application",
+            "type": "radio",
+            "value": null,
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Single",
+                    "value": false
+                },
+                {
+                    "name": "Joint",
+                    "value": true
+                }
+            ],
+            "label": "What type of account are you applying for?"
+        },
+        "First_Name_CoApp": {
+            "name": "First_Name_CoApp",
+            "type": "text",
+            "value": "",
+            "noSpecialChars": true,
+            "validations": {
+                "required": true
+            },
+            "label": "First name"
+        },
+        "Middle_Name_CoApp": {
+            "name": "Middle_Name_CoApp",
+            "type": "text",
+            "value": "",
+            "noSpecialChars": true,
+            "label": "Middle name (optional)"
+        },
+        "Last_Name_CoApp": {
+            "name": "Last_Name_CoApp",
+            "type": "text",
+            "value": "",
+            "noSpecialChars": true,
+            "validations": {
+                "required": true
+            },
+            "label": "Last name"
+        },
+        "Gender_CoApp": {
+            "name": "Gender_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Date_of_Birth_CoApp": {
+            "name": "Date_of_Birth_CoApp",
+            "type": "date",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "adult": true,
+            "placeholder": "dd/mm/yyyy",
+            "label": "Date of birth"
+        },
+        "Unit_Number_CoApp": {
+            "name": "Unit_Number_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Street_Number_CoApp": {
+            "name": "Street_Number_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Situation_Number_CoApp": {
+            "name": "Situation_Number_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Street_Name_CoApp": {
+            "name": "Street_Name_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Street_Type_CoApp": {
+            "name": "Street_Type_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Suburb_CoApp": {
+            "name": "Suburb_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Town_CoApp": {
+            "name": "Town_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Region_CoApp": {
+            "name": "Region_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Postal_Code_CoApp": {
+            "name": "Postal_Code_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Country_CoApp": {
+            "name": "Country_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Address_Latitude_CoApp": {
+            "name": "Address_Latitude_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Address_Longitude_CoApp": {
+            "name": "Address_Longitude_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "CoreLogic_Address_Id_CoApp": {
+            "name": "CoreLogic_Address_Id_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Address_Text_CoApp": {
+            "name": "Address_Text_CoApp",
+            "type": "address",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Address",
+            "placeholder": "Current address"
+        },
+        "Citizenship_Other_CoApp": {
+            "name": "Citizenship_Other_CoApp",
+            "type": "text",
+            "value": ""
+        },
+        "Citizenship_CoApp": {
+            "name": "Citizenship_CoApp",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Are you a NZ citizen or permanent resident?",
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "name": "No",
+                    "value": "Other"
+                }
+            ]
+        },
+        "Phone_Number_CoApp": {
+            "name": "Phone_Number_CoApp",
+            "type": "tel",
+            "value": "",
+            "validations": {
+                "required": true,
+                "minLength": 5
+            },
+            "label": "Mobile phone number"
+        },
+        "EmailAddress_CoApp": {
+            "name": "EmailAddress_CoApp",
+            "type": "email",
+            "value": "",
+            "validations": {
+                "required": true,
+                "email": true
+            },
+            "label": "Email address",
+            "placeholder": "Enter email address"
+        },
+        "Accepted_Single_Joint_Applicant_Consent": {
+            "name": "Accepted_Single_Joint_Applicant_Consent",
+            "type": "checkbox",
+            "validations": {
+                "required": true
+            },
+            "value": "",
+            "label": "Confirm personal details"
+        },
+        "IncomeType": {
+            "name": "IncomeType",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                "Salary/wage",
+                "Self-employed"
+            ],
+            "label": "How do you receive your income?"
+        },
+        "IncomeType_CoApp": {
+            "name": "IncomeType_CoApp",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                "Salary/wage",
+                "Self-employed"
+            ],
+            "label": "How do you receive your income?"
+        },
+        "Income": {
+            "name": "Income",
+            "type": "currency",
+            "value": "",
+            "validations": {
+                "required": true
+            }
+        },
+        "Income_CoApp": {
+            "name": "Income_CoApp",
+            "type": "currency",
+            "value": "",
+            "validations": {
+                "required": true
+            }
+        },
+        "Occupation": {
+            "name": "Occupation",
+            "type": "text",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "What is your occupation?"
+        },
+        "Occupation_CoApp": {
+            "name": "Occupation_CoApp",
+            "type": "text",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "What is your occupation?"
+        },
+        "Occupation_Years": {
+            "name": "Occupation_Years",
+            "type": "number",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Years",
+            "leftLabel": "Year(s)"
+        },
+        "Occupation_Months": {
+            "name": "Occupation_Months",
+            "type": "number",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Months",
+            "leftLabel": "Month(s)"
+        },
+        "Occupation_Years_CoApp": {
+            "name": "Occupation_Years_CoApp",
+            "type": "number",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Years",
+            "leftLabel": "Year(s)"
+        },
+        "Occupation_Months_CoApp": {
+            "name": "Occupation_Months_CoApp",
+            "type": "number",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Months",
+            "leftLabel": "Month(s)"
+        },
+        "Business_Years_Months": {
+            "name": "Business_Years_Months",
+            "type": "select",
+            "value": null,
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Please select",
+            "options": [
+                "Less than six months",
+                "Six to twelve months",
+                "One to two years",
+                "Greater than two years"
+            ],
+            "label": "How long have you been in business?"
+        },
+        "Business_Years_Months_CoApp": {
+            "name": "Business_Years_Months_CoApp",
+            "type": "select",
+            "value": null,
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Please select",
+            "options": [
+                "Less than 6mths",
+                "6-12mths",
+                "1-2yrs",
+                "greater than 2"
+            ],
+            "label": "How long have you been in business?"
+        },
+        "Income_Frequency_CoApp": {
+            "name": "Income_Frequency_CoApp",
+            "type": "select",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                "Weekly",
+                "Fortnightly",
+                "Monthly"
+            ]
+        },
+        "Dependent_Adult": {
+            "name": "Dependent_Adult",
+            "type": "number-control",
+            "value": "0",
+            "default": "0",
+            "label": "Adult(s)",
+            "validations": {
+                "required": true,
+                "minValue": 0,
+                "maxValue": 9
+            }
+        },
+        "Income_Sources_BeforeTax": {
+            "name": "Income_Sources_BeforeTax",
+            "type": "group",
+            "value": "",
+            "default": [
+                {
+                    "Additional_Income_Divider": null,
+                    "Income_Type": null,
+                    "Income_Amount": null,
+                    "Income_Frequency": null,
+                    "Property_Details_Divider": null,
+                    "Property_Value": null,
+                    "Mortgage_Property_Balance": null,
+                    "Repayment_Amount": null,
+                    "Frequency": null,
+                    "Other_Income_Details": null
+                }
+            ],
+            "fieldTypes": {
+                "Additional_Income_Divider": {
+                    "name": "Additional_Income_Divider",
+                    "break": true,
+                    "label": "Additional income"
+                },
+                "Income_Type": {
+                    "name": "Income_Type",
+                    "type": "select",
+                    "wide": true,
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        {
+                            "name": "Salary",
+                            "value": "Salary/wage"
+                        },
+                        {
+                            "name": "Wages on an hourly rate (Variable PAYE)",
+                            "value": "Variable PAYE"
+                        },
+                        {
+                            "name": "New Zealand Superannuation",
+                            "value": "New Zealand Superannuation"
+                        },
+                        {
+                            "name": "Other government benefits",
+                            "value": "Other Government benefits"
+                        },
+                        {
+                            "name": "Self-employed",
+                            "value": "Self-employed"
+                        },
+                        {
+                            "name": "Commission-based income",
+                            "value": "Commission-based income"
+                        },
+                        {
+                            "name": "Rental income",
+                            "value": "Rental income"
+                        },
+                        {
+                            "name": "Dividends/other investments",
+                            "value": "Dividends/other investments"
+                        },
+                        {
+                            "name": "No income",
+                            "value": "No income"
+                        },
+                        {
+                            "name": "Other (Please specify)",
+                            "value": "Other"
+                        }
+                    ],
+                    "placeholder": "Select an income type"
+                },
+                "Income_Amount": {
+                    "name": "Income_Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Amount"
+                },
+                "Income_Frequency": {
+                    "name": "Income_Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly",
+                        "Annually"
+                    ],
+                    "placeholder": "Frequency"
+                },
+                "Property_Details_Divider": {
+                    "name": "Property_Details_Divider",
+                    "break": true,
+                    "label": "Rental property details"
+                },
+                "Property_Value": {
+                    "name": "Property_Value",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Property value"
+                },
+                "Mortgage_Property_Balance": {
+                    "name": "Mortgage_Property_Balance",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Loan balance"
+                },
+                "Repayment_Amount": {
+                    "name": "Repayment_Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Repayment"
+                },
+                "Frequency": {
+                    "name": "Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly",
+                        "Annually"
+                    ],
+                    "placeholder": "Frequency"
+                },
+                "Other_Income_Details": {
+                    "name": "Other_Income_Details",
+                    "type": "textarea",
+                    "value": "",
+                    "fullwidth": true,
+                    "validations": {
+                        "required": true,
+                        "maxLength": 2000
+                    },
+                    "placeholder": "Please provide details"
+                }
+            },
+            "addLabel": "+ Add another income"
+        },
+        "Income_Sources": {
+            "name": "Income_Sources",
+            "type": "group",
+            "value": "",
+            "default": [
+                {
+                    "Additional_Income_Divider": null,
+                    "Income_Type": null,
+                    "Income_Amount": null,
+                    "Income_Frequency": null,
+                    "Property_Details_Divider": null,
+                    "Property_Value": null,
+                    "Mortgage_Property_Balance": null,
+                    "Repayment_Amount": null,
+                    "Frequency": null,
+                    "Other_Income_Details": null
+                }
+            ],
+            "fieldTypes": {
+                "Additional_Income_Divider": {
+                    "name": "Additional_Income_Divider",
+                    "break": true,
+                    "label": "Additional income"
+                },
+                "Income_Type": {
+                    "name": "Income_Type",
+                    "type": "select",
+                    "wide": true,
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        {
+                            "name": "Salary",
+                            "value": "Salary/wage"
+                        },
+                        {
+                            "name": "Wages on an hourly rate (Variable PAYE)",
+                            "value": "Variable PAYE"
+                        },
+                        {
+                            "name": "New Zealand Superannuation",
+                            "value": "New Zealand Superannuation"
+                        },
+                        {
+                            "name": "Other government benefits",
+                            "value": "Other Government benefits"
+                        },
+                        {
+                            "name": "Self-employed",
+                            "value": "Self-employed"
+                        },
+                        {
+                            "name": "Commission-based income",
+                            "value": "Commission-based income"
+                        },
+                        {
+                            "name": "Rental income",
+                            "value": "Rental income"
+                        },
+                        {
+                            "name": "Dividends/other investments",
+                            "value": "Dividends/other investments"
+                        },
+                        {
+                            "name": "No income",
+                            "value": "No income"
+                        },
+                        {
+                            "name": "Other (Please specify)",
+                            "value": "Other"
+                        }
+                    ],
+                    "placeholder": "Select an income type"
+                },
+                "Income_Amount": {
+                    "name": "Income_Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Amount"
+                },
+                "Income_Frequency": {
+                    "name": "Income_Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly",
+                        "Annually"
+                    ],
+                    "placeholder": "Frequency"
+                },
+                "Property_Details_Divider": {
+                    "name": "Property_Details_Divider",
+                    "break": true,
+                    "label": "Rental property details"
+                },
+                "Property_Value": {
+                    "name": "Property_Value",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Property value"
+                },
+                "Mortgage_Property_Balance": {
+                    "name": "Mortgage_Property_Balance",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Loan balance"
+                },
+                "Repayment_Amount": {
+                    "name": "Repayment_Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Repayment"
+                },
+                "Frequency": {
+                    "name": "Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly",
+                        "Annually"
+                    ],
+                    "placeholder": "Frequency"
+                },
+                "Other_Income_Details": {
+                    "name": "Other_Income_Details",
+                    "type": "textarea",
+                    "value": "",
+                    "fullwidth": true,
+                    "validations": {
+                        "required": true,
+                        "maxLength": 2000
+                    },
+                    "placeholder": "Please provide details"
+                }
+            },
+            "addLabel": "+ Add another income"
+        },
+        "Income_Sources_BeforeTax_CoApp": {
+            "name": "Income_Sources_BeforeTax_CoApp",
+            "type": "group",
+            "value": "",
+            "default": [
+                {
+                    "Additional_Income_Divider": null,
+                    "Income_Type": null,
+                    "Income_Amount": null,
+                    "Income_Frequency": null,
+                    "Property_Details_Divider": null,
+                    "Property_Value": null,
+                    "Mortgage_Property_Balance": null,
+                    "Repayment_Amount": null,
+                    "Frequency": null,
+                    "Other_Income_Details": null
+                }
+            ],
+            "fieldTypes": {
+                "Additional_Income_Divider": {
+                    "name": "Additional_Income_Divider",
+                    "break": true,
+                    "label": "Additional income"
+                },
+                "Income_Type": {
+                    "name": "Income_Type",
+                    "type": "select",
+                    "wide": true,
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        {
+                            "name": "Salary",
+                            "value": "Salary/wage"
+                        },
+                        {
+                            "name": "Wages on an hourly rate (Variable PAYE)",
+                            "value": "Variable PAYE"
+                        },
+                        {
+                            "name": "New Zealand Superannuation",
+                            "value": "New Zealand Superannuation"
+                        },
+                        {
+                            "name": "Other government benefits",
+                            "value": "Other Government benefits"
+                        },
+                        {
+                            "name": "Self-employed",
+                            "value": "Self-employed"
+                        },
+                        {
+                            "name": "Commission-based income",
+                            "value": "Commission-based income"
+                        },
+                        {
+                            "name": "Rental income",
+                            "value": "Rental income"
+                        },
+                        {
+                            "name": "Dividends/other investments",
+                            "value": "Dividends/other investments"
+                        },
+                        {
+                            "name": "No income",
+                            "value": "No income"
+                        },
+                        {
+                            "name": "Other (Please specify)",
+                            "value": "Other"
+                        }
+                    ],
+                    "placeholder": "Select an income type"
+                },
+                "Income_Amount": {
+                    "name": "Income_Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Amount"
+                },
+                "Income_Frequency": {
+                    "name": "Income_Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly",
+                        "Annually"
+                    ],
+                    "placeholder": "Frequency"
+                },
+                "Property_Details_Divider": {
+                    "name": "Property_Details_Divider",
+                    "break": true,
+                    "label": "Rental property details"
+                },
+                "Property_Value": {
+                    "name": "Property_Value",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Property value"
+                },
+                "Mortgage_Property_Balance": {
+                    "name": "Mortgage_Property_Balance",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Loan balance"
+                },
+                "Repayment_Amount": {
+                    "name": "Repayment_Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Repayment"
+                },
+                "Frequency": {
+                    "name": "Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly",
+                        "Annually"
+                    ],
+                    "placeholder": "Frequency"
+                },
+                "Other_Income_Details": {
+                    "name": "Other_Income_Details",
+                    "type": "textarea",
+                    "value": "",
+                    "fullwidth": true,
+                    "validations": {
+                        "required": true,
+                        "maxLength": 2000
+                    },
+                    "placeholder": "Please provide details"
+                }
+            },
+            "addLabel": "+ Add another income"
+        },
+        "Income_Sources_CoApp": {
+            "name": "Income_Sources_CoApp",
+            "type": "group",
+            "value": "",
+            "default": [
+                {
+                    "Additional_Income_Divider": null,
+                    "Income_Type": null,
+                    "Income_Amount": null,
+                    "Income_Frequency": null,
+                    "Property_Details_Divider": null,
+                    "Property_Value": null,
+                    "Mortgage_Property_Balance": null,
+                    "Repayment_Amount": null,
+                    "Frequency": null,
+                    "Other_Income_Details": null
+                }
+            ],
+            "fieldTypes": {
+                "Additional_Income_Divider": {
+                    "name": "Additional_Income_Divider",
+                    "break": true,
+                    "label": "Additional income"
+                },
+                "Income_Type": {
+                    "name": "Income_Type",
+                    "type": "select",
+                    "wide": true,
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        {
+                            "name": "Salary",
+                            "value": "Salary/wage"
+                        },
+                        {
+                            "name": "Wages on an hourly rate (Variable PAYE)",
+                            "value": "Variable PAYE"
+                        },
+                        {
+                            "name": "New Zealand Superannuation",
+                            "value": "New Zealand Superannuation"
+                        },
+                        {
+                            "name": "Other government benefits",
+                            "value": "Other Government benefits"
+                        },
+                        {
+                            "name": "Self-employed",
+                            "value": "Self-employed"
+                        },
+                        {
+                            "name": "Commission-based income",
+                            "value": "Commission-based income"
+                        },
+                        {
+                            "name": "Rental income",
+                            "value": "Rental income"
+                        },
+                        {
+                            "name": "Dividends/other investments",
+                            "value": "Dividends/other investments"
+                        },
+                        {
+                            "name": "No income",
+                            "value": "No income"
+                        },
+                        {
+                            "name": "Other (Please specify)",
+                            "value": "Other"
+                        }
+                    ],
+                    "placeholder": "Select an income type"
+                },
+                "Income_Amount": {
+                    "name": "Income_Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Amount"
+                },
+                "Income_Frequency": {
+                    "name": "Income_Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly",
+                        "Annually"
+                    ],
+                    "placeholder": "Frequency"
+                },
+                "Property_Details_Divider": {
+                    "name": "Property_Details_Divider",
+                    "break": true,
+                    "label": "Rental property details"
+                },
+                "Property_Value": {
+                    "name": "Property_Value",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Property value"
+                },
+                "Mortgage_Property_Balance": {
+                    "name": "Mortgage_Property_Balance",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Loan balance"
+                },
+                "Repayment_Amount": {
+                    "name": "Repayment_Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Repayment"
+                },
+                "Frequency": {
+                    "name": "Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly",
+                        "Annually"
+                    ],
+                    "placeholder": "Frequency"
+                },
+                "Other_Income_Details": {
+                    "name": "Other_Income_Details",
+                    "type": "textarea",
+                    "value": "",
+                    "fullwidth": true,
+                    "validations": {
+                        "required": true,
+                        "maxLength": 2000
+                    },
+                    "placeholder": "Please provide details"
+                }
+            },
+            "addLabel": "+ Add another income"
+        },
+        "Dependent_Child": {
+            "name": "Dependent_Child",
+            "type": "number-control",
+            "value": "0",
+            "default": "0",
+            "label": "Children",
+            "validations": {
+                "required": true,
+                "minValue": 0,
+                "maxValue": 9
+            }
+        },
+        "Bonus_Income": {
+            "name": "Bonus_Income",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": "",
+            "label": "Do you earn a bonus in addition to your regular income?"
+        },
+        "Bonus_Income_Frequency": {
+            "name": "Bonus_Income_Frequency",
+            "type": "select",
+            "wrapperClasses": "desktop_160",
+            "nullable": true,
+            "validations": {
+                "required": true
+            },
+            "options": [
+                "Weekly",
+                "Fortnightly",
+                "Monthly",
+                "Quarterly",
+                "Annually"
+            ],
+            "placeholder": "Frequency",
+            "label": "How frequently do you earn this?"
+        },
+        "Bonus_Income_Amount": {
+            "name": "Bonus_Income_Amount",
+            "type": "currency",
+            "wrapperClasses": "desktop_160",
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Amount",
+            "label": "How much (after tax) is the usual value of your bonus?"
+        },
+        "Bonus_Income_CoApp": {
+            "name": "Bonus_Income_CoApp",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": "",
+            "label": "Do you earn a bonus in addition to your regular income?"
+        },
+        "Bonus_Income_Frequency_CoApp": {
+            "name": "Bonus_Income_Frequency_CoApp",
+            "type": "select",
+            "nullable": true,
+            "validations": {
+                "required": true
+            },
+            "options": [
+                "Weekly",
+                "Fortnightly",
+                "Monthly",
+                "Quarterly",
+                "Annually"
+            ],
+            "placeholder": "Frequency",
+            "label": "How frequently do you earn this?"
+        },
+        "Bonus_Income_Amount_CoApp": {
+            "name": "Bonus_Income_Amount_CoApp",
+            "type": "currency",
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Amount",
+            "label": "How much (after tax) is the usual value of your bonus?"
+        },
+        "Accepted_Aware_Of_Circumstances_Foreseeble_Future": {
+            "name": "Accepted_Aware_Of_Circumstances_Foreseeble_Future",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": ""
+        },
+        "Expenses_Reflect_Next_12_Months": {
+            "name": "Expenses_Reflect_Next_12_Months",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": "",
+            "label": "Are you aware of any reason or potential event/occurrence over the next year that is likely to significantly increase your expenses?"
+        },
+        "Bank_Statements_Different_Expenses": {
+            "name": "Bank_Statements_Different_Expenses",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": "",
+            "label": "The expenses in the bank statements you're providing us with are less than your usual expenses."
+        },
+        "Lump_Sum_Repayments_Towards": {
+            "name": "Lump_Sum_Repayments_Towards",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": "",
+            "label": "Do you have a loan or other financial product where you are required to make one or more lump sum payments (instead of, or in addition to, your regular payments)? Please exclude any buy-now-pay-later facilities."
+        },
+        "Home_Loan_With_RVC": {
+            "name": "Home_Loan_With_RVC",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": "",
+            "label": "Do you have a home loan with a revolving credit facility which is not being refinanced under this new loan?"
+        },
+        "Loan_For_Paying_Other_Debt": {
+            "name": "Loan_For_Paying_Other_Debt",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": "",
+            "label": "Will this loan be used to pay off any other debt (excluding existing home loans being refinanced under this application)?"
+        },
+        "Current_Living_Situation": {
+            "name": "Current_Living_Situation",
+            "type": "radio",
+            "wrapperClasses": "",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Homeowner",
+                    "value": "homeowner"
+                },
+                {
+                    "name": "Renting",
+                    "value": "renting"
+                },
+                {
+                    "name": "Other",
+                    "value": "other"
+                }
+            ],
+            "value": ""
+        },
+        "Current_Rental_Amount": {
+            "name": "Current_Rental_Amount",
+            "type": "currency",
+            "wrapperClasses": "desktop_160",
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Amount"
+        },
+        "Current_Rental_Frequency": {
+            "name": "Current_Rental_Frequency",
+            "type": "select",
+            "nullable": true,
+            "wrapperClasses": "desktop_160",
+            "validations": {
+                "required": true
+            },
+            "default": "Weekly",
+            "options": [
+                "Weekly",
+                "Fortnightly",
+                "Monthly"
+            ],
+            "placeholder": "Frequency"
+        },
+        "Current_Mortgage_Repayments_Amount": {
+            "name": "Current_Mortgage_Repayments_Amount",
+            "type": "currency",
+            "wrapperClasses": "desktop_160",
+            "validations": {
+                "required": true
+            },
+            "placeholder": "Amount"
+        },
+        "Current_Mortgage_Repayments_Frequency": {
+            "name": "Current_Mortgage_Repayments_Frequency",
+            "type": "select",
+            "nullable": true,
+            "wrapperClasses": "desktop_160",
+            "validations": {
+                "required": true
+            },
+            "default": "Weekly",
+            "options": [
+                "Weekly",
+                "Fortnightly",
+                "Monthly"
+            ],
+            "placeholder": "Frequency"
+        },
+        "Current_Living_Situation_Other_Details": {
+            "name": "Current_Living_Situation_Other_Details",
+            "type": "textarea",
+            "value": "",
+            "validations": {
+                "required": true,
+                "maxLength": 2000
+            },
+            "label": "Please explain"
+        },
+        "Reason_For_Refinancing": {
+            "name": "Reason_For_Refinancing",
+            "type": "checkboxMultiple",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "I want a better interest rate",
+                    "name_joint": "We want a better interest rate",
+                    "value": "I want a better interest rate"
+                },
+                {
+                    "name": "I want to borrow more than my current bank will let me ",
+                    "name_joint": "We want to borrow more than our current bank will let us ",
+                    "value": "I want to borrow more than my current bank will let me "
+                },
+                {
+                    "name": "I want to move some of my loan onto revolving credit",
+                    "name_joint": "We want to move some of our loan onto revolving credit",
+                    "value": "I want to move some of my loan onto revolving credit"
+                },
+                {
+                    "name": "I want to move from a fixed to a floating rate (or vice versa)",
+                    "name_joint": "We want to move from a fixed to a floating rate (or vice versa)",
+                    "value": "I want to move from a fixed to a floating rate (or vice versa)"
+                },
+                {
+                    "name": "I want to be able to get loan top-ups",
+                    "name_joint": "We want to be able to get loan top-ups",
+                    "value": "I want to be able to get loan top-ups"
+                },
+                {
+                    "name": "Other (please specify)",
+                    "value": "Other (please specify)"
+                }
+            ],
+            "value": "",
+            "label": "Why are you interested in refinancing with Heartland? Tick all that apply."
+        },
+        "Reason_For_Refinancing_Details": {
+            "name": "Reason_For_Refinancing_Details",
+            "type": "textarea",
+            "value": "",
+            "validations": {
+                "required": true,
+                "maxLength": 2000
+            },
+            "placeholder": "Please provide details"
+        },
+        "Bank_Accounts_Structure": {
+            "name": "Bank_Accounts_Structure",
+            "type": "radio",
+            "modifier": "vertical",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "All my bank accounts are in my name only",
+                    "name_joint": "We only hold individual bank accounts",
+                    "value": "Individual only"
+                },
+                {
+                    "name": "I have bank accounts in both my own name and in joint names",
+                    "name_joint": "We hold a combination of individual and joint bank accounts  ",
+                    "value": "Combination"
+                },
+                {
+                    "name": "All my bank accounts are in joint names",
+                    "name_joint": "We only hold joint bank accounts",
+                    "value": "Joint only"
+                }
+            ],
+            "value": "",
+            "label": "Please select which scenario best applies to your application."
+        },
+        "Expenses_Paid_From_Joint_Account": {
+            "name": "Expenses_Paid_From_Joint_Account",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": "",
+            "label": "Do you pay any of your regular expenses out of a joint account?"
+        },
+        "Expenses_Equally_Contributed": {
+            "name": "Expenses_Equally_Contributed",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "value": "",
+            "label": "Do you and the other joint account holder contribute equally to those expenses?"
+        },
+        "Expenses_Contribute_Share": {
+            "name": "Expenses_Contribute_Share",
+            "type": "tel",
+            "validations": {
+                "required": true,
+                "minValue": 0,
+                "maxValue": 100,
+                "maxLength": 3
+            },
+            "value": null,
+            "label": "What percentage of household expenses do you contribute to?",
+            "placeholder": "E.g. 60%",
+            "suffix": "%"
+        },
+        "Verification_Method": {
+            "name": "Verification_Method",
+            "type": "radio",
+            "modifier": "big_buttons",
+            "options": [
+                {
+                    "name": "Bank statement retrieval",
+                    "description": "The fast, digital method",
+                    "sublabel": "Click next, and you will be prompted to securely enter your banking credentials for one-time use by Heartland to digitally verify your last 90 days of bank statements. Login credentials are not stored. <a href='https://heartland.co.nz/bank-statement-retrieval' target='_blank'>Learn more about bank statement retrieval.</a>",
+                    "value": "Bank statement retrieval",
+                    "classes": "encrypted"
+                },
+                {
+                    "name": "Upload statements manually",
+                    "description": "The slow, manual method",
+                    "sublabel": "Choose this if you'd prefer to manually upload 90 days of bank statements from all accounts. Please first check the <a href='https://www.heartland.co.nz/accepted-bank-statements' target='_blank'>list of accepted accounts</a> and note this option often means a longer approval process.",
+                    "value": "Upload statements manually",
+                    "classes": "manual"
+                }
+            ],
+            "value": "Bank statement retrieval",
+            "label": "How would you like to verify your income and expenses?"
+        },
+        "Complete_Verification_Now": {
+            "name": "Complete_Verification_Now",
+            "type": "radio",
+            "options": [
+                {
+                    "name": "Now",
+                    "value": true
+                },
+                {
+                    "name": "Later",
+                    "value": false
+                }
+            ],
+            "value": false,
+            "sublabel": "Would you like to complete income verification now or later?"
+        },
+        "Verification_Link_Primary": {
+            "name": "Verification_Link_Primary",
+            "type": "radio",
+            "options": [
+                {
+                    "name": "Email",
+                    "value": "Email"
+                },
+                {
+                    "name": "Text message",
+                    "value": "Text message"
+                }
+            ],
+            "value": "Text message",
+            "sublabel": "How would you like to receive your link?"
+        },
+        "Verification_EmailAddress_Primary": {
+            "name": "Verification_EmailAddress_Primary",
+            "type": "email",
+            "value": "",
+            "validations": {
+                "required": true,
+                "email": true
+            },
+            "label": "Email address",
+            "placeholder": "Enter email address"
+        },
+        "Verification_PhoneNumber_Primary": {
+            "name": "Verification_PhoneNumber_Primary",
+            "type": "tel",
+            "value": "",
+            "validations": {
+                "required": true,
+                "minLength": 7
+            }
+        },
+        "Verification_Method_CoApp": {
+            "name": "Verification_Method_CoApp",
+            "type": "radio",
+            "modifier": "mid_buttons",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Bank statement retrieval",
+                    "value": "Bank statement retrieval"
+                },
+                {
+                    "name": "Upload statements manually",
+                    "value": "Upload statements manually"
+                }
+            ],
+            "value": "Bank statement retrieval"
+        },
+        "Verification_Link_CoApp": {
+            "name": "Verification_Link_CoApp",
+            "type": "radio",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Email",
+                    "value": "Email"
+                },
+                {
+                    "name": "Text message",
+                    "value": "Text message"
+                }
+            ],
+            "value": "Text message",
+            "sublabel": "How would they like to receive their link?"
+        },
+        "Verification_EmailAddress_CoApp": {
+            "name": "Verification_EmailAddress_CoApp",
+            "type": "email",
+            "value": "",
+            "validations": {
+                "required": true,
+                "email": true
+            },
+            "label": "Email address",
+            "placeholder": "Enter email address"
+        },
+        "Verification_PhoneNumber_CoApp": {
+            "name": "Verification_PhoneNumber_CoApp",
+            "type": "tel",
+            "value": "",
+            "validations": {
+                "required": true,
+                "minLength": 7
+            }
+        },
+        "Expense_Additional_Living_costs": {
+            "name": "Expense_Additional_Living_costs",
+            "type": "group",
+            "value": "",
+            "default": [
+                {
+                    "Type": "Home, contents and vehicle insurance",
+                    "Identifier": "house-insurance",
+                    "Amount": "",
+                    "Frequency": "Monthly"
+                },
+                {
+                    "Type": "Council rates, body corporate fees and resident society fees",
+                    "Identifier": "body-corporate",
+                    "Amount": "",
+                    "Frequency": "Monthly"
+                },
+                {
+                    "Type": "Utilities (Power, gas, water, phone, internet)",
+                    "Identifier": "utilities",
+                    "Amount": "",
+                    "Frequency": "Monthly"
+                },
+                {
+                    "Type": "Supermarket, other groceries and alcohol",
+                    "Identifier": "food",
+                    "Amount": "",
+                    "Frequency": "Monthly"
+                },
+                {
+                    "Type": "Shopping, retail and personal",
+                    "Identifier": "shopping",
+                    "Amount": "",
+                    "Frequency": "Monthly"
+                },
+                {
+                    "Type": "Doctor, dental and other medical costs",
+                    "Identifier": "medical",
+                    "Amount": "",
+                    "Frequency": "Monthly"
+                },
+                {
+                    "Type": "Vehicle and transport (excluding insurance)",
+                    "Identifier": "transport",
+                    "Amount": "",
+                    "Frequency": "Monthly"
+                },
+                {
+                    "Type": "Other Insurance Costs",
+                    "Identifier": "other-insurance",
+                    "Amount": "",
+                    "Frequency": "Monthly"
+                },
+                {
+                    "Type": "Any other regular or frequent expenses? <span data-support>Please tell us about any other regular or frequent expenses that you are unwilling to give up after entering into the loan e.g. tithing, donations, gambling and/or payments to family or friends</span>",
+                    "Identifier": "other",
+                    "Amount": "",
+                    "Frequency": "Monthly"
+                }
+            ],
+            "fieldTypes": {
+                "Type": {
+                    "name": "Type",
+                    "type": "label",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Expense type"
+                },
+                "Identifier": {
+                    "name": "Identifier",
+                    "type": "text"
+                },
+                "Amount": {
+                    "name": "Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Amount"
+                },
+                "Frequency": {
+                    "name": "Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "default": "Monthly",
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly",
+                        "Quarterly",
+                        "Annually"
+                    ],
+                    "placeholder": "Frequency"
+                }
+            },
+            "label": "",
+            "subLabel": ""
+        },
+        "Disclosed_Discretionary_Other_Details": {
+            "name": "Disclosed_Discretionary_Other_Details",
+            "type": "textarea",
+            "value": "",
+            "validations": {
+                "required": true,
+                "maxLength": 2000
+            },
+            "label": "If you entered an amount in 'Other', please outline the expense."
+        },
+        "Expense_TotalLoans_Hp_OtherDebt": {
+            "name": "Expense_TotalLoans_Hp_OtherDebt",
+            "type": "group",
+            "value": "",
+            "default": [
+                {
+                    "Type": null,
+                    "Amount": "",
+                    "RepaymentAmount": "",
+                    "Frequency": null
+                }
+            ],
+            "fieldTypes": {
+                "Type": {
+                    "name": "Type",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Vehicle loan",
+                        "Personal loan",
+                        "Hire purchase",
+                        "Other"
+                    ],
+                    "placeholder": "Loan type"
+                },
+                "Amount": {
+                    "name": "Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Amount owing"
+                },
+                "RepaymentAmount": {
+                    "name": "RepaymentAmount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Repayment amount"
+                },
+                "Frequency": {
+                    "name": "Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly"
+                    ],
+                    "placeholder": "Frequency"
+                }
+            },
+            "addLabel": "+ Add more",
+            "subLabel": "Include the total amount you owe on any loans, hire purchases and other debt. You don’t need to include overdrafts or credit cards here."
+        },
+        "Expense_Creditcard_Storecard_Overdraft_Limits": {
+            "name": "Expense_Creditcard_Storecard_Overdraft_Limits",
+            "type": "group",
+            "value": "",
+            "default": [
+                {
+                    "Type": null,
+                    "Amount": "",
+                    "AmountOwing": ""
+                }
+            ],
+            "fieldTypes": {
+                "Type": {
+                    "name": "Type",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Credit card",
+                        "Store card",
+                        "Overdraft",
+                        "Other"
+                    ],
+                    "placeholder": "Debt type"
+                },
+                "Amount": {
+                    "name": "Amount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Limit"
+                },
+                "AmountOwing": {
+                    "name": "AmountOwing",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Amount owing"
+                }
+            },
+            "addLabel": "+ Add another debt"
+        },
+        "Expense_Any_Creditcard_Overdraft_Other_Debts": {
+            "name": "Expense_Any_Creditcard_Overdraft_Other_Debts",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "label": "Do you have any loans, hire purchases or other debt (not including credit cards, overdrafts, student loans, or buy now pay later)?"
+        },
+        "Expense_Any_Creditcard_Storecard_Overdraft_Limits": {
+            "name": "Expense_Any_Creditcard_Storecard_Overdraft_Limits",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "label": "Do you have any financial products, such as credit cards or overdrafts?"
+        },
+        "NewHomeBuyer": {
+            "name": "NewHomeBuyer",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ],
+            "label": "Will this be your first time buying a property, either in New Zealand or overseas?"
+        },
+        "SupportingComments": {
+            "name": "SupportingComments",
+            "type": "textarea",
+            "value": "",
+            "validations": {
+                "required": false,
+                "maxLength": 2000
+            },
+            "label": "If you answered yes to any of the above, or if there is anything else we should know about your ability to repay your home loan in the future, please provide details and information supporting your application below."
+        },
+        "SupportingCommentsExpenses": {
+            "name": "SupportingCommentsExpenses",
+            "type": "textarea",
+            "value": "",
+            "validations": {
+                "required": false,
+                "maxLength": 2000
+            },
+            "label": "If you have entered $0 for any of the above questions, or there is anything else you would like to tell us about your expenses, please use the following comments box."
+        },
+        "IncomeQuestionsExplanation": {
+            "name": "IncomeQuestionsExplanation",
+            "type": "textarea",
+            "value": "",
+            "validations": {
+                "required": false,
+                "maxLength": 500
+            },
+            "label": "Please explain any of your answers to these questions below."
+        },
+        "Accepted_Account_Service_Terms": {
+            "name": "Accepted_Account_Service_Terms",
+            "type": "checkbox",
+            "value": false,
+            "validations": {
+                "required": true
+            }
+        },
+        "Confirm_To_Provide_All_Statements": {
+            "name": "Confirm_To_Provide_All_Statements",
+            "type": "checkbox",
+            "value": false,
+            "validations": {
+                "required": true
+            },
+            "label": "Please confirm that you understand that you must provide us with statements from all accounts (including any credit cards) into which your income or expenses are paid."
+        },
+        "Accepted_Additional_Refinance_Costs": {
+            "name": "Accepted_Additional_Refinance_Costs",
+            "type": "checkbox",
+            "value": false,
+            "validations": {
+                "required": true
+            },
+            "label": "By ticking this box, I acknowledge and accept that additional costs, such as break fees, may be payable to my current home loan provider if I refinance with Heartland."
+        },
+        "Inteflow_Result_XML": {
+            "name": "Inteflow_Result_XML",
+            "type": "code",
+            "label": "Inteflow Result XML",
+            "value": ""
+        },
+        "Inteflow_Result_XML_CoApp": {
+            "name": "Inteflow_Result_XML_CoApp",
+            "type": "code",
+            "label": "Inteflow Result XML co-applicant",
+            "value": ""
+        },
+        "Veda": {
+            "name": "Veda",
+            "type": "text",
+            "label": "CCR",
+            "value": ""
+        },
+        "Veda_CoApp": {
+            "name": "Veda_CoApp",
+            "type": "text",
+            "label": "CCR CoApp",
+            "value": ""
+        },
+        "DisclosedUIRatio": {
+            "name": "DisclosedUIRatio",
+            "type": "number",
+            "value": "",
+            "label": "DisclosedUIRatio",
+            "placeholder": "Decimal value"
+        },
+        "Guid": {
+            "name": "Guid",
+            "type": "text",
+            "label": "Guid",
+            "value": ""
+        },
+        "Id": {
+            "name": "Id",
+            "type": "text",
+            "label": "Id",
+            "value": ""
+        },
+        "Outcome": {
+            "name": "Outcome",
+            "type": "text",
+            "value": ""
+        },
+        "Outcome_Reason": {
+            "name": "Outcome_Reason",
+            "type": "text",
+            "value": ""
+        },
+        "Application_Status": {
+            "name": "Application_Status",
+            "type": "text",
+            "value": ""
+        },
+        "Notes_Loan_Structure": {
+            "name": "Notes_Loan_Structure",
+            "type": "textarea",
+            "value": ""
+        },
+        "RefinanceExistingRateType": {
+            "name": "RefinanceExistingRateType",
+            "type": "radio",
+            "value": "fixed",
+            "label": "Are you on a fixed rate or floating rate with your current mortgage provider?",
+            "options": [
+                {
+                    "name": "Fixed",
+                    "value": "fixed"
+                },
+                {
+                    "name": "Floating",
+                    "value": "floating"
+                },
+                {
+                    "name": "Both",
+                    "value": "both"
+                }
+            ]
+        },
+        "RefinanceExistingFixedTermEndDate": {
+            "name": "RefinanceExistingFixedTermEndDate",
+            "label": "When does your fixed term end?",
+            "type": "date",
+            "value": "",
+            "placeholder": "dd/mm/yyyy"
+        },
+        "Solicitors_Name": {
+            "name": "Solicitors_Name",
+            "type": "text",
+            "value": "",
+            "label": "Solicitor name"
+        },
+        "Solicitors_Firm": {
+            "name": "Solicitors_Firm",
+            "type": "text",
+            "value": "",
+            "label": "Law firm"
+        },
+        "Solicitors_Email": {
+            "name": "Solicitors_Email",
+            "type": "email",
+            "value": "",
+            "validations": {
+                "email": true
+            },
+            "label": "Email address",
+            "placeholder": "Enter email address"
+        },
+        "Solicitors_Contact_Number": {
+            "name": "Solicitors_Contact_Number",
+            "type": "tel",
+            "value": "",
+            "label": "Contact number"
+        },
+        "InterestRateId": {
+            "name": "InterestRateId",
+            "value": ""
+        },
+        "Query_String": {
+            "name": "Query_String",
+            "value": ""
+        },
+        "ResumePage": {
+            "name": "ResumePage",
+            "value": ""
+        },
+        "Monthly_Repayments": {
+            "name": "Monthly_Repayments",
+            "value": ""
+        },
+        "Biometric_TransactionId": {
+            "name": "Biometric_TransactionId",
+            "type": "text",
+            "label": "",
+            "value": ""
+        },
+        "Biometric_TransactionId_CoApp": {
+            "name": "Biometric_TransactionId_CoApp",
+            "type": "text",
+            "label": "",
+            "value": ""
+        },
+        "Biometric_Status": {
+            "name": "Biometric_Status",
+            "type": "text",
+            "label": "",
+            "value": ""
+        },
+        "Biometric_Status_CoApp": {
+            "name": "Biometric_Status_CoApp",
+            "type": "text",
+            "label": "",
+            "value": ""
+        },
+        "OriginWebpage": {
+            "name": "OriginWebpage",
+            "type": "text",
+            "label": "",
+            "value": ""
+        },
+        "AddressLine1": {
+            "name": "AddressLine1",
+            "value": ""
+        },
+        "AddressLine2": {
+            "name": "AddressLine2",
+            "value": ""
+        },
+        "AddressLine3": {
+            "name": "AddressLine3",
+            "value": ""
+        },
+        "AddressLine4": {
+            "name": "AddressLine4",
+            "value": ""
+        },
+        "Last_Page_Visited": {
+            "name": "Last_Page_Visited",
+            "value": ""
+        },
+        "ResidencyProofRequired": {
+            "name": "ResidencyProofRequired",
+            "value": null
+        },
+        "Own_Investment_Property": {
+            "name": "Own_Investment_Property",
+            "type": "radio",
+            "value": "",
+            "validations": {
+                "required": true
+            },
+            "label": "Do you own an investment or rental property?",
+            "options": [
+                {
+                    "name": "Yes",
+                    "value": true
+                },
+                {
+                    "name": "No",
+                    "value": false
+                }
+            ]
+        },
+        "Investment_Property_Json": {
+            "name": "Investment_Property_Json",
+            "type": "group",
+            "value": "",
+            "default": [
+                {
+                    "PropertyValue": "",
+                    "OutstandingBalance": "",
+                    "RepaymentAmount": "",
+                    "Frequency": null
+                }
+            ],
+            "fieldTypes": {
+                "PropertyValue": {
+                    "name": "PropertyValue",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Property value"
+                },
+                "OutstandingBalance": {
+                    "name": "OutstandingBalance",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Mortgage balance"
+                },
+                "RepaymentAmount": {
+                    "name": "RepaymentAmount",
+                    "type": "currency",
+                    "validations": {
+                        "required": true
+                    },
+                    "placeholder": "Repayment amount"
+                },
+                "Frequency": {
+                    "name": "Frequency",
+                    "type": "select",
+                    "validations": {
+                        "required": true
+                    },
+                    "options": [
+                        "Weekly",
+                        "Fortnightly",
+                        "Monthly"
+                    ],
+                    "placeholder": "Frequency"
+                }
+            },
+            "addLabel": "+ Add more"
+        }
+    }
+}
