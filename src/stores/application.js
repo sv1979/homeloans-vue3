@@ -61,11 +61,11 @@ export const useApplicationStore = defineStore({
         }
     },
     async getLookup () {
-        let url = ''
+        let url = import.meta.env.VITE_BASE_URL
         if ( this.fields.Query_String.value.toLowerCase().indexOf('interportalname') > -1 ) {
-            url = constants.URLS.INIT
+            url += constants.URLS.INIT
         } else {
-            url = constants.URLS.INIT_BROKER_PORTAL
+            url += constants.URLS.INIT_BROKER_PORTAL
         }
         const lookupResponse = axios.get(url).then(({ data }) => {
             if (data.Data.HomeLoan_Interest_Rate) {
