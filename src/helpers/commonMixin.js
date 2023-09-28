@@ -1,5 +1,3 @@
-import fieldTypes from './fieldTypes';
-
 export default {
     setSessionStorage : (obj, key) => {
         if (obj[key]) {
