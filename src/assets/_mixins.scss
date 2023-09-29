@@ -1,0 +1,120 @@
+$tablet: 768px;
+$desktop: 1024px;
+$fullhd: 1440px;
+
+@mixin tablet    { @media (min-width: $tablet)         { @content; } }
+@mixin desktop   { @media (min-width: $desktop)        { @content; } }
+@mixin wide      { @media (min-width: $fullhd)         { @content; } }
+@mixin totablet  { @media (max-width: calc($tablet - 1px))     { @content; } }
+
+$i: 50;
+@while $i < 1100 {
+  .max#{$i} { 
+    max-width: 0px + $i !important;
+
+    &.desktop { 
+    @media (min-width: 1024px) and (max-width: 1378px) { 
+
+    }}
+  }
+
+  $i: $i + 50;
+}
+
+$i: 50;
+@while $i < 1100 {
+  .max#{$i}-desktop { 
+    @include desktop { 
+      max-width: 0px + $i !important;
+    }
+  }
+  $i: $i + 50;
+}
+
+$i: 50;
+@while $i < 1100 {
+  .max#{$i}-wide { 
+    @include wide { 
+      max-width: 0px + $i !important;
+    }
+  }
+  $i: $i + 50;
+}
+
+$i: 50;
+@while $i < 1100 {
+  .is-hidden-to-#{$i} { 
+
+    @media (max-width: 0px + $i) {
+      display: none;
+    }
+  }
+
+  $i: $i + 50;
+}
+
+
+$i: 0.1;
+@while $i < 0.9 {
+  .has-overlay#{$i*10} {
+    position: relative;
+    &:after {
+      content: " ";
+      position: absolute;
+      top: 0; bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,$i);
+    }
+
+    >* {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  $i: $i + 0.1;
+}
+
+@mixin max-w($width) {
+  @media (max-width: 0px + $width) {
+    @content;
+  }
+}
+
+@mixin min-w($width) {
+  @media (min-width: 0px + $width) {
+    @content;
+  }
+}
+
+@mixin between-w($width, $widhtwho) {
+  @media (min-width: 0px + $width) and (max-width: 0px + $widhtwho) {
+    @content;
+  }
+}
+
+.m0 { margin: 0; }
+.p0 { padding: 0; }
+.ma { margin: 0 auto; }
+.may { margin: auto 0; }
+
+$space: 10px;
+
+$i: 0;
+@while $i < 16 {
+
+  .my-#{$i} { margin-top: $space * $i !important; margin-bottom: $space * $i !important; }
+  .mx-#{$i} { margin-left: $space * $i !important; margin-right: $space * $i !important; }
+  .mt-#{$i} { margin-top: $space * $i !important; }
+  .mb-#{$i} { margin-bottom: $space * $i !important; }
+  .ml-#{$i} { margin-left: $space * $i !important; }
+  .mr-#{$i} { margin-right: $space * $i !important; }
+
+  .py-#{$i} { padding-top: $space * $i !important; padding-bottom: $space * $i !important; }
+  .px-#{$i} { padding-left: $space * $i !important; padding-right: $space * $i !important; }
+  .pt-#{$i} { padding-top: $space * $i !important; }
+  .pb-#{$i} { padding-bottom: $space * $i !important; }
+  .pl-#{$i} { padding-left: $space * $i !important; }
+  .pr-#{$i} { padding-right: $space * $i !important; }
+
+  $i: $i + 1;
+}

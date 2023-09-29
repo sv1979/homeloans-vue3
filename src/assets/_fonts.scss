@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'Camphor';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/Camphor-Regular.woff') format('woff'),
+    url('./fonts/Camphor-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Camphor';
+  font-style: italic;
+  font-weight: 400;
+  src: url('./fonts/Camphor-Italic.woff') format('woff'),
+    url('./fonts/Camphor-Italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Camphor';
+  font-style: normal;
+  font-weight: 500;
+  src: url('./fonts/Camphor-Medium.woff') format('woff'),
+    url('./fonts/Camphor-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Camphor';
+  font-style: normal;
+  font-weight: 600;
+  src: url('./fonts/Camphor-Bold.woff') format('woff'),
+    url('./fonts/Camphor-Bold.woff2') format('woff2');
+}
+
+$f: 'Camphor', BlinkMacSystemFont, -apple-system, 'Open Sans', 'Helvetica Neue',
+  'Helvetica', 'Arial', sans-serif;
+$family-primary: $f;

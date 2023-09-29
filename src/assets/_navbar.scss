@@ -1,0 +1,61 @@
+.navbar {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0 10px;
+    z-index: 40;
+    max-width: 1100px;
+    margin: 0 auto;
+    background-color: var(--color-background);
+
+    .navbar-item {
+        padding: 0;
+    }
+
+    .brand {
+        max-width: 150px;
+        padding: 18px 20px 10px;
+        position: relative;
+        display: block;
+
+        @include tablet {
+            max-width: 198px;
+            padding: 18px 30px 0;
+        }
+
+        @include desktop {
+            padding: 18px 0 5px 0;
+
+            &:before {
+                bottom: -18px;
+            }
+        }
+    }
+
+    >.cont {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        @include desktop {
+            border-bottom: 1px solid $heartland-blue;
+            padding: 0;
+        }
+    }
+
+    .navbar-end {
+        @include desktop {
+            margin-top: auto;
+            padding-bottom: 10px;
+        }
+    }
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.125;
+}

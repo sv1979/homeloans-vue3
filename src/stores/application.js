@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import fieldTypes from '../helpers/fieldTypes';
 import commonMixin from '../helpers/commonMixin'
+import reCaptcha from '../helpers/reCaptcha'
 import axios from 'axios'
 import constants from '../helpers/constants'
 
@@ -13,6 +14,7 @@ export const useApplicationStore = defineStore({
     data: null,
     lookup: null,
     errors: [],
+    initialLoad: false,
     posts: [],
     post: null,
     loading: false,
@@ -61,6 +63,10 @@ export const useApplicationStore = defineStore({
         this.setFields({ [constants.FIELD_NAMES.QUERY_STRING]: route.fullPath })
         this.setFields({ [constants.FIELD_NAMES.ORIGIN_WEBPAGE]: commonMixin.getAnyCase(query, 'OriginWebpage', 'Empty') })
       }
+
+      if (route.query.guid) {
+        this.guid = route.query.guid
+      }
     },
     async getLookup() {
       let url = import.meta.env.VITE_BASE_URL
@@ -85,17 +91,64 @@ export const useApplicationStore = defineStore({
             return { name: r.Name, value: r.Value + (r.Name.indexOf('floating') > -1 ? '---floating' : ''), id: r.Id }
           })
           const defaultRate = rates[0].Value + (rates[0].Name.indexOf('floating') > -1 ? '---floating' : '')
-          this.setFields({['Has_RVC']: rvcRate ? rvcRate.Value : null}, 'rate')
-          this.setFields({['Loan_Interest_Rate']: ratesOptions}, 'options')
-          this.setFields({['Loan_Interest_Rate']: defaultRate}, 'default')
-          this.setFields({['Loan_Interest_Rate']: defaultRate})
-          this.setFields({['InterestRateId']: rates[0].Id})
+          this.setFields({ ['Has_RVC']: rvcRate ? rvcRate.Value : null }, 'rate')
+          this.setFields({ ['Loan_Interest_Rate']: ratesOptions }, 'options')
+          this.setFields({ ['Loan_Interest_Rate']: defaultRate }, 'default')
+          this.setFields({ ['Loan_Interest_Rate']: defaultRate })
+          this.setFields({ ['InterestRateId']: rates[0].Id })
         }
       })
         .catch((response) => {
           this.errors = response.data.Errors
           this.showErrors()
         })
+    },
+    async loadToken() {
+      if (this.guid) return
+      const loadTokenFunction = function (recaptchaToken) {
+        axios
+          .post(import.meta.env.VITE_BASE_URL + constants.URLS.HOMELOAN, { RecaptchaToken: recaptchaToken })
+          .catch((response) => {
+            this.errors = response.data.Errors
+            this.showErrors()
+          });
+      };
+      reCaptcha.executeWithRecaptcha('HomeLoansCreateApp', loadTokenFunction);
+    },
+    runInitialLoad() {
+      this.initialLoad = true
+      if (this.initQuery) {
+        this.parseInitQuery()
+      }
+    },
+    parseInitQuery() {
+      Object.entries(this.initQuery).forEach(([key, val]) => {
+        let isFloating;
+
+        if (key === 'Loan_Term') val = parseInt(val, 10);
+        if (key === 'Loan_Interest_Rate') {
+          isFloating = val.indexOf('---floating') > -1;
+          val = parseFloat(val);
+          let options = this.fields['Loan_Interest_Rate'].options;
+          let rate = options.find((o) => {
+              if (isFloating) {
+                return o.value.indexOf(val + '') > -1 && o.name.indexOf('floating') > -1
+              } else {
+                return o.value == val && o.name.indexOf('floating') < 0
+              }
+            }
+          );
+          if (rate) {
+            this.setFields({ ['InterestRateId']: rate.id })
+          }
+        }
+
+        let $val = isFloating ? val + '---floating' : val;
+
+        if (key !== 'guid') {
+          this.setFields({ [key]: $val })
+        }
+      });
     },
     showErrors() {
       this.hasError = false
@@ -107,7 +160,7 @@ export const useApplicationStore = defineStore({
     },
     setData(data) {
       this.data = data;
-      setFieldsValues(this.fields, data.Data);
+      setFieldsValues(data.Data);
     },
     setFields(inputFields, extraKey = null) {
       Object.entries(inputFields).forEach(([key, value]) => {
@@ -120,7 +173,7 @@ export const useApplicationStore = defineStore({
         }
       });
     },
-    setFieldsValues(fields, dataFields) {
+    setFieldsValues(dataFields) {
       Object.entries(this.fields).forEach(([key, field]) => {
         if (typeof dataFields[key] !== 'undefined') {
           field.value = dataFields[key] !== null ? dataFields[key] : field.value;
