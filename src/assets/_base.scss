@@ -83,3 +83,10 @@ svg {
     display: none;
   }
 }
+
+.loading_spinner {
+  width: 100vw;
+  height: calc(100vh - 240px);
+  display: flex;
+  align-items: center;
+}

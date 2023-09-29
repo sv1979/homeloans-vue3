@@ -1,0 +1,124 @@
+[
+  {
+    "slug": "calculator",
+    "name": "Loan details",
+    "title": "Loan details",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "",
+    "showStatus": "",
+    "if": [],
+    "showNext": true
+  },
+  {
+    "slug": "personal-details",
+    "name": "Personal details",
+    "title": "Personal details",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "",
+    "showStatus": "",
+    "if": [],
+    "showNext": false
+  },
+  {
+    "slug": "property-details",
+    "name": "Property details",
+    "title": "Property details",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "PreProcessing",
+    "showStatus": "",
+    "if": [],
+    "showNext": true
+  },
+  {
+    "slug": "income",
+    "name": "Income details",
+    "title": "Income details",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "PreProcessing",
+    "showStatus": "",
+    "if": [],
+    "showNext": true
+  },
+  {
+    "slug": "expense-details",
+    "name": "Expense details",
+    "title": "Expense details",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "PreProcessing",
+    "showStatus": "",
+    "if": [],
+    "showNext": true
+  },
+  {
+    "slug": "final-questions",
+    "name": "Final questions",
+    "title": "Final questions",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "PreProcessing",
+    "showStatus": "",
+    "if": [],
+    "showNext": true
+  },
+  {
+    "slug": "expense-verification",
+    "name": "Verification",
+    "title": "Verification",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "PreProcessing",
+    "showStatus": "",
+    "if": [],
+    "showNext": false
+  },
+
+  {
+    "slug": "upload-documents",
+    "name": "Upload documents",
+    "title": "Upload documents",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "Processing",
+    "showStatus": "Processing",
+    "if": [],
+    "showNext": true
+  },
+  {
+    "slug": "update-loan",
+    "name": "Update structure",
+    "title": "Update structure",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "Processing",
+    "showStatus": "Processing",
+    "if": [],
+    "showNext": true
+  },
+  {
+    "slug": "verify-identity",
+    "name": "Verify your identity",
+    "title": "Verify your identity",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "Processing",
+    "showStatus": "Processing",
+    "if": [],
+    "showNext": true
+  },
+  {
+    "slug": "solicitor-details",
+    "name": "Solicitor details",
+    "title": "Solicitor details",
+    "valid": false,
+    "inError": false,
+    "unlockStatus": "Processing",
+    "showStatus": "Processing",
+    "if": [],
+    "showNext": false
+  }
+]

@@ -4,6 +4,7 @@ import commonMixin from '../helpers/commonMixin'
 import reCaptcha from '../helpers/reCaptcha'
 import axios from 'axios'
 import constants from '../helpers/constants'
+import steps from '../helpers/steps'
 
 export const useApplicationStore = defineStore({
   id: 'application',
@@ -15,6 +16,9 @@ export const useApplicationStore = defineStore({
     lookup: null,
     errors: [],
     initialLoad: false,
+    processing: false,
+    history: false,
+    steps: steps,
     posts: [],
     post: null,
     loading: false,
