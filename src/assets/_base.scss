@@ -64,6 +64,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  text-decoration: none;
+}
+
 svg {
   width: 100%;
   height: auto;
@@ -89,4 +93,26 @@ svg {
   height: calc(100vh - 240px);
   display: flex;
   align-items: center;
+}
+
+.cont {
+  max-width: 1100px;
+  margin: 0 auto;
+  @include desktop {
+    padding: 0 10px 5px 10px;
+  }
+}
+
+.step-body {
+  background-color: $heartland-gray-light;
+  padding: 15px;
+
+  @include tablet {
+    padding: 50px;
+  }
+
+  @include desktop {
+    margin-left: 320px;
+    margin-top: 110px;
+  }
 }

@@ -1,18 +1,20 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { RouterLink, RouterView, useRouter, useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useApplicationStore } from '../stores/application'
 import commonMixin from '../helpers/commonMixin'
 import constants from '../helpers/constants'
-import InlineSvg from './InlineSvg.vue';
+import InlineSvg from './inlinesvg.vue';
+import TestApplication from './steps/_test-application.vue'
 
 const router = useRouter()
 const route = useRoute()
 const { parseQuery, getLookup, loadToken, runInitialLoad } = useApplicationStore()
-const { guid, initialLoad, fields, processing, history, steps } = storeToRefs(useApplicationStore())
+const { guid, initialLoad, fields, processing, history, steps, activeIndex } = storeToRefs(useApplicationStore())
 
 const mobileOpen = ref(false)
+const hideSaveAndExitButton = ref(false)
 
 async function init() {
   await parseQuery(router, route)
@@ -49,9 +51,47 @@ const loaded = computed(() => {
   );
 })
 
+const mobileMenuShown = computed(() => {
+  return (
+    mobileOpen && status !== 'Processing' && status !== 'Submitted'
+  );
+})
+
 const status = computed(() => {
   return fields.value.Application_Status.value
 })
+
+const activeStep = computed(() => {
+  return steps.value[activeIndex.value]
+})
+
+const isNonProd = computed(() => {
+  return import.meta.env.MODE !== 'production'
+})
+
+const hasNextStep = computed(() => {
+  if (steps.value.length <= activeIndex.value + 1) return false;
+
+  let canShowNext =
+    !steps.value[activeIndex.value + 1].unlockStatus ||
+    steps.value[activeIndex.value + 1].unlockStatus === status.value ||
+    (status.value === '' &&
+      steps.value[activeIndex.value + 1].unlockStatus === 'PreProcessing');
+
+  return canShowNext;
+})
+
+const notFirstStep = computed(() => {
+  return stepSlug.value !== 'calculator';
+})
+
+const stepSlug = computed(() => {
+  return route.path.replace("/","")
+})
+
+function checkIfLocked(step) {
+  return step.unlockStatus !== status.value || status.value === 'Submitted';
+}
 
 function checkIf(step) {
   const conditions = step.if.map((cond = { name: '', value: '' }) => {
@@ -76,6 +116,25 @@ function isRouteActive(slug) {
   return route.path.includes(slug)
 }
 
+function toggleSaveAndExitButton(hide) {
+  hideSaveAndExitButton.value = hide
+}
+
+onMounted(() => {
+  router.push(`/${steps.value[0].slug}`);
+})
+
+</script>
+
+<script>
+import Calculator from './steps/_calculator.vue'
+
+export default {
+  name: 'Wrapper',
+  components: {
+    Calculator
+  }
+}
 </script>
 
 <template>
@@ -93,21 +152,13 @@ function isRouteActive(slug) {
       </div>
     </div>
   </nav>
-  <!-- <header class="navbar">
-    <div>
-      <nav>
-        <RouterLink to="/">Posts</RouterLink> -
-        <RouterLink to="/authors">Authors</RouterLink>
-      </nav>
-    </div>
-  </header> -->
-  <!-- <RouterView /> -->
+
   <div class="steps-page" :class="{ processing }" v-if="loaded" :data-status="status">
     <aside class="side-nav" :class="{ open: mobileOpen }">
       <div class="mobile-menu-overlay" @click.self="mobileOpen = false"></div>
       <div class="cont">
         <div class="menu-list">
-          <!-- <div class="smallScreensOnly">
+          <div class="smallScreensOnly">
             <div class="mobile-menu history" :class="[mobileOpen ? 'show' : 'hide']">
               <span class="placeholder_space" v-if="!mobileOpen && !notFirstStep" />
               <button v-if="mobileOpen" @click="mobileOpen = !mobileOpen" class="mobile_menu_control side_button"
@@ -135,23 +186,24 @@ function isRouteActive(slug) {
               <span class="placeholder_space" v-if="!hasNextStep" />
             </div>
             <div v-if="isNonProd">
-              <nuxt-link class="menu-list-item" to="/test-application" exact-active-class="is-active">Testing</nuxt-link>
+              <RouterLink class="menu-list-item" to="/test-application" exact-active-class="is-active">Testing
+              </RouterLink>
             </div>
-            <collapse-transition v-if="mobileMenuShown">
+            <Transition v-if="mobileMenuShown">
               <div v-show="mobileOpen" class="openedMenu">
-                <collapse-transition>
-                  <div v-if="history || status === '' || status === 'PreProcessing'
-                    ">
+                <Transition>
+                  <div v-if="history || status === '' || status === 'PreProcessing'">
                     <div v-for="(item, key) of steps" :key="key" class="item_wrapper">
-                      <nuxt-link class="menu-list-item" v-if="checkIf(item) && item.showStatus !== 'Processing'
+                      <RouterLink class="menu-list-item" v-if="checkIf(item) && item.showStatus !== 'Processing'
                         " :to="item.slug" exact-active-class="is-active" @click="mobileOpen = false" :class="{
     valid: item.valid,
     invalid: item.inError,
     'is-active': isRouteActive(item.slug),
-  }">{{ item.name }}</nuxt-link>
+  }">{{ item.name }}
+                      </RouterLink>
                     </div>
                   </div>
-                </collapse-transition>
+                </Transition>
 
                 <div v-if="status === 'Processing' || status === 'Submitted'">
                   <span class="menu-list-item history" :class="[history ? 'hide' : 'show']" @click="trigHistory">{{
@@ -163,11 +215,12 @@ function isRouteActive(slug) {
                   <div v-for="(item, key) of steps" :key="key" class="item_wrapper">
                     <div v-if="checkIf(item) && item.showStatus === 'Processing'
                       ">
-                      <nuxt-link class="menu-list-item" v-if="checkIf(item) && item.showStatus === 'Processing'
+                      <RouterLink class="menu-list-item" v-if="checkIf(item) && item.showStatus === 'Processing'
                         " :to="item.slug" exact-active-class="is-active" :class="{
     valid: item.valid,
     invalid: item.inError,
-  }">{{ item.name }}</nuxt-link>
+  }">{{ item.name }}
+                      </RouterLink>
                     </div>
                   </div>
                 </div>
@@ -179,8 +232,8 @@ function isRouteActive(slug) {
                     application</span>
                 </div>
               </div>
-            </collapse-transition>
-          </div> -->
+            </Transition>
+          </div>
           <div class="desktopsOnly">
             <Transition>
               <div v-if="history || status === '' || status === 'PreProcessing' || status === 'CoAppVisit' || status === 'PrimVisit'
@@ -214,7 +267,7 @@ function isRouteActive(slug) {
         </div>
       </div>
     </aside>
-    <!-- <div class="cont">
+    <div class="cont">
       <div class="step-body">
         <div v-if="processing" class="has-text-centered is-deeper">
           <h1 class="title is-2">We're processing your info – please keep this tab open.</h1>
@@ -228,9 +281,10 @@ function isRouteActive(slug) {
         </div>
         <template v-if="!processing">
           <test-application v-if="isNonProd && stepSlug === 'test-application'" key="test-page" />
-          <component v-for="step in steps" v-show="stepSlug === step.slug" :isActive="stepSlug === step.slug"
+          <component v-for="step in steps" v-show="stepSlug === step.slug" :is-active="stepSlug === step.slug"
             :is="step.slug" :key="step.slug" :appstatus="status" :locked="checkIfLocked(step)"
-            v-on:toggleSaveAndExit="toggleSaveAndExitButton" />
+            v-on:toggleSaveAndExit="toggleSaveAndExitButton"></component>
+          <!-- <calculator />   -->
         </template>
       </div>
       <div class="bottom_links">
@@ -248,7 +302,7 @@ function isRouteActive(slug) {
           {{ nextButtonText }}
         </button>
       </div>
-    </div> -->
+    </div>
     <!-- <save-modal v-model="saveOpen" /> -->
   </div>
   <div v-else class="loading_spinner">

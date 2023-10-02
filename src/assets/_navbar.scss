@@ -59,3 +59,361 @@
     font-weight: 600;
     line-height: 1.125;
 }
+
+.side-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 63px;
+    width: 100%;
+    z-index: 30;
+    pointer-events: none;
+    padding: 0;
+
+    &.open {
+        .mobile-menu-overlay {
+            transition: opacity 0.3s;
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    .desktopsOnly {
+        display: none;
+    }
+
+    @include desktop {
+        top: 0;
+        z-index: 1;
+        width: auto;
+
+        .smallScreensOnly {
+            display: none;
+        }
+
+        .desktopsOnly {
+            display: block;
+        }
+    }
+
+    .cont {
+        pointer-events: none;
+        z-index: 5;
+        position: relative;
+    }
+
+    .openedMenu {
+        border-radius: 0 0 50px 0;
+        overflow: hidden;
+    }
+
+    .mobile-menu {
+        background-color: $heartland-purple;
+        display: flex;
+        padding: 0 0;
+
+        .mobile_menu_control {
+            appearance: none;
+            background-color: transparent;
+            color: white;
+            border: none;
+            padding: 0 0;
+            outline: none !important;
+
+            &.main_button {
+                flex: 1 1 auto;
+                font-size: 18px;
+
+                &.currently_open {
+                    text-decoration: underline;
+                }
+            }
+
+            &.side_button {
+                flex: 0 0 40px;
+            }
+
+            svg {
+                width: 40px;
+                height: 50px;
+            }
+        }
+
+        .placeholder_space {
+            flex: 0 0 40px;
+        }
+
+        @include desktop {
+            display: none !important;
+        }
+    }
+
+    .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s, visibility 1ms 0.3s;
+        pointer-events: all;
+    }
+
+    .cont,
+    .menu-list {
+        height: 100%;
+    }
+
+    .menu-list {
+        pointer-events: all;
+        overflow: hidden;
+
+        @include desktop {
+            transform: none;
+            border: none;
+            padding-top: 110px;
+            padding-right: 0;
+            margin: 0;
+            max-width: 320px;
+            border-radius: 0 0 0 0;
+            background-color: #fff;
+
+            .menu-list-item {
+                margin-right: 10px;
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 100%;
+                    width: 0;
+                    background-color: $heartland-gray-light;
+                    transition: width 0.2s;
+                }
+            }
+        }
+
+        .item_wrapper {
+            background-color: $heartland-purple;
+            overflow: hidden;
+        }
+
+        .menu-list-item {
+            border-radius: 0;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 20px;
+            font-weight: 600;
+            color: white;
+
+            &.is-active {
+                text-decoration: underline;
+                background-color: $darken-purple;
+
+                &:hover,
+                &:focus,
+                &:active {
+                    background-color: $heartland-purple;
+                    color: white;
+                    margin-right: 0;
+                }
+
+                &:focus,
+                &:hover {
+                    &:after {
+                        right: 30px;
+                    }
+                }
+            }
+
+            @include tablet {
+                font-size: 18px;
+                line-height: 20px;
+                font-weight: 600;
+                padding: 20px 30px;
+            }
+
+            @include desktop {
+                margin-bottom: 5px;
+                background-color: $heartland-gray-light;
+                justify-content: space-between;
+                border: 0;
+                color: initial;
+
+                &:last-child {
+                    border-radius: 0 0 0 0;
+                }
+
+                &.is-active {
+                    background-color: $heartland-purple;
+                    color: white;
+                    text-decoration: none;
+
+                    &:before {
+                        width: 10px;
+                        background-color: $heartland-purple;
+                    }
+                }
+
+                &:hover {
+                    background-color: rgba(76, 56, 215, 0.24);
+                    color: $black;
+
+                    &:before {
+                        background-color: rgba(76, 56, 215, 0.24);
+                    }
+                }
+            }
+
+            &.valid {
+                &:after {
+                    position: absolute;
+                    color: $heartland-purple;
+                    top: 13px;
+                    right: 20px;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 0 24 24' width='24'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z' stroke='' fill='%230200b9'/%3E%3C/svg%3E");
+                    font-size: 24px;
+                    line-height: 28px;
+                    background-color: white;
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 28px;
+                    text-align: center;
+
+                    @include tablet {
+                        top: 16px;
+                    }
+                }
+
+                &.is-active:not(:hover) {
+                    &:after {
+                        background-color: white;
+                        color: $heartland-purple;
+                    }
+                }
+            }
+
+            &.history {
+                background-color: $heartland-purple;
+
+                &:after {
+                    border: 2px solid transparent;
+                    border-right: 0;
+                    border-top: 0;
+                    border-color: $heartland-purple;
+                    display: block;
+                    height: 16px;
+                    width: 16px;
+                    pointer-events: none;
+                    position: absolute;
+                    top: 14px;
+                    right: 22px;
+                    transform: rotate(-45deg);
+                    transform-origin: center;
+                }
+
+                @include tablet {
+                    &:after {
+                        top: 18px;
+                    }
+                }
+
+                @include desktop {
+                    &.show {
+                        background-color: whitesmoke;
+                    }
+
+                    &.hide,
+                    &:hover {
+                        background-color: #e6e4f5;
+                    }
+
+                    &::after {
+                        content: ' ';
+                    }
+                }
+
+                &.hide {
+                    &:after {
+                        transform: rotate(135deg);
+                        top: 22px;
+                    }
+
+                    @include tablet {
+                        &:after {
+                            top: 27px;
+                        }
+                    }
+                }
+            }
+
+            &.invalid {
+                &:after {
+                    position: absolute;
+                    color: red;
+                    top: 13px;
+                    right: 20px;
+                    // @include pseudoIcon('\F028');
+                    content: '';
+                    font-size: 24px;
+                    line-height: 28px;
+                    background-image: url('./../../static/erroricon.svg');
+                    background-size: cover;
+                    background-size: 35px 35px;
+                    background-position: center center;
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 32px;
+                    text-align: center;
+                }
+
+                &.is-active:focus,
+                &.is-active:hover {
+                    &:after {
+                        right: 30px;
+                    }
+                }
+
+                @include tablet {
+                    &:after {
+                        top: 15px;
+                    }
+                }
+            }
+
+            &.save {
+                justify-content: center;
+                font-weight: 600;
+                font-size: 14px;
+                background-color: $heartland-purple;
+                color: white;
+
+                .link-button {
+                    &:before {
+                        bottom: -2px;
+                    }
+                }
+
+                @include desktop {
+                    color: $black;
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+    .svg_path {
+        stroke: white;
+        fill: transparent;
+        stroke-linecap: round;
+        stroke-width: 2;
+    }
+}
