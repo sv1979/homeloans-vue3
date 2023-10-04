@@ -1,5 +1,5 @@
 <template>
-    <div v-if="field" class="control-wrap" :class="getWrapperClasses">
+    <div v-if="field" class="control-wrap" :class="getWrapperClasses">www
         <slot name="label"></slot>
         <slot name="sublabel"></slot>
         <component v-if="compName" :is="compName" :field="field" :val="field.value" :disabled="disabled"
@@ -92,22 +92,24 @@ const props = defineProps({
 
 const propFieldRef = ref(props.propField)
 const labelOverrideRef = ref(props.labelOverride)
+const nameRef = ref(props.name)
 
 const key = computed(() => {
     return field.name
 })
 
 const field = computed(() => {
-    let field = propFieldRef
-        ? propFieldRef
-        : fields && name && fields[this.name]
-            ? fields[name]
-            : null;
-    let cloneField = { ...field };
-    if (labelOverrideRef) {
-        cloneField.label = labelOverrideRef;
+    if (propFieldRef) {
+      return propFieldRef
     }
-    return cloneField;
+
+    if (fields.value && nameRef.value && fields.value[nameRef.value]) {
+      let cloneField = { ...fields.value[nameRef.value] };
+      if (labelOverrideRef) {
+        cloneField.label = labelOverrideRef;
+      }
+      return cloneField;
+    }
 })
 
 </script>
