@@ -1,6 +1,11 @@
 <script>
+import field from '../controls/field.vue'
+
 export default {
     name: 'calculator',
+    components: {
+        field
+    }
 }
 </script>
 
