@@ -3,11 +3,16 @@
 </script>
 
 <script>
+    import TooltipLabel from '@/components/TooltipLabel.vue';
     export default {
-        name: 'radio-input'
+        name: 'radio-input',
+        components: {
+            TooltipLabel
+        }
     }
 </script>
 
 <template>
     <div>Radio</div>
+    <tooltip-label></tooltip-label>
 </template>
