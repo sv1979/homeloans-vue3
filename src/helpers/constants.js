@@ -9,5 +9,6 @@ export default {
     FIELD_NAMES: {
         QUERY_STRING: 'Query_String',
         ORIGIN_WEBPAGE: 'OriginWebpage'
-    }
+    },
+    TEXT_INPUT_FIELDS: ['text', 'number', 'date', 'address', 'currency', 'email', 'tel', 'autocomplete', 'textarea', 'addressright']
 }

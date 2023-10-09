@@ -20,7 +20,7 @@ async function init() {
   await parseQuery(router, route)
   getLookup()
   loadToken()
-  console.log(guid.value, fields.value.Has_RVC.value)
+  // console.log(guid.value, fields.value.Has_RVC.value)
 
   // TODO: setCoappVerification / setPrimVerification
 

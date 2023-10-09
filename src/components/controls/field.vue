@@ -1,113 +1,146 @@
 <template>
-    <div v-if="field" class="control-wrap" :class="getWrapperClasses">
-        <slot name="label"></slot>
-        <slot name="sublabel"></slot>
-        <component v-if="compName" :is="compName" :field="field" :val="field.value" :disabled="disabled"
-            :this_field="this_field" :checkImmediately="checkImmediately" :labelOverride="labelOverride"
-            :maxValueOverride="maxValueOverride" :inputClasses="inputClasses" :resolvePluralLabels="resolvePluralLabels"
-            :suffix="field.suffix" :id="id" ref="field" @save="saveField" @change="updateField"
-            @placechanged="$emit('placechanged', $event)" @amountchanged="$emit('amountchanged', $event)">
-            <slot />
-        </component>
-    </div>
-    <p v-else>No field found with name: {{ field ? field.name : name }}</p>
+  <div v-if="field" class="control-wrap" :class="getWrapperClasses">
+    <slot name="label"></slot>
+    <slot name="sublabel"></slot>
+    <component v-if="componentName" :is="componentName" :field="field" :val="field.value" :disabled="disabled"
+      :this_field="this_field" :checkImmediately="checkImmediately" :labelOverride="labelOverride"
+      :maxValueOverride="maxValueOverride" :inputClasses="inputClasses" :resolvePluralLabels="resolvePluralLabels"
+      :suffix="field.suffix" :id="id" ref="fieldref" @save="saveField" @change="updateField"
+      @placechanged="$emit('placechanged', $event)" @amountchanged="$emit('amountchanged', $event)">
+      <slot />
+    </component>
+  </div>
+  <p v-else>No field found with name: {{ field ? field.fieldName : fieldName }}</p>
 </template>
 
 <script>
+import RadioInput from '@/components/controls/_radioInput.vue'
+import TextInput from '@/components/controls/_textInput.vue'
 export default {
-    name: 'field',
-    components: {
-        // TextInput,
-        // SelectInput,
-        // NumberControl,
-        // RadioInput,
-        // RangeInput,
-        // CheckInput,
-        // CheckInputMultiple,
-        // CodeInput,
-        // TooltipLabel,
-    },
+  name: 'field',
+  components: {
+    TextInput,
+    // SelectInput,
+    // NumberControl,
+    RadioInput
+    // RangeInput,
+    // CheckInput,
+    // CheckInputMultiple,
+    // CodeInput,
+    // TooltipLabel,
+  },
 }
 </script>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, isProxy, toRaw } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useApplicationStore } from '@/stores/application'
+import commonMixin from '@/helpers/commonMixin'
+import constants from '@/helpers/constants'
 const { guid, initialLoad, fields, processing, history, steps, activeIndex } = storeToRefs(useApplicationStore())
+const { getFields } = useApplicationStore()
 
 const props = defineProps({
-    name: String,
-    this_field: {
-      type: String,
-      default: ''
-    },
-    checkImmediately: {
-      type: Boolean,
-      default: false,
-    },
-    alwaysSave: {
-      type: Boolean,
-      default: false,
-    },
-    skipSave: {
-      type: Boolean,
-      default: false,
-    },
-    propField: {
-        type: Object,
-        default(rawProps) {
-            return {}
-        }
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    labelOverride: {
-      type: String,
-      default: ''
-    },
-    maxValueOverride: {
-      type: String,
-      default: null
-    },
-    id: {
-      type: String,
-      default: ''
-    },
-    inputClasses: {
-      type: String,
-      default: ''
-    },
-    wrapperClasses: {
-      type: String,
-      default: ''
-    },
-    resolvePluralLabels: {
-      type: Boolean,
-      default: false,
+  fieldName: String,
+  this_field: {
+    type: String,
+    default: ''
+  },
+  checkImmediately: {
+    type: Boolean,
+    default: false,
+  },
+  alwaysSave: {
+    type: Boolean,
+    default: false,
+  },
+  skipSave: {
+    type: Boolean,
+    default: false,
+  },
+  propField: {
+    type: Object,
+    default(rawProps) {
+      return {}
     }
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  labelOverride: {
+    type: String,
+    default: ''
+  },
+  maxValueOverride: {
+    type: String,
+    default: null
+  },
+  id: {
+    type: String,
+    default: ''
+  },
+  inputClasses: {
+    type: String,
+    default: ''
+  },
+  wrapperClasses: {
+    type: String,
+    default: ''
+  },
+  resolvePluralLabels: {
+    type: Boolean,
+    default: false,
+  }
 })
 
 const propFieldRef = ref(props.propField)
 const labelOverrideRef = ref(props.labelOverride)
+const fieldref = ref(null)
 
 const key = computed(() => {
-    return field.name
+  return field.fieldName
 })
 
 const field = computed(() => {
-    let field = propFieldRef
-        ? propFieldRef
-        : fields && name && fields[this.name]
-            ? fields[name]
-            : null;
-    let cloneField = { ...field };
-    if (labelOverrideRef) {
-        cloneField.label = labelOverrideRef;
+  const fieldsObj = toRaw(getFields)
+  let cloneField
+  if (commonMixin.isObjectNonEmpty(toRaw(propFieldRef.value))) {
+    cloneField = propFieldRef.value
+  } else {
+    cloneField = !!fieldsObj[props.fieldName] ? toRaw(fieldsObj[props.fieldName]) : null;
+  }
+  if (labelOverrideRef.value && cloneField) {
+    cloneField.label = labelOverrideRef;
+  }
+  return { ...cloneField };
+})
+
+const canSave = computed(() => {
+  return fields.value.Accepted_Privacy_Declaration.value;
+})
+
+const componentName = computed({
+  get() {
+    const fieldRaw = toRaw(field.value)
+    if (commonMixin.isObjectEmpty(fieldRaw)) {
+      return null
     }
-    return cloneField;
+    if (constants.TEXT_INPUT_FIELDS.includes(fieldRaw.type)) {
+      return 'text-input'
+    }
+    switch (fieldRaw.type) {
+      case 'label': return 'tooltip-label'; break;
+      case 'number-control': return 'number-control'; break;
+      case 'radio': return 'radio-input'; break;
+      case 'range': return 'range-input'; break;
+      case 'checkboxMultiple': return 'check-input-multiple'; break;
+      case 'checkbox': return 'check-input'; break;
+      case 'code': return 'code-input'; break;
+      default: return null
+    }
+  }
 })
 
 </script>

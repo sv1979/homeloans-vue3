@@ -7,6 +7,9 @@ export default {
     isObjectEmpty: (objectName) => {
         return JSON.stringify(objectName) === "{}";
     },
+    isObjectNonEmpty: (objectName) => {
+        return JSON.stringify(objectName) !== "{}";
+    },
     getAnyCase(object, key, fallback) {
         const asLowercase = key.toLowerCase();
         let found = object[Object.keys(object)

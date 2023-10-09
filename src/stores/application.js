@@ -27,6 +27,9 @@ export const useApplicationStore = defineStore({
     // getPostsPerAuthor: (state) => {
     //   return (authorId) => state.posts.filter((post) => post.userId === authorId)
     // }
+    getFields: (state) => { 
+      return state.fields 
+    }
   },
   actions: {
     // async fetchPosts() {
@@ -56,10 +59,7 @@ export const useApplicationStore = defineStore({
     async parseQuery(router, route) {
       await router.isReady()
       //once its ready we can access the query params
-      console.log(1, route, route.query)
-      if (commonMixin.isObjectEmpty(route.query)) {
-
-      } else {
+      if (commonMixin.isObjectNonEmpty(route.query)) {
         const query = route.query
         this.initQuery = query
         commonMixin.setSessionStorage(query, 'referrer')
@@ -102,7 +102,7 @@ export const useApplicationStore = defineStore({
         }
       })
         .catch((response) => {
-          this.errors = response.data.Errors
+          this.errors = response.data && response.data.Errors ? response.data.Errors : null
           this.showErrors()
         })
     },
@@ -166,6 +166,7 @@ export const useApplicationStore = defineStore({
       setFieldsValues(data.Data);
     },
     setFields(inputFields, extraKey = null) {
+      console.log(1)
       Object.entries(inputFields).forEach(([key, value]) => {
         if (typeof this.fields[key] !== 'undefined') {
           if (extraKey) {
