@@ -1,0 +1,38 @@
+
+.tool {
+    background-color: $heartland-gray3;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    line-height: 13px;
+    margin-left: 3px;
+    transform: translateY(-2px);
+    appearance: none;
+    border: none;
+    padding: 0 0;
+    font-family: Lora;
+
+    &:after {
+        content: 'i';
+    }
+}
+
+.tippy-box[data-theme~='heartland'] {
+    background-color: $heartland-purple;
+    color: white;
+    &[data-placement^='top'] {
+        .tippy-arrow::before {
+            border-top-color: $heartland-purple;
+        }
+    }
+    &[data-placement^='bottom'] {
+        .tippy-arrow::before {
+            border-bottom-color: $heartland-purple;
+        }
+    }
+}

@@ -232,7 +232,8 @@
                     "value": "refinance"
                 }
             ],
-            "label": "Are you looking to:"
+            "label": "Are you looking to:",
+            "tooltip": "Testing <i>tooltip</i>"
         },
         "First_Name": {
             "name": "First_Name",
