@@ -14,7 +14,7 @@ export default {
         <div class="columns mb-0">
             <div class="column is-7">
                 <field fieldName="Loan_Purpose" :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator" />
+                    @change="repaymentsCalculator" input-classes="test test3"/>
                 <field fieldName="Exact_Address_Known" v-if="loanPurpose !== 'refinance'"
                     :disabled="preProcessed || processed || submitted" v-on:change="changeExactAddressKnown" />
             </div>
