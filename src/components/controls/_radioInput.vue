@@ -1,5 +1,7 @@
 <script setup>
-import { ref, onMounted, computed, isProxy, toRaw } from 'vue'
+import { ref, onMounted, computed, reactive, watch, isProxy, toRaw } from 'vue'
+import { useVuelidate } from '@vuelidate/core'
+import { minLength, required } from '@vuelidate/validators'
 
 const props = defineProps({
   field: {
@@ -41,6 +43,9 @@ const props = defineProps({
   }
 })
 
+const fieldValue = reactive(null);
+const tooltipActive = reactive(false);
+
 const shellClass = computed(() => {
   const big_buttons_class = props.field.modifier === 'big_buttons';
   const mid_buttons_class = props.field.modifier === 'mid_buttons';
@@ -65,6 +70,28 @@ const classObject = computed(() => {
     // 'is-danger': this.$v.$anyError && this.$v.value.$invalid,
   }
 })
+
+const validations = computed(() => {
+  const valids = {};
+  const fv = props.field.validations;
+  if (fv && fv.required) valids['required'] = required;
+  return { value: valids };
+})
+
+const updateValue = (newValue) => {
+  if (!newValue && props.field.default) {
+    fieldValue = props.field.default
+  } else {
+    fieldValue = newValue
+  }
+}
+
+watch(fieldValue, (newValue, oldValue) => {
+  console.log(newValue, oldValue);
+  updateValue(newValue);
+});
+
+const $v = useVuelidate(validations, fieldValue);
 
 </script>
 
