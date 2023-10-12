@@ -13,26 +13,26 @@ export default {
     <div>
         <div class="columns mb-0">
             <div class="column is-7">
-                <field name="Loan_Purpose" :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator" />
-                <field name="Exact_Address_Known" v-if="loanPurpose !== 'refinance'"
+                <field fieldName="Loan_Purpose" :disabled="preProcessed || processed || submitted"
+                    @change="repaymentsCalculator" input-classes="test test3"/>
+                <field fieldName="Exact_Address_Known" v-if="loanPurpose !== 'refinance'"
                     :disabled="preProcessed || processed || submitted" v-on:change="changeExactAddressKnown" />
             </div>
         </div>
         <div class="columns mb-0">
             <div class="column is-6">
-                <field v-if="useAddressRight" name="Addressright_Text_Property"
+                <field v-if="useAddressRight" fieldName="Addressright_Text_Property"
                     this_field='Address_Text_Property' :disabled="preProcessed || processed || submitted"
                     :labelOverride="addressFieldLabel" key="Addressright_Text_Property" />
-                <field v-if="useAddressRight" class="hidden" name="Addressright_ID_Text_Property" />
-                <field v-if="!useAddressRight" name="Address_Text_Property"
+                <field v-if="useAddressRight" class="hidden" fieldName="Addressright_ID_Text_Property" />
+                <field v-if="!useAddressRight" fieldName="Address_Text_Property"
                     this_field='Address_Text_Property' :disabled="preProcessed || processed || submitted"
                     :labelOverride="addressFieldLabel" :skipSave="true" @placechanged="setProperty"
                     key="Address_Text_Property" />
                 <hr />
             </div>
         </div>
-        <div class="columns mb-2">
+        <!--<div class="columns mb-2">
             <div class="column is-6 pt-0">
                 <template v-if="loanPurpose !== 'refinance'">
                     <field name="Purchase_Price" :skipSave="true" :disabled="preProcessed || processed || submitted"
@@ -132,7 +132,7 @@ export default {
                 recommendations. This includes a duty to comply with a code of conduct
                 and a requirement to be licensed.
             </div>
-        </div>
+        </div> -->
 
         <privacy-modal v-model="privacyOpen" />
     </div>

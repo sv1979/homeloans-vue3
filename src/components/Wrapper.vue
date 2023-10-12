@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import { useApplicationStore } from '../stores/application'
 import commonMixin from '../helpers/commonMixin'
 import constants from '../helpers/constants'
-import InlineSvg from './inlinesvg.vue';
+import Inlinesvg from '@/components/Inlinesvg.vue';
 import TestApplication from './steps/_test-application.vue'
 
 const router = useRouter()
@@ -20,7 +20,7 @@ async function init() {
   await parseQuery(router, route)
   getLookup()
   loadToken()
-  console.log(guid.value, fields.value.Has_RVC.value)
+  // console.log(guid.value, fields.value.Has_RVC.value)
 
   // TODO: setCoappVerification / setPrimVerification
 
@@ -142,7 +142,7 @@ export default {
     <div class="cont">
       <div class="navbar-item" href="/">
         <a :href="backLink" class="brand">
-          <InlineSvg class="" :src="import('@/assets/logo.svg')" />
+          <Inlinesvg class="" :src="import('@/assets/logo.svg')" />
         </a>
       </div>
       <div class="navbar-end is-hidden-mobile">

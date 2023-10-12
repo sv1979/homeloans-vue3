@@ -27,6 +27,9 @@ export const useApplicationStore = defineStore({
     // getPostsPerAuthor: (state) => {
     //   return (authorId) => state.posts.filter((post) => post.userId === authorId)
     // }
+    getFields: (state) => {
+      return state.fields
+    }
   },
   actions: {
     // async fetchPosts() {
@@ -56,10 +59,7 @@ export const useApplicationStore = defineStore({
     async parseQuery(router, route) {
       await router.isReady()
       //once its ready we can access the query params
-      console.log(1, route, route.query)
-      if (commonMixin.isObjectEmpty(route.query)) {
-
-      } else {
+      if (commonMixin.isObjectNonEmpty(route.query)) {
         const query = route.query
         this.initQuery = query
         commonMixin.setSessionStorage(query, 'referrer')
@@ -102,7 +102,7 @@ export const useApplicationStore = defineStore({
         }
       })
         .catch((response) => {
-          this.errors = response.data.Errors
+          this.errors = response.data && response.data.Errors ? response.data.Errors : null
           this.showErrors()
         })
     },
@@ -134,12 +134,12 @@ export const useApplicationStore = defineStore({
           val = parseFloat(val);
           let options = this.fields['Loan_Interest_Rate'].options;
           let rate = options.find((o) => {
-              if (isFloating) {
-                return o.value.indexOf(val + '') > -1 && o.name.indexOf('floating') > -1
-              } else {
-                return o.value == val && o.name.indexOf('floating') < 0
-              }
+            if (isFloating) {
+              return o.value.indexOf(val + '') > -1 && o.name.indexOf('floating') > -1
+            } else {
+              return o.value == val && o.name.indexOf('floating') < 0
             }
+          }
           );
           if (rate) {
             this.setFields({ ['InterestRateId']: rate.id })
@@ -166,6 +166,7 @@ export const useApplicationStore = defineStore({
       setFieldsValues(data.Data);
     },
     setFields(inputFields, extraKey = null) {
+      console.log(1, 'setFields from application store', inputFields)
       Object.entries(inputFields).forEach(([key, value]) => {
         if (typeof this.fields[key] !== 'undefined') {
           if (extraKey) {
@@ -186,6 +187,83 @@ export const useApplicationStore = defineStore({
         //     field = cleanManuallyAddedData(field)
         //   }
       });
-    }
+    },
+
+    async saveFields() {
+      if (!state.guid) await createApp();
+      if (state.guid) {
+        saveCombinedFields(fields)
+        axios
+          .post('/homeloan', {
+            guid: state.guid,
+            ...fields,
+          })
+          .then(({ data }) => {
+            done(data);
+          })
+          .catch((error) => {
+            done(error);
+            this.errors = response.data.Errors
+            this.showErrors()
+          });
+      }
+    },
+
+    async createApp({ newApp } = {}) {
+      if (state.guid) return;
+      var createAppFunction = function (recaptchaToken) {
+        axios
+          .post('/homeloan', { RecaptchaToken: recaptchaToken })
+          .then(({ data }) => {
+            if (data.Data.Guid) {
+              state.guid = data.Data.Guid
+              state.data = data
+              // commit('setGuid', data.Data.Guid);
+              // commit('setData', data);
+              // if (document.cookie.indexOf('newappcreated=true') > -1) {
+              //   context.$router.push(`/calculator`);
+              //   document.cookie = 'newappcreated=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+              // }
+              // if (newApp === true) {
+              //   document.cookie = 'newappcreated=true';
+              //   location.reload();
+              // }
+            }
+          })
+          .catch((error) => {
+            this.errors = response.data.Errors
+            this.showErrors()
+          });
+      };
+      executeWithRecaptcha('HomeLoansCreateApp', createAppFunction);
+    },
+
+    async saveCombinedFields(fields) {
+      const field_to_update = 'Expense_Additional_Living_costs';
+      const properties_to_combine = [
+        'Current_Mortgage_Repayments_Amount',
+        'Current_Mortgage_Repayments_Frequency',
+        'Current_Rental_Amount',
+        'Current_Rental_Frequency',
+        'Expense_Additional_Living_costs'
+      ]
+      // var array_of_merged_data = [];
+      //   if ( properties_to_combine.some(prop => fields.hasOwnProperty(prop))  ) {
+      //   array_of_merged_data = getArrayFromJsonField(state.fields[field_to_update])
+      //   if (array_of_merged_data. length > 0) {
+      //     // If combined array already contains current-rent-home-loan , we need to wipe it out
+      //     array_of_merged_data = array_of_merged_data.filter(el => el.Identifier !== 'current-rent-home-loan');
+      //     // Then call function to get data for current-rent-home-loan from state and add it to combined data array
+      //     array_of_merged_data = [...array_of_merged_data, getCurrentMortgageOrRentalPaymentData(state)].flat();
+      //   }
+      // }
+
+      // if (array_of_merged_data.length > 0) {
+      //   array_of_merged_data = cleanMergedArray(array_of_merged_data);  
+      //   commit('setFields', { [field_to_update]: JSON.stringify(array_of_merged_data) });
+      //   dispatch('saveFieldsPassCombined', { [field_to_update]: JSON.stringify(array_of_merged_data) });
+      // }
+      return true
+    },
   }
 })

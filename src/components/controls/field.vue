@@ -1,13 +1,12 @@
 <template>
-  <div v-if="fieldInstance" class="control-wrap" :class="getWrapperClasses">
-    www
+  <div v-if="field" class="control-wrap" :class="getWrapperClasses">
     <slot name="label"></slot>
     <slot name="sublabel"></slot>
     <component
-      v-if="compName"
-      :is="compName"
-      :field="fieldInstance"
-      :val="fieldInstance.value"
+      v-if="componentName"
+      :is="componentName"
+      :field="field"
+      :val="field.value"
       :disabled="disabled"
       :this_field="this_field"
       :checkImmediately="checkImmediately"
@@ -15,9 +14,9 @@
       :maxValueOverride="maxValueOverride"
       :inputClasses="inputClasses"
       :resolvePluralLabels="resolvePluralLabels"
-      :suffix="fieldInstance.suffix"
+      :suffix="field.suffix"
       :id="id"
-      ref="field"
+      ref="fieldref"
       @save="saveField"
       @change="updateField"
       @placechanged="$emit('placechanged', $event)"
@@ -26,17 +25,19 @@
       <slot />
     </component>
   </div>
-  <p v-else>No field found with name: {{ fieldInstance ? fieldInstance.name : name }}</p>
+  <p v-else>No field found with name: {{ field ? field.fieldName : fieldName }}</p>
 </template>
 
 <script>
+import RadioInput from '@/components/controls/_radioInput.vue'
+import TextInput from '@/components/controls/_textInput.vue'
 export default {
   name: 'field',
   components: {
-    // TextInput,
+    TextInput,
     // SelectInput,
     // NumberControl,
-    // RadioInput,
+    RadioInput
     // RangeInput,
     // CheckInput,
     // CheckInputMultiple,
@@ -47,18 +48,20 @@ export default {
 </script>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, isProxy, toRaw } from 'vue'
 import { storeToRefs } from 'pinia'
 import commonMixin from '@/helpers/commonMixin'
 import { useApplicationStore } from '@/stores/application'
-const { guid, initialLoad, fields, processing, history, steps, activeIndex, lookup } = storeToRefs(
+import constants from '@/helpers/constants'
+defineEmits(['change', 'saveFields'])
+
+const { guid, initialLoad, fields, processing, history, steps, activeIndex } = storeToRefs(
   useApplicationStore()
 )
-
-const emits = defineEmits(['change', 'delete'])
+const { getFields, setFields, saveFields } = useApplicationStore()
 
 const props = defineProps({
-  name: String,
+  fieldName: String,
   this_field: {
     type: String,
     default: ''
@@ -113,85 +116,90 @@ const props = defineProps({
 
 const propFieldRef = ref(props.propField)
 const labelOverrideRef = ref(props.labelOverride)
-const nameRef = ref(props.name)
+const fieldref = ref(null)
 
 const key = computed(() => {
-  return fieldInstance.name
+  return field.fieldName
 })
 
-const fieldInstance = computed(() => {
-  if (!commonMixin.isObjectEmpty(propFieldRef.value)) {
-    return propFieldRef.value
+const field = computed(() => {
+  const fieldsObj = toRaw(getFields)
+  let cloneField
+  if (commonMixin.isObjectNonEmpty(toRaw(propFieldRef.value))) {
+    cloneField = propFieldRef.value
+  } else {
+    cloneField = !!fieldsObj[props.fieldName] ? toRaw(fieldsObj[props.fieldName]) : null
   }
-  if (fields.value && nameRef.value && fields.value[nameRef.value]) {
-    let cloneField = { ...fields.value[nameRef.value] }
-    if (labelOverrideRef) {
-      cloneField.label = labelOverrideRef
-    }
-    return cloneField
+  if (labelOverrideRef.value && cloneField) {
+    cloneField.label = labelOverrideRef
   }
+  return { ...cloneField }
 })
 
 const canSave = computed(() => {
   return fields.value.Accepted_Privacy_Declaration.value
 })
 
-const compName = computed(() => {
-  if (!fieldInstance) return null
-  const fieldType = fieldInstance.value.type
-  const textInputTypes = [
-    'text',
-    'number',
-    'date',
-    'address',
-    'currency',
-    'email',
-    'tel',
-    'autocomplete',
-    'textarea',
-    'addressright'
-  ]
-  if (textInputTypes.includes(fieldType)) {
-    return 'text-input'
+const componentName = computed({
+  get() {
+    const fieldRaw = toRaw(field.value)
+    if (commonMixin.isObjectEmpty(fieldRaw)) {
+      return null
+    }
+    if (constants.TEXT_INPUT_FIELDS.includes(fieldRaw.type)) {
+      return 'text-input'
+    }
+    switch (fieldRaw.type) {
+      case 'label':
+        return 'tooltip-label'
+        break
+      case 'number-control':
+        return 'number-control'
+        break
+      case 'radio':
+        return 'radio-input'
+        break
+      case 'range':
+        return 'range-input'
+        break
+      case 'checkboxMultiple':
+        return 'check-input-multiple'
+        break
+      case 'checkbox':
+        return 'check-input'
+        break
+      case 'code':
+        return 'code-input'
+        break
+      default:
+        return null
+    }
   }
-  if (fieldType === 'label') {
-    return 'tooltip-label'
-  }
-  if (fieldType === 'select') {
-    return 'select-input'
-  }
-  if (fieldType === 'number-control') {
-    return 'number-control'
-  }
-  if (fieldType === 'range') {
-    return 'range-input'
-  }
-  if (fieldType === 'radio') {
-    return 'radio-input'
-  }
-  if (fieldType === 'checkboxMultiple') {
-    return 'check-input-multiple'
-  }
-  if (fieldType === 'checkbox') {
-    return 'check-input'
-  }
-  if (fieldType === 'code') {
-    return 'code-input'
-  }
-  return null
+})
+
+const getWrapperClasses = computed(() => {
+  return (
+    props.wrapperClasses + ` field-${field.type}` + ` ${props.disabled ? 'field_is_disabled' : ''}`
+  )
 })
 
 function updateField(ev) {
-  if (!fieldInstance.value.partOfGroup)
-    {this.$store.commit('setFields', { [ev.name]: ev.value });}
-  if (ev.name === 'Loan_Interest_Rate') {
-    const selectedRate = this.field.options.find((o) => o.value === ev.value);
-    if (selectedRate && selectedRate.id) {
-      this.$store.commit('setFields', { ['InterestRateId']: selectedRate.id });
-    }
+  if (!field.partOfGroup) {
+    setFields({ [ev.name]: ev.value })
   }
-  this.$emit('change', ev);
+  // this.$store.commit('setFields', { [ev.name]: ev.value })
+  // if (ev.name === 'Loan_Interest_Rate') {
+  //   const selectedRate = this.field.options.find((o) => o.value === ev.value)
+  //   if (selectedRate && selectedRate.id) {
+  //     this.$store.commit('setFields', { ['InterestRateId']: selectedRate.id })
+  //   }
+  // }
+  emit('change', ev)
 }
 
-
+function saveField(ev) {
+  if (props.alwaysSave || (props.canSave && !field.partOfGroup && !props.skipSave)) {
+    saveFields()
+  }
+}
 </script>

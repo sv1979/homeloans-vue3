@@ -13,6 +13,7 @@ $heartland-gray2: #a8aaab;
 $heartland-gray3: #595959;
 $black: #333;
 $error: #e31c3d;
+$red: #e31c3d;
 $violet: #723ab3;
 
 :root {
@@ -66,6 +67,11 @@ body {
 
 a {
   text-decoration: none;
+}
+
+span {
+  font-style: inherit;
+  font-weight: inherit;
 }
 
 svg {
