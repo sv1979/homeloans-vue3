@@ -1,9 +1,9 @@
 <script setup>
-import { ref, onMounted, computed, reactive, watch, isProxy, toRaw } from 'vue'
+import { ref, onMounted, computed, reactive, watch, isProxy, toRaw, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { minLength, required } from '@vuelidate/validators'
-defineEmits(['change', 'save', 'validate'])
+const emit = defineEmits(['change', 'save', 'validate'])
 
 const route = useRoute()
 const props = defineProps({
@@ -96,17 +96,21 @@ watch(fieldValue, (newValue, oldValue) => {
 
 const $v = useVuelidate(validations, fieldValue)
 
-function onchange(value) {
+function onchange(event) {
+  const value = event.target.value
+  console.log('from onchange', value)
   emit('change', {
-    name: field.name,
-    value: fieldValue,
+    name: props.field.name,
+    value: value,
     valid: !$v.$invalid
   })
 
   if (fieldValue !== null && fieldValue !== '') {
-    emit('save', { [field.name]: fieldValue })
-    this.$nextTick(() => {
+    console.log('from onchange 2', value, fieldValue)
+    emit('save', { [props.field.name]: fieldValue })
+    nextTick(() => {
       emit('validate', { steps: [route.params.step] })
+      console.log('from onchange 3', value, fieldValue)
     })
   }
 }
@@ -122,10 +126,10 @@ function getWrapperClassObject(obj) {
   }
   return {
     ...obj_classes,
-    'as-checkboxes': field.modifier && field.modifier === 'radio_as_a_checkbox',
-    'is-vertical': field.modifier && field.modifier === 'vertical',
-    'big-buttons': field.modifier && field.modifier === 'big_buttons',
-    'mid-buttons': field.modifier && field.modifier === 'mid_buttons'
+    'as-checkboxes': props.field.modifier && props.field.modifier === 'radio_as_a_checkbox',
+    'is-vertical': props.field.modifier && props.field.modifier === 'vertical',
+    'big-buttons': props.field.modifier && props.field.modifier === 'big_buttons',
+    'mid-buttons': props.field.modifier && props.field.modifier === 'mid_buttons'
   }
 }
 
@@ -147,4 +151,27 @@ export default {
 
 <template>
   <tooltip-label :field="field"></tooltip-label>
+  <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
+
+  <div :class="shellClass">
+    <div class="radio_button_wrapper" v-for="(option, i) in field.options" :key="`${field.name}-${i}`"
+      :class="getWrapperClassObject(option)">
+      <input type="radio" v-model="fieldValue" :class="classObject" :disabled="disabled"
+        :value="option.hasOwnProperty('value') ? option.value : option"
+        :data-test-id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
+        @input="onchange" />
+      <span v-if="field.modifier && field.modifier === 'big_buttons'">
+        <span class="big_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option }}</span>
+        <span class="big_button_description">{{ option.hasOwnProperty('description') ? option.description : '' }}</span>
+        <span class="checkmark"> </span>
+      </span>
+      <span v-else-if="field.modifier && field.modifier === 'mid_buttons'">
+        <span class="mid_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option }}</span>
+        <span class="checkmark"> </span>
+      </span>
+      <span v-else>
+        {{ option.hasOwnProperty('name') ? workoutLabel(option.name, option.name_joint) : workoutLabel(option) }}
+      </span>
+    </div>
+  </div>
 </template>

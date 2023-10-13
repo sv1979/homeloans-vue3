@@ -53,7 +53,7 @@ import { storeToRefs } from 'pinia'
 import commonMixin from '@/helpers/commonMixin'
 import { useApplicationStore } from '@/stores/application'
 import constants from '@/helpers/constants'
-defineEmits(['change', 'saveFields'])
+const emit = defineEmits(['change', 'saveFields'])
 
 const { guid, initialLoad, fields, processing, history, steps, activeIndex } = storeToRefs(
   useApplicationStore()
