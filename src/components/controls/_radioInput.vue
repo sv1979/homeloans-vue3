@@ -90,7 +90,7 @@ const updateValue = (newValue) => {
 }
 
 watch(fieldValue, (newValue, oldValue) => {
-  console.log(newValue, oldValue)
+  console.log(222, newValue, oldValue)
   updateValue(newValue)
 })
 
@@ -98,19 +98,16 @@ const $v = useVuelidate(validations, fieldValue)
 
 function onchange(event) {
   const value = event.target.value
-  console.log('from onchange', value)
-  emit('change', {
-    name: props.field.name,
-    value: value,
-    valid: !$v.$invalid
-  })
 
-  if (fieldValue !== null && fieldValue !== '') {
-    console.log('from onchange 2', value, fieldValue)
-    emit('save', { [props.field.name]: fieldValue })
+  if (value && fieldValue !== null && fieldValue !== '') {
     nextTick(() => {
+      emit('change', {
+        name: props.field.name,
+        value: fieldValue,
+        valid: !$v.$invalid
+      })
+      emit('save', { [props.field.name]: value})
       emit('validate', { steps: [route.params.step] })
-      console.log('from onchange 3', value, fieldValue)
     })
   }
 }
@@ -157,21 +154,25 @@ export default {
     <div class="radio_button_wrapper" v-for="(option, i) in field.options" :key="`${field.name}-${i}`"
       :class="getWrapperClassObject(option)">
       <input type="radio" v-model="fieldValue" :class="classObject" :disabled="disabled"
+        :name="field.name"
         :value="option.hasOwnProperty('value') ? option.value : option"
+        :id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
         :data-test-id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
         @input="onchange" />
-      <span v-if="field.modifier && field.modifier === 'big_buttons'">
-        <span class="big_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option }}</span>
-        <span class="big_button_description">{{ option.hasOwnProperty('description') ? option.description : '' }}</span>
-        <span class="checkmark"> </span>
-      </span>
-      <span v-else-if="field.modifier && field.modifier === 'mid_buttons'">
-        <span class="mid_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option }}</span>
-        <span class="checkmark"> </span>
-      </span>
-      <span v-else>
-        {{ option.hasOwnProperty('name') ? workoutLabel(option.name, option.name_joint) : workoutLabel(option) }}
-      </span>
+      <label :for="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`">  
+        <span v-if="field.modifier && field.modifier === 'big_buttons'">
+          <span class="big_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option }}</span>
+          <span class="big_button_description">{{ option.hasOwnProperty('description') ? option.description : '' }}</span>
+          <span class="checkmark"> </span>
+        </span>
+        <span v-else-if="field.modifier && field.modifier === 'mid_buttons'">
+          <span class="mid_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option }}</span>
+          <span class="checkmark"> </span>
+        </span>
+        <span v-else>
+          {{ option.hasOwnProperty('name') ? workoutLabel(option.name, option.name_joint) : workoutLabel(option) }}
+        </span>
+      </label>
     </div>
   </div>
 </template>

@@ -123,17 +123,18 @@ const key = computed(() => {
 })
 
 const field = computed(() => {
-  const fieldsObj = toRaw(getFields)
-  let cloneField
-  if (commonMixin.isObjectNonEmpty(toRaw(propFieldRef.value))) {
-    cloneField = propFieldRef.value
-  } else {
-    cloneField = !!fieldsObj[props.fieldName] ? toRaw(fieldsObj[props.fieldName]) : null
-  }
-  if (labelOverrideRef.value && cloneField) {
-    cloneField.label = labelOverrideRef
-  }
-  return { ...cloneField }
+  // const fieldsObj = toRaw(getFields)
+  // let cloneField
+  // if (commonMixin.isObjectNonEmpty(toRaw(propFieldRef.value))) {
+  //   cloneField = propFieldRef.value
+  // } else {
+  //   cloneField = !!fieldsObj[props.fieldName] ? toRaw(fieldsObj[props.fieldName]) : null
+  // }
+  // if (labelOverrideRef.value && cloneField) {
+  //   cloneField.label = labelOverrideRef
+  // }
+  // return { ...cloneField }
+  return getFields[props.fieldName]
 })
 
 const canSave = computed(() => {

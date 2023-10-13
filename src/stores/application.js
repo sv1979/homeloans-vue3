@@ -29,9 +29,6 @@ export const useApplicationStore = defineStore({
     // }
     getFields: (state) => {
       return state.fields
-    },
-    getFieldByName: (state, fieldName) => {
-      return state.fields[fieldName] ? state.fields[fieldName] : null
     }
   },
   actions: {
