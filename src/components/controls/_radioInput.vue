@@ -46,7 +46,7 @@ const props = defineProps({
   }
 })
 
-let fieldValue = reactive(null)
+let fieldValue = reactive(props.val)
 let tooltipActive = reactive(false)
 
 const shellClass = computed(() => {
@@ -96,19 +96,21 @@ watch(fieldValue, (newValue, oldValue) => {
 
 const $v = useVuelidate(validations, fieldValue)
 
-function onchange(event) {
+function onChange(event) {
   const value = event.target.value
-
+  console.log(111, value)
   if (value && fieldValue !== null && fieldValue !== '') {
-    nextTick(() => {
-      emit('change', {
+    // nextTick(() => {
+
+    // })
+
+    emit('change', {
         name: props.field.name,
-        value: fieldValue,
+        value: value,
         valid: !$v.$invalid
       })
       emit('save', { [props.field.name]: value})
       emit('validate', { steps: [route.params.step] })
-    })
   }
 }
 
@@ -134,6 +136,13 @@ function workoutLabel(name, joint_name = '') {
   if (!props.resolvePluralLabels) return name
   return joint_name ? joint_name : name
 }
+
+onMounted(() => {
+  // console.log(1, props.val)
+  // fieldValue = props.val
+  // console.log(2, fieldValue)
+})
+
 </script>
 
 <script>
@@ -149,16 +158,17 @@ export default {
 <template>
   <tooltip-label :field="field"></tooltip-label>
   <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
-
   <div :class="shellClass">
     <div class="radio_button_wrapper" v-for="(option, i) in field.options" :key="`${field.name}-${i}`"
       :class="getWrapperClassObject(option)">
+
       <input type="radio" v-model="fieldValue" :class="classObject" :disabled="disabled"
         :name="field.name"
         :value="option.hasOwnProperty('value') ? option.value : option"
         :id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
         :data-test-id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
-        @input="onchange" />
+        @change="onChange($event)"
+        />
       <label :for="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`">  
         <span v-if="field.modifier && field.modifier === 'big_buttons'">
           <span class="big_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option }}</span>
