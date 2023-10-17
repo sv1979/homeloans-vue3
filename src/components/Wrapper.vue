@@ -19,16 +19,17 @@ const hideSaveAndExitButton = ref(false)
 async function init() {
   await parseQuery(router, route)
   getLookup()
-  loadToken()
   // console.log(guid.value, fields.value.Has_RVC.value)
 
   // TODO: setCoappVerification / setPrimVerification
 
   if (guid.value && typeof guid.value === 'string' && guid.value.length === 36) {
+    loadToken()
     // not clear why it is separated in the v2 ?
     // TODO: getBiometrics status
     // TODO: load app by guid 
   } else {
+    loadToken({setGuid: true})
     runInitialLoad()
   }
 }

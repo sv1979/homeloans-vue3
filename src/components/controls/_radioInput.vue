@@ -100,17 +100,13 @@ function onChange(event) {
   const value = event.target.value
   console.log(111, value)
   if (value && fieldValue !== null && fieldValue !== '') {
-    // nextTick(() => {
-
-    // })
-
     emit('change', {
-        name: props.field.name,
-        value: value,
-        valid: !$v.$invalid
-      })
-      emit('save', { [props.field.name]: value})
-      emit('validate', { steps: [route.params.step] })
+      name: props.field.name,
+      value: value,
+      valid: !$v.$invalid
+    })
+    emit('save', { [props.field.name]: value })
+    emit('validate', { steps: [route.params.step] })
   }
 }
 
@@ -162,14 +158,12 @@ export default {
     <div class="radio_button_wrapper" v-for="(option, i) in field.options" :key="`${field.name}-${i}`"
       :class="getWrapperClassObject(option)">
 
-      <input type="radio" v-model="fieldValue" :class="classObject" :disabled="disabled"
-        :name="field.name"
+      <input type="radio" v-model="fieldValue" :class="classObject" :disabled="disabled" :name="field.name"
         :value="option.hasOwnProperty('value') ? option.value : option"
         :id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
         :data-test-id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
-        @change="onChange($event)"
-        />
-      <label :for="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`">  
+        @change="onChange($event)" />
+      <label :for="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`">
         <span v-if="field.modifier && field.modifier === 'big_buttons'">
           <span class="big_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option }}</span>
           <span class="big_button_description">{{ option.hasOwnProperty('description') ? option.description : '' }}</span>

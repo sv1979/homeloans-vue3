@@ -199,7 +199,7 @@ function updateField(ev) {
 }
 
 function saveField(ev) {
-  if (props.alwaysSave || (props.canSave && !field.partOfGroup && !props.skipSave)) {
+  if (props.alwaysSave || (canSave && !field.partOfGroup && !props.skipSave)) {
     saveFields()
   }
 }

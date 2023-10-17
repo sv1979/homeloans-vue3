@@ -1,3 +1,13 @@
+<script setup>
+import { useApplicationStore } from '@/stores/application'
+const { repaymentsCalculator } = useApplicationStore()
+
+function callRepaymentsCalculator(event) {
+    console.log(333, 'RC')
+    repaymentsCalculator;
+}
+
+</script>
 <script>
 import field from '../controls/field.vue'
 
@@ -14,7 +24,7 @@ export default {
         <div class="columns mb-0">
             <div class="column is-7">
                 <field fieldName="Loan_Purpose" :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator" input-classes="test test3"/>
+                    @change="callRepaymentsCalculator" input-classes="test test3"/>
                 <field fieldName="Exact_Address_Known" v-if="loanPurpose !== 'refinance'"
                     :disabled="preProcessed || processed || submitted" v-on:change="changeExactAddressKnown" />
             </div>

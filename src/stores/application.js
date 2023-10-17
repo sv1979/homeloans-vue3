@@ -29,7 +29,20 @@ export const useApplicationStore = defineStore({
     // }
     getFields: (state) => {
       return state.fields
-    }
+    },
+    getFieldsValues: (state) => {
+      const stateObject = state.fields;
+      let stateArray = [];
+      for (const key in stateObject) {
+        stateArray.push({ name: key, value: stateObject[key].value });
+      }
+      let transformedArray = stateArray.reduce((result, item) => {
+        result[item.name] = item.value;
+        return result;
+      }, {});
+      return transformedArray
+    },
+    getGuid: (state) => { return state.guid }
   },
   actions: {
     // async fetchPosts() {
@@ -72,6 +85,7 @@ export const useApplicationStore = defineStore({
       }
     },
     async getLookup() {
+      console.log('getlookup..')
       let url = import.meta.env.VITE_BASE_URL
       if (this.fields.Query_String.value.toLowerCase().indexOf('interportalname') > -1) {
         url += constants.URLS.INIT
@@ -101,19 +115,31 @@ export const useApplicationStore = defineStore({
           this.setFields({ ['InterestRateId']: rates[0].Id })
         }
       })
-        .catch((response) => {
+      .catch((response) => {
           this.errors = response.data && response.data.Errors ? response.data.Errors : null
           this.showErrors()
-        })
+      })
     },
-    async loadToken() {
+    async loadToken(params) {
+      console.log('loadToken')
+      let setGuid = params && params.setGuid;
+      let $this = this;
+
       if (this.guid) return
       const loadTokenFunction = function (recaptchaToken) {
         axios
           .post(import.meta.env.VITE_BASE_URL + constants.URLS.HOMELOAN, { RecaptchaToken: recaptchaToken })
+          .then(({ data }) => {
+            if (setGuid && data.Data.Guid) {
+              $this.guid = data.Data.Guid
+              $this.setFields({ ['Guid']: data.Data.Guid })
+            }
+            // done(data);
+          })
           .catch((response) => {
-            this.errors = response.data.Errors
-            this.showErrors()
+            console.log(response, response.data)
+            $this.errors = response.data.Errors
+            $this.showErrors()
           });
       };
       reCaptcha.executeWithRecaptcha('HomeLoansCreateApp', loadTokenFunction);
@@ -190,21 +216,24 @@ export const useApplicationStore = defineStore({
     },
 
     async saveFields() {
-      if (!state.guid) await createApp();
-      if (state.guid) {
-        saveCombinedFields(fields)
+      console.log(221, this.guid)
+      let $this = this;
+      if (!this.getGuid) await createApp();
+      if (this.getGuid) {
+        this.saveCombinedFields(this.getFields)
         axios
-          .post('/homeloan', {
-            guid: state.guid,
-            ...fields,
+          .post(import.meta.env.VITE_BASE_URL + constants.URLS.HOMELOAN, {
+            guid: this.getGuid,
+            ...this.getFieldsValues,
           })
           .then(({ data }) => {
-            done(data);
+            // done(data);
           })
           .catch((error) => {
-            done(error);
-            this.errors = response.data.Errors
-            this.showErrors()
+            // done(error);
+            console.log(error)
+            $this.errors.push(error)
+            $this.showErrors()
           });
       }
     },
@@ -212,6 +241,7 @@ export const useApplicationStore = defineStore({
     async createApp({ newApp } = {}) {
       if (state.guid) return;
       var createAppFunction = function (recaptchaToken) {
+        console.log('create app')
         axios
           .post('/homeloan', { RecaptchaToken: recaptchaToken })
           .then(({ data }) => {
