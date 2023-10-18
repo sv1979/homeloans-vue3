@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div v-if="field" class="control-wrap" :class="getWrapperClasses">
     <slot name="label"></slot>
     <slot name="sublabel"></slot>
@@ -26,6 +27,7 @@
     </component>
   </div>
   <p v-else>No field found with name: {{ field ? field.fieldName : fieldName }}</p>
+  </div>
 </template>
 
 <script>
