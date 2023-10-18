@@ -16,11 +16,16 @@ describe('Application Store', () => {
     expect(store.getFields['Loan_Purpose'].value).toBe("new-home")
   })
 
-  it('Lookup : loads Guid from api', () => {
+  it('Lookup : loads Guid from api', async () => {
     const store = useApplicationStore()
     store.getLookup()
     store.loadToken({setGuid: true})
-    console.log(123, store.getFields['Guid'].value)
+    function delay(milliseconds) {
+      return new Promise((resolve) => {
+        setTimeout(resolve, milliseconds);
+      });
+    }
+    await delay(6000);
     expect(store.getFields['Guid'].value).toHaveLength(36)
   })
 })

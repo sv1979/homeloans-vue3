@@ -126,23 +126,40 @@ export const useApplicationStore = defineStore({
       let $this = this;
 
       if (this.guid) return
-      const loadTokenFunction = function (recaptchaToken) {
-        axios
-          .post(import.meta.env.VITE_BASE_URL + constants.URLS.HOMELOAN, { RecaptchaToken: recaptchaToken })
-          .then(({ data }) => {
-            if (setGuid && data.Data.Guid) {
-              $this.guid = data.Data.Guid
-              $this.setFields({ ['Guid']: data.Data.Guid })
-            }
-            // done(data);
-          })
-          .catch((response) => {
-            console.log(response, response.data)
-            $this.errors = response.data.Errors
-            $this.showErrors()
-          });
-      };
-      reCaptcha.executeWithRecaptcha('HomeLoansCreateApp', loadTokenFunction);
+
+      axios
+        // .post(import.meta.env.VITE_BASE_URL + constants.URLS.HOMELOAN, { RecaptchaToken: recaptchaToken })
+        .post(import.meta.env.VITE_BASE_URL + constants.URLS.HOMELOAN, {})
+        .then(({ data }) => {
+          if (setGuid && data.Data.Guid) {
+            $this.guid = data.Data.Guid
+            $this.setFields({ ['Guid']: data.Data.Guid })
+          }
+        })
+        .catch((response) => {
+          console.log(response, response.data)
+          $this.errors = response.data.Errors
+          $this.showErrors()
+        });
+
+      // const loadTokenFunction = function (recaptchaToken) {
+      //   axios
+      //     // .post(import.meta.env.VITE_BASE_URL + constants.URLS.HOMELOAN, { RecaptchaToken: recaptchaToken })
+      //     .post(import.meta.env.VITE_BASE_URL + constants.URLS.HOMELOAN, {})
+      //     .then(({ data }) => {
+      //       if (setGuid && data.Data.Guid) {
+      //         $this.guid = data.Data.Guid
+      //         $this.setFields({ ['Guid']: data.Data.Guid })
+      //       }
+      //       // done(data);
+      //     })
+      //     .catch((response) => {
+      //       console.log(response, response.data)
+      //       $this.errors = response.data.Errors
+      //       $this.showErrors()
+      //     });
+      // };
+      // reCaptcha.executeWithRecaptcha('HomeLoansCreateApp', loadTokenFunction);
     },
     runInitialLoad() {
       this.initialLoad = true
