@@ -1,32 +1,32 @@
 <template>
   <div>
-  <div v-if="field" class="control-wrap" :class="getWrapperClasses">
-    <slot name="label"></slot>
-    <slot name="sublabel"></slot>
-    <component
-      v-if="componentName"
-      :is="componentName"
-      :field="field"
-      :val="field.value"
-      :disabled="disabled"
-      :this_field="this_field"
-      :checkImmediately="checkImmediately"
-      :labelOverride="labelOverride"
-      :maxValueOverride="maxValueOverride"
-      :inputClasses="inputClasses"
-      :resolvePluralLabels="resolvePluralLabels"
-      :suffix="field.suffix"
-      :id="id"
-      ref="fieldref"
-      @save="saveField"
-      @change="updateField"
-      @placechanged="$emit('placechanged', $event)"
-      @amountchanged="$emit('amountchanged', $event)"
-    >
-      <slot />
-    </component>
-  </div>
-  <p v-else>No field found with name: {{ field ? field.fieldName : fieldName }}</p>
+    <div v-if="field" class="control-wrap" :class="getWrapperClasses">
+      <slot name="label"></slot>
+      <slot name="sublabel"></slot>
+      <component
+        v-if="componentName"
+        :is="componentName"
+        :field="field"
+        :val="field.value"
+        :disabled="disabled"
+        :this_field="this_field"
+        :checkImmediately="checkImmediately"
+        :labelOverride="labelOverride"
+        :maxValueOverride="maxValueOverride"
+        :inputClasses="inputClasses"
+        :resolvePluralLabels="resolvePluralLabels"
+        :suffix="field.suffix"
+        :id="id"
+        ref="fieldref"
+        @save="saveField"
+        @change="updateField"
+        @placechanged="$emit('placechanged', $event)"
+        @amountchanged="$emit('amountchanged', $event)"
+      >
+        <slot />
+      </component>
+    </div>
+    <p v-else>No field found with name: {{ field ? field.fieldName : fieldName }}</p>
   </div>
 </template>
 
@@ -140,7 +140,7 @@ const field = computed(() => {
 })
 
 const canSave = computed(() => {
-  return fields.value.Accepted_Privacy_Declaration.value
+  return toRaw(getFields['Accepted_Privacy_Declaration'].value)
 })
 
 const componentName = computed({
@@ -201,7 +201,7 @@ function updateField(ev) {
 }
 
 function saveField(ev) {
-  if (props.alwaysSave || (canSave && !field.partOfGroup && !props.skipSave)) {
+  if (props.alwaysSave || (canSave.value && !field.partOfGroup && !props.skipSave)) {
     saveFields()
   }
 }

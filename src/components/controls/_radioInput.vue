@@ -1,8 +1,8 @@
 <script setup>
-import { ref, onMounted, computed, reactive, watch, isProxy, toRaw, nextTick } from 'vue'
+import { onMounted, computed, reactive, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
-import { minLength, required } from '@vuelidate/validators'
+import { required } from '@vuelidate/validators'
 const emit = defineEmits(['change', 'save', 'validate'])
 
 const route = useRoute()
@@ -47,7 +47,6 @@ const props = defineProps({
 })
 
 let fieldValue = reactive(props.val)
-let tooltipActive = reactive(false)
 
 const shellClass = computed(() => {
   const big_buttons_class = props.field.modifier === 'big_buttons'
@@ -132,12 +131,6 @@ function workoutLabel(name, joint_name = '') {
   if (!props.resolvePluralLabels) return name
   return joint_name ? joint_name : name
 }
-
-onMounted(() => {
-  // console.log(1, props.val)
-  // fieldValue = props.val
-  // console.log(2, fieldValue)
-})
 
 </script>
 

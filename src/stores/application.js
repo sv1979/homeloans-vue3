@@ -42,7 +42,7 @@ export const useApplicationStore = defineStore({
       }, {});
       return transformedArray
     },
-    getGuid: (state) => { return state.guid }
+    getGuid: (state) => { return state.guid },
   },
   actions: {
     // async fetchPosts() {
@@ -217,16 +217,128 @@ export const useApplicationStore = defineStore({
       });
     },
 
-    async saveFields() {
-      console.log(221, this.guid)
+    repaymentsCalculator(init) {
+      // commit('clearSaveDelay');
+      // commit('setLoanAmount');
+      console.log('rep', init)
+      let rate_is_string = typeof this.fields.Loan_Interest_Rate.value === 'string';
+      if (
+        this.guid &&
+        this.fields.Loan_Amount.value &&
+        this.fields.Loan_Interest_Rate.value &&
+        this.fields.Loan_Term.value
+      ) {
+        axios
+          .post('/homeloan/repaymentscalculator', {
+            LoanAmount: this.fields.Loan_Amount.value,
+            TermLoanAmount: this.fields.Term_Loan_Amount.value,
+            AnnualInterestRate: rate_is_string && this.fields.Loan_Interest_Rate.value.indexOf('---') > -1 
+              ? this.fields.Loan_Interest_Rate.value.substr(0, state.fields.Loan_Interest_Rate.value.indexOf('---')) 
+              : this.fields.Loan_Interest_Rate.value,
+            LoanPeriodInYears: this.fields.Loan_Term.value,
+            PurchasePrice: this.fields.Purchase_Price.value,
+            EstimatedHomeValue: this.fields.Estimated_Home_Value.value,
+            LoanPurpose: this.fields.Loan_Purpose.value,
+            DesiredRVC: this.fields.Has_RVC.value
+              ? this.fields.Desired_RVC_Limit.value
+              : null,
+            RequiredRVC: this.fields.Has_Required_RVC_Limit.value
+              ? this.fields.Required_RVC_Limit.value
+              : null,
+            Required_RVC_Limit: this.fields.Has_Required_RVC_Limit.value
+              ? this.fields.Required_RVC_Limit.value
+              : null
+          })
+          .then(({ data }) => {
+            // commit('setPaymentInfos', data.Data.PaymentInfos);
+            // commit('setLvrPercentage', data.Data.LvrPercentage);
+            // commit('clearSaveDelay');
+            const monthlyRepayments = data.Data.PaymentInfos.find(
+              (r) => r.PaymentType === 'Monthly'
+            );
+            if (monthlyRepayments) {
+              this.setFields({ ['Monthly_Repayments']: monthlyRepayments.PaymentAmount })
+            }
+
+            const saveDelay = setTimeout(() => {
+              this.saveFields(
+               {
+                Purchase_Price: this.fields.Purchase_Price.value,
+                Deposit: this.fields.Deposit.value,
+                Estimated_Home_Value: this.fields.Estimated_Home_Value.value,
+                Mortgage_Balance: this.fields.Mortgage_Balance.value,
+                Loan_topup: this.fields.Loan_topup.value,
+                Loan_Amount: this.fields.Loan_Amount.value,
+                Term_Loan_Amount: this.fields.Term_Loan_Amount.value,
+                Loan_Interest_Rate: this.fields.Loan_Interest_Rate.value,
+                Loan_Interest_Rate: rate_is_string && this.fields.Loan_Interest_Rate.value.indexOf('---') > -1 
+                ? this.fields.Loan_Interest_Rate.value.substr(0, this.fields.Loan_Interest_Rate.value.indexOf('---')) 
+                : this.fields.Loan_Interest_Rate.value,
+                Repayments_Frequency: this.fields.Repayments_Frequency.value,
+                InterestRateId: this.fields.InterestRateId.value,
+                Loan_Term: this.fields.Loan_Term.value,
+                Loan_Purpose: this.fields.Loan_Purpose.value,
+                Accepted_Privacy_Declaration:
+                this.fields.Accepted_Privacy_Declaration.value,
+                Monthly_Repayments: this.fields.Monthly_Repayments.value,
+                Has_RVC: this.fields.Has_RVC.value,
+                Desired_RVC_Limit: this.fields.Has_RVC.value
+                  ? Number(this.fields.Desired_RVC_Limit.value)
+                  : null,
+                Has_Required_RVC_Limit:
+                this.fields.Has_Required_RVC_Limit.value,
+                RequiredRVC: this.fields.Has_Required_RVC_Limit.value
+                  ? Number(this.fields.Required_RVC_Limit.value)
+                  : null,
+                Required_RVC_Limit: this.fields.Has_Required_RVC_Limit.value
+                  ? Number(this.fields.Required_RVC_Limit.value)
+                  : null,
+              });
+            }, 2000);
+            // commit('setSaveDelay', saveDelay);
+          })
+          .catch((error) => {
+            // commit('setErrors', get(error, 'response.data.Errors'));
+            // dispatch('showErrors');
+          });
+      } else if (!init) {
+        console.log('here2')
+        this.saveFields(
+        {
+          Purchase_Price: this.fields.Purchase_Price.value,
+          Deposit: this.fields.Deposit.value,
+          Estimated_Home_Value: this.fields.Estimated_Home_Value.value,
+          Mortgage_Balance: this.fields.Mortgage_Balance.value,
+          Loan_topup: this.fields.Loan_topup.value,
+          Loan_Amount: this.fields.Loan_Amount.value,
+          Term_Loan_Amount: this.fields.Term_Loan_Amount.value,
+          Loan_Interest_Rate: this.fields.Loan_Interest_Rate.value,
+          InterestRateId: this.fields.InterestRateId.value,
+          Loan_Term: this.fields.Loan_Term.value,
+          Loan_Purpose: this.fields.Loan_Purpose.value,
+          Repayments_Frequency: this.fields.Repayments_Frequency.value,
+          Accepted_Privacy_Declaration:
+          this.fields.Accepted_Privacy_Declaration.value,
+          Monthly_Repayments: this.fields.Monthly_Repayments.value
+        });
+      }
+    },
+    async saveFields(fieldsData) {
+      console.log(221, fieldsData, this.guid)
       let $this = this;
+      let fieldsToSave = this.getFields;
+      let valuesToSave = this.getFieldsValues;
+      if (fieldsData) {
+        fieldsToSave = fieldsData;
+        valuesToSave = fieldsData;
+      }
       if (!this.getGuid) await createApp();
       if (this.getGuid) {
-        this.saveCombinedFields(this.getFields)
+        this.saveCombinedFields(fieldsToSave)
         axios
           .post(import.meta.env.VITE_BASE_URL + constants.URLS.HOMELOAN, {
-            guid: this.getGuid,
-            ...this.getFieldsValues,
+            Guid: this.getGuid,
+            ...valuesToSave,
           })
           .then(({ data }) => {
             // done(data);
