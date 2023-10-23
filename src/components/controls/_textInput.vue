@@ -158,9 +158,9 @@ function setAutocompleteValue(event) {
 
 function blurAddressRight(event) {
   console.log(24, 'blur', event, event.target.value)
-  addressRightValue.value = event.target.value
-  setFields({ [props.field.name]: event.target.value })
-  saveFields()
+  // addressRightValue.value = event.target.value
+  // setFields({ [props.field.name]: event.target.value })
+  // saveFields()
 }
 
 function autocompleteFocus() {
@@ -218,9 +218,9 @@ export default {
         }}</template>
       </b-autocomplete>
 
-      <v-autocomplete v-else-if="field.type === 'addressright'"
-        :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }" keep-first select-on-click-outside=true
-        v-model="value" ref="autocomplete" max-height="172" :this_field="this_field" v-on:input="getAddressRightData"
+      <v-autocomplete v-else-if="field.type === 'addressright'" clearable
+        :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }" 
+        v-model="addressRightValue" ref="autocomplete" max-height="172" :this_field="this_field" v-on:input="getAddressRightData"
         :items="addressRightSuggestions" item-title="label" :placeholder="field.placeholder"
         @click.native="cleanAddressRight" @blur="blurAddressRight" @focus="autocompleteFocus"
         @change="setAutocompleteValue" :disabled="disabled" :data-test-id="field.name">
