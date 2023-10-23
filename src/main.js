@@ -1,6 +1,17 @@
 import { plugin as VueTippy } from 'vue-tippy'
 import 'tippy.js/dist/tippy.css' // optional for styling
+// Vuetify
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
 import './assets/main.scss'
+
+const vuetify = createVuetify({
+    components,
+    directives,
+})
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -16,5 +27,5 @@ app.use(
     VueTippy,
     { component: 'tippy' }
 )
-
+app.use(vuetify)
 app.mount('#app')
