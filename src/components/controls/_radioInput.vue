@@ -97,7 +97,6 @@ const $v = useVuelidate(validations, fieldValue)
 
 function onChange(event) {
   const value = event.target.value
-  console.log(111, value)
   if (value && fieldValue !== null && fieldValue !== '') {
     emit('change', {
       name: props.field.name,

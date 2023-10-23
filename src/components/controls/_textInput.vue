@@ -59,11 +59,21 @@ const props = defineProps({
 </script>
 
 <script>
+import TooltipLabel from '@/components/TooltipLabel.vue'
+
 export default {
-  name: 'text-input'
+  name: 'text-input',
+  components: {
+    TooltipLabel
+  }
 }
 </script>
 
 <template>
-  <div>Text {{props.field.name}}</div>
+  <div>
+    <tooltip-label :field="field"></tooltip-label>
+    <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
+    
+    Text {{props.field.name}}
+  </div>
 </template>

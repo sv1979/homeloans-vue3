@@ -13,7 +13,7 @@ const loanPurpose = computed(() => {
 })
 
 const useAddressRight = computed(() => {
-  let useAR = toRaw(getFields['Exact_Address_Known'].value) === "true"
+  let useAR = toRaw(getFields['Exact_Address_Known'].value) !== "false"
 
   if (preProcessed.value) {
     let nonExactAddressFilledAndPreprocessed =
