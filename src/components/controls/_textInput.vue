@@ -1,12 +1,8 @@
 <script setup>
-import { onMounted, computed, reactive, watch, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, reactive, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { useApplicationStore } from '@/stores/application'
 const { getFields, setFields, saveFields } = useApplicationStore()
-import { required } from '@vuelidate/validators'
-import axios from 'axios'
-import constants from '@/helpers/constants'
 const emit = defineEmits(['change', 'save', 'validate'])
 
 const props = defineProps({
@@ -69,17 +65,12 @@ const dateops = reactive({
   focused: null,
 });
 const mask = reactive(null);
-const addressRightValue = ref('');
-const addressRightSuggestions = ref([]);
-const wrongAddressRightSelection = ref(false);
 const masks = reactive(
   {
     numeral: true,
     numeralThousandsGroupStyle: 'thousand',
   }
 )
-
-// let fieldValue = reactive(props.val)
 
 const validations = computed(() => {
   const valids = {};
@@ -121,76 +112,18 @@ const validations = computed(() => {
 
 const $v = useVuelidate(validations, value)
 
-const updateValue = (newValue) => {
-  if (!newValue && props.field.default) {
-    value.value = props.field.default
-  } else {
-    value.value = newValue
-  }
-}
-
-watch(value, (newValue, oldValue) => {
-  console.log(224, newValue, oldValue)
-  updateValue(newValue)
-})
-
-function getAddressRightData(event) {
-  var results = null;
-  const searchTerm = event.target.value;
-  var $url = `${constants.URLS.ADDRESSRIGHT_API_CALL}${searchTerm}`;
-
-  axios($url).then((data) => {
-    if (data.data.length > 0) {
-      addressRightSuggestions.value = [];
-      data.data.map((el) => {
-        addressRightSuggestions.value.push(el);
-      });
-    }
-  });
-}
-
-function setAutocompleteValue(event) {
-  console.log(23, 'set autocomplete', event, event.target.value)
-  addressRightValue.value = event.target.value
-  setFields({ [props.field.name]: event.target.value })
-  saveFields()
-}
-
-function blurAddressRight(event) {
-  console.log(24, 'blur', event, event.target.value)
-  // addressRightValue.value = event.target.value
-  // setFields({ [props.field.name]: event.target.value })
-  // saveFields()
-}
-
-function autocompleteFocus() {
-  if (value.value && (props.field.type === 'address' || props.field.type === "addressright")) {
-    value.value = ''; // Clean address field on focus if it contains any data
-    setFields({ [props.field.name]: '' })
-    saveFields()
-  }
-}
 </script>
 
 <script>
+import { required } from '@vuelidate/validators'
 import TooltipLabel from '@/components/TooltipLabel.vue'
+import AutocompleteInput from '@/components/controls/_autocompleteInput.vue'
 
 export default {
   name: 'text-input',
   components: {
     TooltipLabel
   },
-  methods: {
-    // autocompleteFocus() {
-    //   if (this.value && (props.field.type === 'address' || props.field.type === "addressright")) {
-    //     this.value = ''; // Clean address field on focus if it contains any data
-
-    //     let this_field_name = props.field.name;
-    //     setFields({ [this_field_name]: '' })
-    //     saveFields()
-    //   }
-    // },
-  }
 }
 </script>
 
@@ -218,31 +151,31 @@ export default {
         }}</template>
       </b-autocomplete>
 
-      <v-autocomplete v-else-if="field.type === 'addressright'" clearable
-        :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }" 
-        v-model="addressRightValue" ref="autocomplete" max-height="172" :this_field="this_field" v-on:input="getAddressRightData"
-        :items="addressRightSuggestions" item-title="label" :placeholder="field.placeholder"
-        @click.native="cleanAddressRight" @blur="blurAddressRight" @focus="autocompleteFocus"
-        @change="setAutocompleteValue" :disabled="disabled" :data-test-id="field.name">
-
-      </v-autocomplete>
+      <autocomplete-input 
+        v-else-if="field.type === 'addressright'"
+        :field="field"
+        :val="val"
+        :disabled="disabled"
+        :this_field="this_field"
+        :id="id"
+        :classes="classes"
+       />
 
       <div class="control" v-else-if="field.type === 'address'">
-        <vue-google-autocomplete id="map" class="input" :class="$v.$anyError
-          ? 'is-danger'
-          : !$v.value.$invalid && value
-            ? 'is-success'
-            : ''
-          " :placeholder="field.placeholder" :value="value" :disabled="disabled" :this_field="this_field" country="nz"
+        <vue-google-autocomplete id="map" class="input" 
+          :class="$v.$anyError ? 'is-danger' : !$v.value.$invalid && value ? 'is-success' : '' " 
+          :placeholder="field.placeholder" :value="value" :disabled="disabled" :this_field="this_field" country="nz"
           key="address" ref="address" :types="field.settings && field.settings.regions ? '(regions)' : ''"
           @placechanged="setAddressData" @saveaddressslash="reworkAddress" @change.native="clearRaw($event.target.value)"
           @focus="autocompleteFocus" :data-test-id="field.name" />
       </div>
       <div v-else-if="field.type === 'label'">{{ value }}</div>
       <div v-else-if="field.type === 'currency'" class="control" :class="commonClassesObject" v-cleave="masks.numeral">
-        <input class="input" :class="{
+        <input class="input" 
+        :class="{
           'is-danger': (isAmountField && this.wrongAmountField) || $v.$anyError,
-        }" v-model="value" :placeholder="field.placeholder" :disabled="disabled"
+        }" 
+        v-model="value" :placeholder="field.placeholder" :disabled="disabled"
           :type="field.type === 'textarea' ? 'textarea' : 'text'" :inputmode="field.type === 'currency' ? 'numeric' : ''"
           maxlength="13" :data-field="field.name" v-on:blur="onchange(value)" ref="input" :data-test-id="field.name" />
       </div>
