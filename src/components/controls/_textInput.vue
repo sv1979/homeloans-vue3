@@ -119,13 +119,15 @@ import { required } from '@vuelidate/validators'
 import TooltipLabel from '@/components/TooltipLabel.vue'
 import AutocompleteInput from '@/components/controls/_autocompleteInput.vue'
 import SimpleText from '@/components/controls/_simpleText.vue'
+import GoogleAutocomplete from '@/components/controls/_googleAutocomplete.vue'
 
 export default {
   name: 'text-input',
   components: {
     TooltipLabel,
     AutocompleteInput,
-    SimpleText
+    SimpleText,
+    GoogleAutocomplete
   },
 }
 </script>
@@ -164,14 +166,25 @@ export default {
         :classes="classes"
        />
 
-      <div class="control" v-else-if="field.type === 'address'">
+       <google-autocomplete 
+        v-else-if="field.type === 'address'"
+        :field="field"
+        :val="val"
+        :disabled="disabled"
+        :this_field="this_field"
+        :id="id"
+        :classes="classes"
+        country="nz"
+       />
+
+      <!-- <div class="control" v-else-if="field.type === 'address'">
         <vue-google-autocomplete id="map" class="input" 
           :class="$v.$anyError ? 'is-danger' : !$v.value.$invalid && value ? 'is-success' : '' " 
           :placeholder="field.placeholder" :value="value" :disabled="disabled" :this_field="this_field" country="nz"
           key="address" ref="address" :types="field.settings && field.settings.regions ? '(regions)' : ''"
           @placechanged="setAddressData" @saveaddressslash="reworkAddress" @change.native="clearRaw($event.target.value)"
           @focus="autocompleteFocus" :data-test-id="field.name" />
-      </div>
+      </div> -->
       <div v-else-if="field.type === 'label'">{{ value }}</div>
       <div v-else-if="field.type === 'currency'" class="control" :class="commonClassesObject" v-cleave="masks.numeral">
         <input class="input" 

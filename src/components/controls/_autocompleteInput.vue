@@ -129,9 +129,10 @@ export default {
 
 <template>
     <v-autocomplete 
-        variant="solo-filled" :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }" v-model="addressRightValue"
+        variant="solo" :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }" v-model="addressRightValue"
         ref="autocomplete" max-height="172" :this_field="this_field" v-on:input="getAddressRightData"
         :items="addressRightSuggestions" return-object required item-title="label" :placeholder="field.placeholder"
-        @update:modelValue="setAutocompleteValue" :disabled="disabled" :data-test-id="field.name">
+        @update:modelValue="setAutocompleteValue" :disabled="disabled" :data-test-id="field.name"
+        name="field.name">
     </v-autocomplete>
 </template>

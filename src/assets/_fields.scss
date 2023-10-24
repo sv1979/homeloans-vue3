@@ -75,3 +75,10 @@
 .v-input__details {
     display: none;
 }
+
+.v-autocomplete__selection-text:empty {
+    &::before {
+        content: 'Start typing...';
+        color: #aaa;
+    }
+}
