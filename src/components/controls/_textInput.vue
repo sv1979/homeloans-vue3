@@ -118,11 +118,14 @@ const $v = useVuelidate(validations, value)
 import { required } from '@vuelidate/validators'
 import TooltipLabel from '@/components/TooltipLabel.vue'
 import AutocompleteInput from '@/components/controls/_autocompleteInput.vue'
+import SimpleText from '@/components/controls/_simpleText.vue'
 
 export default {
   name: 'text-input',
   components: {
-    TooltipLabel
+    TooltipLabel,
+    AutocompleteInput,
+    SimpleText
   },
 }
 </script>
@@ -184,10 +187,15 @@ export default {
         <textarea v-if="field.type === 'textarea'" class="input input_textarea" :class="{ 'is-danger': $v.$anyError }"
           v-model="value" :placeholder="field.placeholder" :disabled="disabled" v-on:blur="onchange(value)" ref="input"
           cols="30" rows="5" :data-test-id="field.name" />
-        <input v-else class="input" :class="{ 'is-danger': $v.$anyError }" v-model="value"
-          :placeholder="field.placeholder" :disabled="disabled" :type="field.type === 'email' ? 'email' : 'text'"
-          :inputmode="field.type === 'tel' ? 'numeric' : ''" v-on:keyup="keypressed" v-on:blur="onchange(value)"
-          ref="input" :data-test-id="field.name" />
+        <simple-text v-else
+          :class="{ 'is-danger': $v.$anyError }"
+          :field="field"
+          :val="val"
+          :disabled="disabled"
+          :this_field="this_field"
+          :id="id"
+          :classes="classes"
+        />  
 
         <p v-if="suffix" class="suffix_part">
           {{ suffix }}
@@ -201,6 +209,5 @@ export default {
       <p v-if="$v.$anyError && this.wrongAddressRightSelection" class="help is-danger">Please select address from the
         dropdown</p>
     </div>
-    Text {{ props.field.name }}
   </div>
 </template>

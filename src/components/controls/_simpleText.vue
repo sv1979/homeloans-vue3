@@ -1,9 +1,11 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { useApplicationStore } from '@/stores/application'
 const { getFields, setFields, saveFields } = useApplicationStore()
 const emit = defineEmits(['change', 'save', 'validate'])
+const route = useRoute()
 
 const props = defineProps({
     field: {
@@ -38,8 +40,6 @@ const props = defineProps({
 })
 
 const value = ref(null);
-const addressRightValue = ref('');
-const addressRightSuggestions = ref([]);
 
 const validations = computed(() => {
     const valids = {};
@@ -81,40 +81,14 @@ const validations = computed(() => {
 
 const $v = useVuelidate(validations, value)
 
-function getAddressRightData(event) {
-    var results = null;
-    const searchTerm = event.target.value;
-    var $url = `${constants.URLS.ADDRESSRIGHT_API_CALL}${searchTerm}`;
+watch(() => props.val, function(newVal, oldVal) {
+    const _value = !newVal && props.field.default ? props.field.default : newVal;
+    value.value = _value
+    emit('validate', { steps: [route.params.step | route.path] })
+},
+    { immediate: true }
+);
 
-    axios($url).then((data) => {
-        if (data.data.length > 0) {
-            addressRightSuggestions.value = [];
-            data.data.map((el) => {
-                addressRightSuggestions.value.push(el);
-            });
-        }
-    });
-}
-
-function setAutocompleteValue() {
-    if (addressRightValue.value && addressRightValue.value.label) {
-        setFields({ [props.field.name]: addressRightValue.value.label })
-        saveFields()
-    } else {
-        addressRightValue.value = props.field.value
-    }
-
-    if (props.field.corresponding_field) {
-        if (addressRightValue.value && addressRightValue.value.id) {
-            emit('placechanged', addressRightValue.value.label)
-            setFields({ [props.field.corresponding_field]: addressRightValue.value.id })
-            saveFields()
-        } else {
-            setFields({ [props.field.corresponding_field]: '' })
-            saveFields();
-        }
-    }
-}
 </script>
 
 <script>
@@ -123,15 +97,13 @@ import axios from 'axios'
 import constants from '@/helpers/constants'
 
 export default {
-    name: 'autocomplete-input'
+    name: 'simple-text'
 }
 </script>
 
 <template>
-    <v-autocomplete 
-        variant="solo-filled" :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }" v-model="addressRightValue"
-        ref="autocomplete" max-height="172" :this_field="this_field" v-on:input="getAddressRightData"
-        :items="addressRightSuggestions" return-object required item-title="label" :placeholder="field.placeholder"
-        @update:modelValue="setAutocompleteValue" :disabled="disabled" :data-test-id="field.name">
-    </v-autocomplete>
+    <input class="input" :class="{ 'is-danger': $v.$anyError }" v-model="value" :placeholder="field.placeholder"
+        :disabled="disabled" :type="field.type === 'email' ? 'email' : 'text'"
+        :inputmode="field.type === 'tel' ? 'numeric' : ''" v-on:keyup="keypressed" v-on:blur="onchange(value)" ref="input"
+        :data-test-id="field.name" />
 </template>
