@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { useApplicationStore } from '@/stores/application'
+import { useDebounceFn } from "@vueuse/core"
 const { getFields, setFields, saveFields } = useApplicationStore()
 const emit = defineEmits(['change', 'save', 'validate'])
 
@@ -36,6 +37,8 @@ const props = defineProps({
         default: ''
     },
 })
+
+const searchUrl = ref('')
 
 const value = ref(null);
 const addressRightValue = ref('');
@@ -81,12 +84,8 @@ const validations = computed(() => {
 
 const $v = useVuelidate(validations, value)
 
-function getAddressRightData(event) {
-    var results = null;
-    const searchTerm = event.target.value;
-    var $url = `${constants.URLS.ADDRESSRIGHT_API_CALL}${searchTerm}`;
-
-    axios($url).then((data) => {
+const getAddressDataDebounced = useDebounceFn(() => {
+    axios(searchUrl.value).then((data) => {
         if (data.data.length > 0) {
             addressRightSuggestions.value = [];
             data.data.map((el) => {
@@ -94,6 +93,12 @@ function getAddressRightData(event) {
             });
         }
     });
+}, 1000, { maxWait: 5000 })
+
+function getAddressRightData(event) {
+    const searchTerm = event.target.value;
+    searchUrl.value = `${constants.URLS.ADDRESSRIGHT_API_CALL}${searchTerm}`;
+    getAddressDataDebounced()
 }
 
 function setAutocompleteValue() {
@@ -123,16 +128,16 @@ import axios from 'axios'
 import constants from '@/helpers/constants'
 
 export default {
-    name: 'autocomplete-input'
+    name: 'autocomplete-input',
 }
+
 </script>
 
 <template>
-    <v-autocomplete 
-        variant="solo" :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }" v-model="addressRightValue"
-        ref="autocomplete" max-height="172" :this_field="this_field" v-on:input="getAddressRightData"
-        :items="addressRightSuggestions" return-object required item-title="label" :placeholder="field.placeholder"
-        @update:modelValue="setAutocompleteValue" :disabled="disabled" :data-test-id="field.name"
-        name="field.name">
+    <v-autocomplete variant="solo" :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }"
+        v-model="addressRightValue" ref="autocomplete" max-height="172" :this_field="this_field"
+        v-on:input="getAddressRightData" :items="addressRightSuggestions" return-object required item-title="label"
+        :placeholder="field.placeholder" @update:modelValue="setAutocompleteValue" :disabled="disabled"
+        :data-test-id="field.name" name="field.name">
     </v-autocomplete>
 </template>
