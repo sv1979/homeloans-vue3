@@ -41,9 +41,8 @@ export default {
 </script>
 
 <template>
-  <div>
-    <div class="columns mb-0">
-      <div class="column is-7">
+  <v-row>
+    <v-col cols="7" class="columns mb-0">
         <field
           fieldName="Loan_Purpose"
           :disabled="preProcessed || processed || submitted"
@@ -56,10 +55,8 @@ export default {
           :disabled="preProcessed || processed || submitted"
           v-on:change="changeExactAddressKnown"
         />
-      </div>
-    </div>
-    <div class="columns mb-0">
-      <div class="column is-6">
+    </v-col>
+    <v-col cols="7" class="columns mb-0">
         <field
           v-if="useAddressRight"
           fieldName="Addressright_Text_Property"
@@ -80,8 +77,7 @@ export default {
           key="Address_Text_Property"
         />
         <hr />
-      </div>
-    </div>
+    </v-col>
     <!--<div class="columns mb-2">
             <div class="column is-6 pt-0">
                 <template v-if="loanPurpose !== 'refinance'">
@@ -185,5 +181,5 @@ export default {
         </div> -->
 
     <privacy-modal v-model="privacyOpen" />
-  </div>
+  </v-row>
 </template>

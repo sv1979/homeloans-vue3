@@ -82,3 +82,861 @@
         color: #aaa;
     }
 }
+
+.input, 
+.textarea,
+.number_control__wrap button, 
+.select select {
+    border: 1px solid transparent;
+    transition: border .3s;
+    box-shadow: 0px 3px 15px 0 rgba(2,0,185, 0.15) !important;
+    border-radius: 4px;
+    transition: box-shadow 0.2s;
+
+    &:disabled {
+        background-color: #dedede;
+        border-color: transparent;
+        box-shadow: none !important;
+        opacity: 0.7;
+        &::placeholder {
+            color: #7a7a7a;
+        }
+    }
+
+    &::placeholder {
+        color: $heartland-gray2;
+    }
+
+    // remove success border arround field
+    &.is-success {
+        border-color: transparent;
+    }
+}
+
+.number_control__wrap button {
+    &:disabled {
+        background-color: #8080dc;
+    }
+}
+
+.field-select.field_is_disabled {
+    .select {
+        &::after {
+            opacity: 0;
+        }
+    }
+}
+
+.input, 
+.select select {
+    height: 40px;
+}
+
+.input_textarea {
+    height: auto;
+}
+
+.field-textarea {
+    label.label {
+        margin-bottom: 10px !important;
+    }
+}
+
+.not-check {
+    pointer-events: none;
+    a { pointer-events: all; }
+}
+
+.select {
+    &:after {
+        top: 18px !important;
+        border-width: 2px !important;
+        width: 12px !important;
+        height: 12px !important;
+        border-radius: 0 !important;
+    }
+
+    &:not(.is-danger) {
+        &:after {
+            border-color: $heartland-purple !important;
+        }
+    }
+
+    // remove success border arround field
+    &.is-success {
+        select {
+            border-color: transparent;
+
+            &:hover {
+                border-color: transparent;  
+            }
+        }
+    }
+
+    &:not(.is-multiple) {
+        height: initial;
+    }
+
+    select, option {
+        white-space: normal;
+    }
+
+    option:checked {
+        background-color: #f4f4f4;
+    }
+}
+
+.label {
+    font-weight: 600;
+    &:not([class*='mb-']) {
+        margin-bottom: 0 !important;
+    }
+
+    &:not(:last-child) {
+        margin-bottom: 0.3em;
+    }
+
+    &.label-field {
+        +.field {
+            .label {
+                display: none;
+            }
+        }
+    }
+}
+
+.field-range {
+    .label {
+        padding-top: 10px;
+    }
+
+    .b-slider {
+        margin-bottom: 5px;
+        margin-top: 5px;
+
+        .b-slider-thumb {
+            border-color: $heartland-purple;
+            height: 20px;
+            width: 20px;
+        }
+    }
+
+    input {
+        max-width: 25px;
+        text-align: center;
+        font-weight: 600;
+    }
+}
+
+.checkbox {
+    &.is-danger {
+         ~ .help.is-danger {
+            margin-top: 0;
+        }
+    }
+}
+
+.big_buttons_shell, .mid_buttons_shell {
+    @media screen and (min-width: 768px) {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+}
+
+.radio_button_wrapper {
+    display: inline-block;
+    &.is-vertical {
+        width: 100%;
+        margin-top: .8rem;
+    }
+    &.big-buttons {
+        .big_button_description {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .big_button_title {
+            font-weight: 600;
+            font-size: 26px;
+            line-height: 28px;
+            display: block;
+            margin-bottom: 20px;
+        }
+        label {
+            padding: 65px 20px 20px;
+        }
+        .checkmark {
+            top: 20px;
+        }
+    }
+    &.mid-buttons {
+        label {
+            padding: 20px;
+        }
+        .mid_button_title {
+            font-weight: 600;
+        }
+        .checkmark {
+            top: 15px;
+        }
+    }
+    &.big-buttons, &.mid-buttons {
+        width: 100%;
+        margin-bottom: .5rem;
+        label {
+            display: block;
+            background-color: #fff;
+            width: 100%;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10px;
+            box-shadow: none;
+            transition: box-shadow .4s;
+            &:hover {
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.35);
+            }
+            &::after {
+                content: '';
+                display: block;
+                width: 56px;
+                height: 40px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                position: absolute;
+                top: 24px;
+                left: 24px;
+            }
+        }
+        .check {
+            position: absolute !important;
+            left: -200px;
+        }
+        .button_title {
+            &::before {
+                position: absolute;
+                display: block;
+                content: '';
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 15px;
+                border: 2px solid #B9BFC4;
+                transition: border-color .4s;
+            }
+        }
+        @media screen and (min-width: 768px) {
+            width: 48%;
+            &:first-child {
+                margin-right: 15px;
+            }
+        }
+    }
+    .radio_bigbutton_sublabel {
+        font-size: 14px;
+        line-height: 18px;
+    }
+    .checkmark {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 28px;
+        height: 28px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        transition: opacity .4s;
+        opacity: 0;
+        background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='14' cy='14' r='14' fill='%230200B9'/%3E%3Cpath d='M22.1201 8.56222C21.7944 8.30799 21.3218 8.35806 21.0597 8.67391L12.0803 19.4554C12.0207 19.5247 11.9413 19.5401 11.9016 19.5401C11.8619 19.5401 11.7824 19.5363 11.7388 19.4901L6.9095 14.3863C6.62753 14.0897 6.15095 14.0666 5.84515 14.3401C5.53935 14.6136 5.51553 15.0758 5.7975 15.3724L10.6466 20.4954C10.9762 20.819 11.425 21 11.8936 21C11.9175 21 11.9413 21 11.9651 21C12.4576 20.9807 12.9222 20.7573 13.2439 20.3837L22.2313 9.59067C22.4934 9.27481 22.4457 8.81644 22.1201 8.56222Z' fill='white'/%3E%3C/svg%3E%0A");
+    }
+    :checked ~ .control-label {
+        .checkmark {
+            opacity: 1;
+        }
+        .button_title {
+            &::before {
+                border-color: #0200b9;
+            }
+        }
+    }
+    &.as-checkboxes {
+        width: 100%;
+        margin-top: .8rem;
+        .b-radio.radio input[type=radio] {
+            + .check {
+                border-radius: 5px;
+                border-width: 2px !important;
+                border-color: #2e3b41;
+            }
+            &:not(:checked) {
+                + .check {
+                    background-color: #fff;
+                }
+            }
+            &:checked {
+                + .check {
+                    &::before {
+                        display: none;
+                    }
+                    background: #0200b9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cpath style='fill:%23fff' d='M 0.04038059,0.6267767 0.14644661,0.52071068 0.42928932,0.80355339 0.3232233,0.90961941 z M 0.21715729,0.80355339 0.85355339,0.16715729 0.95961941,0.2732233 0.3232233,0.90961941 z'%3E%3C/path%3E%3C/svg%3E") no-repeat center center;
+                }
+            }
+        }
+    }
+
+}
+
+.b-radio.radio {
+    @media screen and (max-width: 767px) {
+        &.mobile-mr-2 {
+            margin-right: 2rem;
+        }
+    }
+    @media screen and (min-width: 768px) {
+        &.desktop_160 {
+            min-width: 160px;
+        }
+    }
+}
+
+.validation_message {
+    text-align: right;
+    font-size: smaller;
+    font-style: italic;
+}
+.big-buttons {
+    &.encrypted {
+        label {
+            &::after {
+                background-image: url("data:image/svg+xml,%3Csvg width='58' height='40' viewBox='0 0 58 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M2.6269 29.424H4.9917V26.9591H2.09173C1.63376 26.9591 1.11986 27.0858 0.695915 27.436C0.244946 27.8086 0 28.3515 0 28.9434V29.098L0.70658 31.87C0.72738 32.0981 0.788921 32.3389 0.916257 32.5711C1.08277 32.8747 1.32145 33.0899 1.57255 33.2318C2.02033 33.4849 2.5103 33.5055 2.78987 33.5055H35.4413V31.0405H3.03894L2.6269 29.424ZM2.08721 29.4242C2.0872 29.4242 2.08773 29.4241 2.08883 29.4241L2.08721 29.4242Z' fill='%230200B9'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M5.25745 2.46497V26.9052H34.3135V29.3702H5.04532C3.73204 29.3702 2.79248 28.2924 2.79248 27.1174V2.25284C2.79248 0.939562 3.87024 0 5.04532 0H44.4097C45.7229 0 46.6625 1.07776 46.6625 2.25284V16.5379H44.1975V2.46497H5.25745Z' fill='%230200B9'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M45.1616 17.8241C39.851 17.8241 35.546 22.1292 35.546 27.4397C35.546 32.7502 39.851 37.0552 45.1616 37.0552C50.4721 37.0552 54.7771 32.7502 54.7771 27.4397C54.7771 22.1292 50.4721 17.8241 45.1616 17.8241ZM33.0811 27.4397C33.0811 20.7678 38.4897 15.3592 45.1616 15.3592C51.8334 15.3592 57.2421 20.7678 57.2421 27.4397C57.2421 34.1115 51.8334 39.5202 45.1616 39.5202C38.4897 39.5202 33.0811 34.1115 33.0811 27.4397Z' fill='%230200B9'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.1562 8.42866C10.1562 7.9295 10.5609 7.52484 11.0601 7.52484H15.1415C15.6407 7.52484 16.0453 7.9295 16.0453 8.42866C16.0453 8.92783 15.6407 9.33249 15.1415 9.33249H11.0601C10.5609 9.33249 10.1562 8.92783 10.1562 8.42866Z' fill='%230200B9'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.46 8.42866C17.46 7.9295 17.8646 7.52484 18.3638 7.52484H37.321C37.8201 7.52484 38.2248 7.9295 38.2248 8.42866C38.2248 8.92783 37.8201 9.33249 37.321 9.33249H18.3638C17.8646 9.33249 17.46 8.92783 17.46 8.42866Z' fill='%230200B9'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.1562 14.1749C10.1562 13.6758 10.5609 13.2711 11.0601 13.2711H15.1415C15.6407 13.2711 16.0453 13.6758 16.0453 14.1749C16.0453 14.6741 15.6407 15.0788 15.1415 15.0788H11.0601C10.5609 15.0788 10.1562 14.6741 10.1562 14.1749Z' fill='%230200B9'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.46 14.1749C17.46 13.6758 17.8646 13.2711 18.3638 13.2711H37.321C37.8201 13.2711 38.2248 13.6758 38.2248 14.1749C38.2248 14.6741 37.8201 15.0788 37.321 15.0788H18.3638C17.8646 15.0788 17.46 14.6741 17.46 14.1749Z' fill='%230200B9'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.4507 19.5453C17.4507 19.0411 17.8594 18.6324 18.3636 18.6324H31.9505C32.4547 18.6324 32.8635 19.0411 32.8635 19.5453C32.8635 20.0495 32.4547 20.4583 31.9505 20.4583H18.3636C17.8594 20.4583 17.4507 20.0495 17.4507 19.5453Z' fill='%230200B9'/%3E%3Cpath d='M49.9411 25.1841C49.6726 24.9156 49.1892 24.8619 48.9207 25.1304L43.98 29.7489L41.993 27.6007C41.7245 27.3322 41.2412 27.2785 40.9727 27.547C40.7042 27.8155 40.6505 28.2989 40.919 28.5674L43.443 31.2525C43.7115 31.5211 44.1949 31.5748 44.4634 31.3062L44.5171 31.2525L44.5708 31.1988L49.9411 26.1508C50.2096 25.9359 50.2096 25.5063 49.9411 25.1841Z' fill='%230200B9'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M50.2786 24.876L50.2919 24.8919C50.6616 25.3356 50.7575 26.0658 50.2424 26.4942L44.8887 31.5266L44.7863 31.6291C44.5399 31.8755 44.2122 31.9569 43.9208 31.9361C43.6311 31.9154 43.3377 31.7927 43.1204 31.5754L43.1154 31.5704L40.5906 28.8845C40.3486 28.6387 40.2686 28.3138 40.2892 28.0247C40.3099 27.7351 40.4327 27.4416 40.65 27.2243C40.8964 26.9779 41.2241 26.8964 41.5155 26.9172C41.8052 26.9379 42.0986 27.0607 42.3159 27.278L42.3222 27.2843L44.0037 29.1021L48.6043 24.8015C48.85 24.5599 49.1746 24.4799 49.4636 24.5006C49.7532 24.5213 50.0467 24.6441 50.264 24.8614L50.2786 24.876ZM43.9802 29.7489L41.9932 27.6008C41.7246 27.3323 41.2413 27.2786 40.9728 27.5471C40.7043 27.8156 40.6506 28.2989 40.9191 28.5674L43.4431 31.2526C43.7117 31.5211 44.195 31.5748 44.4635 31.3063L44.5709 31.1989L49.9412 26.1508C50.2097 25.936 50.2097 25.5064 49.9412 25.1841C49.6727 24.9156 49.1894 24.8619 48.9209 25.1304L43.9802 29.7489Z' fill='%230200B9'/%3E%3C/svg%3E%0A");
+            }
+        }
+    }
+    &.manual {
+        label {
+            &::after {
+                background-image: url("data:image/svg+xml,%3Csvg width='48' height='44' viewBox='0 0 48 44' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.6263 35.9503C21.0568 35.9503 20.5972 35.4905 20.5972 34.9212V4.01976C20.5972 3.45038 21.0568 2.99063 21.6263 2.99063C22.1957 2.99063 22.6554 3.45038 22.6554 4.01976V34.9212C22.6554 35.4905 22.1889 35.9503 21.6263 35.9503Z' fill='%230200B9'/%3E%3Cpath d='M1.03109 35.9446C0.461608 35.9446 0.00195312 35.4849 0.00195312 34.9155V4.01418C0.00195312 3.4447 0.461608 2.98505 1.03109 2.98505C1.60047 2.98505 2.06022 3.4447 2.06022 4.01418V34.9155C2.06022 35.4849 1.60047 35.9446 1.03109 35.9446Z' fill='%230200B9'/%3E%3Cpath d='M21.6214 5.04956C21.4086 5.04956 21.196 4.98101 21.0107 4.85064C18.6163 3.07367 15.0897 2.05826 11.3301 2.05826C7.56346 2.05826 4.03005 3.07367 1.64932 4.84373C1.18966 5.17993 0.551639 5.08393 0.208627 4.63109C-0.127568 4.17144 -0.0315668 3.53332 0.42127 3.19031C3.15192 1.16632 7.13117 0 11.3301 0C15.522 0 19.5014 1.16632 22.2388 3.19712C22.6985 3.53332 22.7877 4.17825 22.4515 4.63791C22.2525 4.90556 21.9369 5.04956 21.6214 5.04956Z' fill='%230200B9'/%3E%3Cpath d='M21.6204 35.9499C21.4076 35.9499 21.195 35.8813 21.0097 35.744C18.6222 33.974 15.0957 32.9586 11.3291 32.9586C7.56246 32.9586 4.03596 33.974 1.6415 35.7372C1.18185 36.0734 0.536916 35.9773 0.200816 35.5245C-0.135379 35.0648 -0.0393816 34.4199 0.413455 34.0838C3.15092 32.0598 7.12335 30.9003 11.3222 30.9003C15.521 30.9003 19.5004 32.0598 22.231 34.0906C22.6907 34.4268 22.7799 35.0717 22.4437 35.5314C22.2516 35.8059 21.9359 35.9499 21.6204 35.9499Z' fill='%230200B9'/%3E%3Cpath d='M42.0172 22.6271C41.4477 22.6271 40.988 22.1674 40.988 21.598V4.02727C40.988 3.45789 41.4477 2.99814 42.0172 2.99814C42.5867 2.99814 43.0463 3.45789 43.0463 4.02727V21.598C43.0463 22.1606 42.5867 22.6271 42.0172 22.6271Z' fill='%230200B9'/%3E%3Cpath d='M42.0176 5.04956C41.8049 5.04956 41.5922 4.98101 41.4069 4.85064C39.0125 3.07367 35.486 2.05826 31.7263 2.05826C27.9597 2.05826 24.4263 3.07367 22.0457 4.84373C21.5859 5.17993 20.9479 5.08393 20.6049 4.63109C20.2687 4.17144 20.3647 3.53332 20.8175 3.19031C23.5481 1.16632 27.5274 0 31.7263 0C35.9183 0 39.8976 1.16632 42.6351 3.19712C43.0947 3.53332 43.184 4.17825 42.8478 4.63791C42.642 4.90556 42.3332 5.04956 42.0176 5.04956Z' fill='%230200B9'/%3E%3Cpath d='M21.435 35.9372C21.1195 35.9372 20.8039 35.7931 20.6049 35.5188C20.2687 35.059 20.3579 34.421 20.8175 34.0848C20.8587 34.0573 20.893 34.0299 20.9274 34.0024C20.9686 33.9682 21.0166 33.9407 21.0577 33.9132C23.1572 32.4314 25.9976 31.416 29.0643 31.0523C29.6269 30.9837 30.1416 31.3885 30.2101 31.9579C30.2787 32.5206 29.874 33.0351 29.3045 33.1037C26.5601 33.4261 24.049 34.3181 22.2172 35.6148C22.1898 35.6354 22.1691 35.649 22.1418 35.6628C22.1074 35.6902 22.0869 35.704 22.0457 35.7246C21.8673 35.8686 21.6478 35.9372 21.435 35.9372Z' fill='%230200B9'/%3E%3Cpath d='M16.845 9.33152H5.49715C4.92767 9.33152 4.46802 8.87177 4.46802 8.30239C4.46802 7.73291 4.92767 7.27325 5.49715 7.27325H16.845C17.4145 7.27325 17.8742 7.73291 17.8742 8.30239C17.8742 8.87177 17.4145 9.33152 16.845 9.33152Z' fill='%230200B9'/%3E%3Cpath d='M16.845 14.7091H5.49715C4.92767 14.7091 4.46802 14.2494 4.46802 13.6799C4.46802 13.1105 4.92767 12.6508 5.49715 12.6508H16.845C17.4145 12.6508 17.8742 13.1105 17.8742 13.6799C17.8742 14.2494 17.4145 14.7091 16.845 14.7091Z' fill='%230200B9'/%3E%3Cpath d='M16.845 20.0884H5.49715C4.92767 20.0884 4.46802 19.6288 4.46802 19.0593C4.46802 18.4899 4.92767 18.0302 5.49715 18.0302H16.845C17.4145 18.0302 17.8742 18.4899 17.8742 19.0593C17.8742 19.6288 17.4145 20.0884 16.845 20.0884Z' fill='%230200B9'/%3E%3Cpath d='M16.845 25.4679H5.49715C4.92767 25.4679 4.46802 25.0082 4.46802 24.4388C4.46802 23.8693 4.92767 23.4097 5.49715 23.4097H16.845C17.4145 23.4097 17.8742 23.8693 17.8742 24.4388C17.8742 25.0082 17.4145 25.4679 16.845 25.4679Z' fill='%230200B9'/%3E%3Cpath d='M37.4967 9.33152H26.1488C25.5793 9.33152 25.1196 8.87177 25.1196 8.30239C25.1196 7.73291 25.5793 7.27325 26.1488 7.27325H37.4967C38.0661 7.27325 38.5258 7.73291 38.5258 8.30239C38.5258 8.87177 38.0661 9.33152 37.4967 9.33152Z' fill='%230200B9'/%3E%3Cpath d='M37.4967 14.7091H26.1488C25.5793 14.7091 25.1196 14.2494 25.1196 13.6799C25.1196 13.1105 25.5793 12.6508 26.1488 12.6508H37.4967C38.0661 12.6508 38.5258 13.1105 38.5258 13.6799C38.5258 14.2494 38.0661 14.7091 37.4967 14.7091Z' fill='%230200B9'/%3E%3Cpath d='M37.4967 20.0884H26.1488C25.5793 20.0884 25.1196 19.6288 25.1196 19.0593C25.1196 18.4899 25.5793 18.0302 26.1488 18.0302H37.4967C38.0661 18.0302 38.5258 18.4899 38.5258 19.0593C38.5258 19.6288 38.0661 20.0884 37.4967 20.0884Z' fill='%230200B9'/%3E%3Cpath d='M31.1641 25.4679H26.1488C25.5793 25.4679 25.1196 25.0082 25.1196 24.4388C25.1196 23.8693 25.5793 23.4097 26.1488 23.4097H31.1641C31.7335 23.4097 32.1933 23.8693 32.1933 24.4388C32.1933 25.0082 31.7335 25.4679 31.1641 25.4679Z' fill='%230200B9'/%3E%3Cpath d='M38.518 22.991C42.614 22.991 45.9416 26.3254 45.9416 30.4144C45.9416 34.5035 42.6071 37.8379 38.518 37.8379C34.4289 37.8379 31.0946 34.5035 31.0946 30.4144C31.0946 26.3254 34.4221 22.991 38.518 22.991ZM38.518 20.9327C33.2832 20.9327 29.0364 25.1796 29.0364 30.4144C29.0364 35.6493 33.2832 39.8961 38.518 39.8961C43.7529 39.8961 47.9998 35.6493 47.9998 30.4144C48.0067 25.1796 43.7598 20.9327 38.518 20.9327Z' fill='%230200B9'/%3E%3Cpath d='M26.1485 43.9716C25.8878 43.9716 25.6203 43.8687 25.4213 43.6698C25.0165 43.265 25.0165 42.6132 25.4213 42.2153L31.1639 36.4727C31.5686 36.0679 32.2204 36.0679 32.6183 36.4727C33.0162 36.8775 33.0231 37.5293 32.6183 37.9272L26.8758 43.6698C26.6768 43.8687 26.4092 43.9716 26.1485 43.9716Z' fill='%230200B9'/%3E%3C/svg%3E%0A");
+            }
+        }
+    }
+}
+
+.field-radio {
+    .label {
+        margin-bottom: 10px !important;
+    }
+
+    .sublabel {
+        margin-bottom: 1rem;
+        color: #2E3B41;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 20px;
+        display: inline-block;
+    }
+    .b-radio {
+        &.radio {
+            input[type=radio] + .check {
+                border-color: $heartland-gray;
+                transition: border-color .2s;
+                background-color: white;
+                border-width: 1px !important;
+                border-color: $heartland-purple;
+                width: 22px;
+                height: 22px;
+                &::before {
+                    position: relative;
+                    margin: auto;
+                    left: unset;
+                    bottom: unset;
+                    transform: none;
+                    opacity: 0;
+                    width: 14px;
+                    height: 14px;
+                }
+            }
+            input[type=radio]:checked + .check {
+                &::before {
+                    opacity: 1;
+                }
+            }
+        }
+        
+        + .radio {
+            margin-left: 0.9em;
+        }
+
+        &.is-danger {
+            input[type=radio]:not(:disabled) + .check {
+                border-color: $red;
+            }
+        }
+    }
+}
+
+.control-wrap {
+    margin-bottom: 15px;
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .icon.is-right.has-text-success {
+        display: none;
+    }
+
+    .help {
+        font-weight: 600;
+        font-size: 13px;
+        margin-top: 0;
+    }
+}
+
+.control {
+    &.currency {
+        position: relative;
+    
+        .input {
+            padding-left: 21px !important;
+        }
+    
+        &:before {
+            content: '$';
+            position: absolute;
+            z-index: 20;
+            left: 9px;
+            top: 8px;
+            color: $heartland-purple;
+        }
+    }
+
+    .icon {
+        height: 100% !important;
+    }
+
+    @media screen and (min-width: 768px) {
+        &.desktop_160 {
+            width: 160px;
+        }
+        &.desktop_538 {
+            width: 538px;
+        }
+    }
+}
+
+.field-currency, .field-addressright {
+    .has-addons {
+        display: block;
+    }
+    p.is-danger + p.is-danger {
+        display: none;
+    }
+}
+
+.field-tel {
+    .has-addons {
+        display: block;
+    }
+    .phonefield {
+        .suffix_part {
+            position: absolute;
+            top: 8px;
+            right: 5px;
+        }
+    }
+}
+
+.label-field {
+    * {
+        display: inline;
+    }
+
+    .select {
+        margin-left: 4px;
+        select {
+            background: none;
+            border: none;
+            width: initial;
+            font-weight: inherit;
+            padding: 0;
+            padding-right: 15px;
+            margin-right: 8px;
+            box-shadow: none !important;
+            line-height: inherit;
+            height: 22px;
+            display: initial;
+        }
+
+        &.is-danger {
+            color: $red !important;
+            select {
+                color: $red !important;
+            }
+            &:after {
+                border-color: $red !important;
+            }
+        }
+
+        &:after {
+            right: 6px !important;
+            border-color: $heartland-purple !important;
+            top: 12px !important;
+            width: 8px !important;
+            height: 8px !important;
+        }
+
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 19px;
+            bottom: 2px;
+            border-bottom: 1px solid;
+        }
+    }
+}
+
+.checkbox-field {
+    display: block !important;
+
+    .control-label {
+        font-size: 14px;
+    }
+
+    .b-checkbox {
+        &.checkbox {
+            align-items: flex-start;
+            input[type=checkbox] + .check {
+                border-radius: 0;
+                border-width: 1px;
+            }
+            &.is-danger {
+                input[type=checkbox] + .check {
+                    border-color: $red;
+                }
+            }
+        }
+    }
+}
+
+.plain_checkbox {
+    .b-checkbox {
+        &.checkbox {
+            margin-right: 0;
+            input[type=checkbox] + .check {
+                border-radius: 5px;
+                border-width: 2px;
+                border-color: $heartland-purple !important;
+            }
+            input[type=checkbox]:not(:checked) + .check {
+                background-color: #fff;
+            }
+        }
+    }
+}
+
+.checkbox-wrap {
+    display: flex;
+    
+    .help {
+        position: absolute;
+    }
+
+    &.pos_relative {
+        position: relative;
+        .help {
+            bottom: -30px;
+            width: 250px;
+            margin-bottom: 5px;
+        }
+    }
+    @include totablet {
+        &.pos_relative {
+            position: relative;
+            .sm {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
+.dotted-group-container {
+    .group-field-row {
+      padding: 15px;
+      border: 1px dashed #8492a0;
+      border-radius: 5px;
+    }
+
+    .group-field-row:first-child {
+        border: none;
+        padding: 0;
+
+        > .control-wrap:first-child {
+            display: none;
+        }
+      }
+  
+    .group-field-row .control-wrap.break {
+      margin-top: 1rem;
+    }
+  
+    .group-field-row .control-wrap.break:first-child {
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+  
+    .group-field .remove-row {
+      right: 15px;
+    }
+  }
+
+.group-field {
+    @include tablet {
+        margin-right: -10px;
+    }
+
+    +.link {
+        margin-top: 5px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .group-field-row {
+        position: relative;
+        flex-wrap: wrap;
+
+        @include tablet {
+            display: flex;
+        }
+        
+        &:not(:last-child) {
+            margin-bottom: 20px;
+            @include tablet {
+                margin-bottom: 10px;
+            }
+        }
+
+        &.hidden {
+            margin-bottom: 0;
+        }
+
+        >.control-wrap {
+            flex: 1;
+            margin: 0;
+
+            &.wide {
+                flex-grow: 2;
+            }
+
+            &.fullwidth {
+                flex: 0 0 100%;
+            }
+
+            @media screen and (max-width: 768px) {
+                margin-bottom: 10px;
+            }
+            @include tablet {
+                margin-right: 10px;
+            }
+
+            .icon.has-text-success {
+                display: none;
+            }
+        }
+
+        >.break {
+            flex-basis: 100%;
+        }
+
+        &:hover {
+            .remove-row {
+                opacity: 1;
+            }
+        }
+    }
+
+    .remove-row {
+        color: $red;
+        position: absolute;
+        right: -34px;
+        top: 0;
+        width: 40px;
+        height: 36px;
+        transition: opacity .2s;
+        cursor: pointer;
+        background-image: url('/new-bin.svg');
+        background-position: center;
+        background-size: 20px;
+
+        > .mdi {
+            display:none;
+        }
+    }
+}
+
+.CodeMirror {
+    height: 400px !important;
+    font-size: 14px !important;
+}
+
+.checkbox-button {
+    .b-checkbox.checkbox {
+        background: $heartland-purple;
+        padding: 8px 30px 8px 20px;
+        border-radius: 60px;
+
+        &.is-danger {
+            background: $red;
+        }
+
+        .control-label {
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .check {
+            border-color: white !important;
+        }
+    }
+
+    .help {
+        padding-left: 19px;
+        padding-top: 7px;
+    }
+
+    &.is-mobile {
+        @include totablet {
+            .b-checkbox.checkbox {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.pre-label {
+    align-self: center;
+    font-size: 14px;
+    padding-right: 6px;
+}
+
+.field-label {
+    text-align: left;
+    align-self: center;
+}
+
+.sublabel-text {
+    font-size: 18px;
+}
+
+.vdp-datepicker__calendar .cell.selected{
+    background-color: rgba(76, 56, 215, 0.24) !important;
+}
+
+.vdp-datepicker__calendar header .prev:not(.disabled):hover, .vdp-datepicker__calendar header .next:not(.disabled):hover, .vdp-datepicker__calendar header .up:not(.disabled):hover {
+    background-color: rgba(76, 56, 215, 0.24) !important;
+}
+
+.card-content.content {
+    overflow-y: auto;
+    max-height: 100vh;
+    &.for_calc {
+        overflow-y: visible;
+    }
+}
+
+.card-content.income_modal_content {
+    font-weight: 500;
+    .buttons {
+        flex-direction: column;;
+    }
+    a {
+        text-decoration: underline;
+    }
+    @media screen and (min-width: 768px) {
+        padding: 4rem 4.375rem 3rem;
+    }
+}
+
+.link_wrap {
+    display: flex;
+    justify-content: flex-end;
+    .link {
+        font-weight: 700;
+    }
+}
+
+.field-number-control {
+    margin-bottom: 0;
+}
+
+.number_control {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    .number_control__label {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex: 0 0 100px;
+    }
+    .number_control__wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+        font-size: 0;
+        padding: .37rem .75rem;
+    }
+    .number_control__button {
+        background-color: $heartland-purple;
+        color: white;
+        outline: none !important;
+        &:first-child {
+            border-radius: 4px 0 0 4px;
+        }
+        &:last-child {
+            border-radius: 0 4px 4px 0;
+        }
+        svg {
+            display: block;
+            width: 22px;
+            margin: 0 auto;
+        }
+    }
+    .number_control__button, input {
+        flex: 0 0 45px;
+        max-width: 45px;
+        width: 45px;
+        height: 40px;
+        text-align: center;
+        appearance: none;
+    }
+    input {
+        -moz-appearance: textfield;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.checkbox-multiple-field {
+    label {
+        display: inline-block;
+        width: 100%;
+        margin-top: .5rem;
+    }
+}
+
+.control-wrap {
+    &.field-select ,
+    &.field-currency {
+        label {
+            margin-bottom: 5px !important;
+        }
+    }
+}

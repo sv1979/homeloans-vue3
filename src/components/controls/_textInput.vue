@@ -133,7 +133,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="control">
     <tooltip-label :field="field"></tooltip-label>
     <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
 
