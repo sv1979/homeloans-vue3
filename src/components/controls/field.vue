@@ -182,7 +182,7 @@ const componentName = computed({
 
 const getWrapperClasses = computed(() => {
   return (
-    props.wrapperClasses + ` field-${field.type}` + ` ${props.disabled ? 'field_is_disabled' : ''}`
+    props.wrapperClasses + ` field-${field.value.type}` + ` ${props.disabled ? 'field_is_disabled' : ''}`
   )
 })
 

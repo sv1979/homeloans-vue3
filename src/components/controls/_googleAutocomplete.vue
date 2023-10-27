@@ -1,10 +1,9 @@
 <template>
   <input
-    variant="solo"
     ref="autocomplete"
     type="text"
     :class="classname"
-    class="input"
+    class="text_input"
     placeholder="Start typing..."
     v-model="autocompleteText"
     @focus="onFocus()"

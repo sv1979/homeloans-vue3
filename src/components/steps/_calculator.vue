@@ -76,7 +76,6 @@ export default {
           @placechanged="setProperty"
           key="Address_Text_Property"
         />
-        <hr />
     </v-col>
     <!--<div class="columns mb-2">
             <div class="column is-6 pt-0">

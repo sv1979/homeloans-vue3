@@ -32,37 +32,40 @@
         display: inline-block;
     }
 
-    .b-radio {
-        &.radio {
-            input[type=radio] + .check {
-                border-color: $heartland-gray;
-                transition: border-color .2s;
-                background-color: white;
-                border-width: 1px !important;
-                border-color: $heartland-purple;
-                width: 22px;
-                height: 22px;
-                &::before {
-                    position: relative;
-                    margin: auto;
-                    left: unset;
-                    bottom: unset;
-                    transform: none;
-                    opacity: 0;
-                    width: 14px;
-                    height: 14px;
-                }
-            }
-            input[type=radio]:checked + .check {
-                &::before {
-                    opacity: 1;
-                }
+    .radio_button_wrapper {
+        input[type=radio] + .check {
+            border-color: $heartland-gray;
+            transition: border-color .2s;
+            background-color: white;
+            border-width: 1px !important;
+            border-color: $heartland-purple;
+            width: 22px;
+            height: 22px;
+            &::before {
+                position: relative;
+                margin: auto;
+                left: unset;
+                bottom: unset;
+                transform: none;
+                opacity: 0;
+                width: 14px;
+                height: 14px;
+                content: '';
             }
         }
-        
-        + .radio {
-            margin-left: 0.9em;
+        input[type=radio]:checked + .check {
+            &::before {
+                opacity: 1;
+            }
         }
+    }
+    
+    + .radio_button_wrapper {
+        margin-left: 0.9em;
+    }
+
+    .v-radio {
+
 
         &.is-danger {
             input[type=radio]:not(:disabled) + .check {
@@ -86,7 +89,8 @@
 .input, 
 .textarea,
 .number_control__wrap button, 
-.select select {
+.select select,
+.text_input {
     border: 1px solid transparent;
     transition: border .3s;
     box-shadow: 0px 3px 15px 0 rgba(2,0,185, 0.15) !important;
@@ -210,11 +214,11 @@
         padding-top: 10px;
     }
 
-    .b-slider {
+    .v-slider {
         margin-bottom: 5px;
         margin-top: 5px;
 
-        .b-slider-thumb {
+        .v-slider-thumb {
             border-color: $heartland-purple;
             height: 20px;
             width: 20px;
@@ -246,7 +250,7 @@
 }
 
 .radio_button_wrapper {
-    display: inline-block;
+    display: block;
     &.is-vertical {
         width: 100%;
         margin-top: .8rem;
@@ -364,7 +368,7 @@
     &.as-checkboxes {
         width: 100%;
         margin-top: .8rem;
-        .b-radio.radio input[type=radio] {
+        .v-radio.radio input[type=radio] {
             + .check {
                 border-radius: 5px;
                 border-width: 2px !important;
@@ -388,7 +392,7 @@
 
 }
 
-.b-radio.radio {
+.v-radio.radio {
     @media screen and (max-width: 767px) {
         &.mobile-mr-2 {
             margin-right: 2rem;
@@ -436,7 +440,7 @@
         line-height: 20px;
         display: inline-block;
     }
-    .b-radio {
+    .v-radio {
         &.radio {
             input[type=radio] + .check {
                 border-color: $heartland-gray;
@@ -604,7 +608,7 @@
         font-size: 14px;
     }
 
-    .b-checkbox {
+    .v-checkbox {
         &.checkbox {
             align-items: flex-start;
             input[type=checkbox] + .check {
@@ -621,7 +625,7 @@
 }
 
 .plain_checkbox {
-    .b-checkbox {
+    .v-checkbox {
         &.checkbox {
             margin-right: 0;
             input[type=checkbox] + .check {
@@ -781,7 +785,7 @@
 }
 
 .checkbox-button {
-    .b-checkbox.checkbox {
+    .v-checkbox.checkbox {
         background: $heartland-purple;
         padding: 8px 30px 8px 20px;
         border-radius: 60px;
@@ -808,7 +812,7 @@
 
     &.is-mobile {
         @include totablet {
-            .b-checkbox.checkbox {
+            .v-checkbox.checkbox {
                 width: 100%;
             }
         }
@@ -940,3 +944,20 @@
         }
     }
 }
+
+.v-autocomplete .v-input__control {
+    box-shadow: 0 3px 15px 0 rgba(2,0,185,.15)!important;
+    .v-field__input {
+        min-height: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        padding-top: 7px;
+        padding-bottom: 7px;
+      }
+}
+
+.text_input {
+    @extend .textInput;
+    width: 100%;
+}
+
