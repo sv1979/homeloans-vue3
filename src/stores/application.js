@@ -324,6 +324,7 @@ export const useApplicationStore = defineStore({
       }
     },
     async saveFields(fieldsData) {
+      console.log(fieldsData)
       let $this = this;
       let fieldsToSave = this.getFields;
       let valuesToSave = this.getFieldsValues;

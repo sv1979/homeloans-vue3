@@ -148,16 +148,15 @@ export default {
     <tooltip-label :field="field"></tooltip-label>
     <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
     <div class="radio_button_wrapper" :class="getWrapperClassObject(field.options[0])">
-      <v-radio-group inline :class="shellClass">
-
-
-        <v-radio v-for="(option, i) in field.options" :key="`${field.name}-${i}`" v-model="fieldValue"
+      <v-radio-group inline :class="shellClass" v-model="fieldValue">
+        <v-radio v-for="(option, i) in field.options" :key="`${field.name}-${i}`"
           :class="classObject" :disabled="disabled" :name="field.name"
           :value="option.hasOwnProperty('value') ? option.value : option"
           :id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
           :data-test-id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
-          @change="onChange($event)">
-          <label :for="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`">
+          @change="onChange($event)"
+          :label="workoutLabel(option.name, option.name_joint)">
+          <!-- <label :for="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`">
             <span v-if="field.modifier && field.modifier === 'big_buttons'">
               <span class="big_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option
               }}</span>
@@ -173,7 +172,7 @@ export default {
             <span v-else>
               {{ option.hasOwnProperty('name') ? workoutLabel(option.name, option.name_joint) : workoutLabel(option) }}
             </span>
-          </label>
+          </label> -->
         </v-radio>
 
       </v-radio-group>
