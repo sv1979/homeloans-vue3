@@ -136,6 +136,7 @@ const field = computed(() => {
   //   cloneField.label = labelOverrideRef
   // }
   // return { ...cloneField }
+  console.log(props.fieldName)
   return getFields[props.fieldName]
 })
 
