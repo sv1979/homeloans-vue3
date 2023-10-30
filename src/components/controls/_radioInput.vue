@@ -149,8 +149,11 @@ export default {
     <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
     <div class="radio_button_wrapper" :class="getWrapperClassObject(field.options[0])">
       <v-radio-group inline :class="shellClass" v-model="fieldValue">
-        <v-radio v-for="(option, i) in field.options" :key="`${field.name}-${i}`"
-          :class="classObject" :disabled="disabled" :name="field.name"
+        <v-radio v-for="(option, i) in field.options" 
+          :key="`${field.name}-${i}`"
+          :class="classObject" 
+          :disabled="disabled" 
+          :name="field.name"
           :value="option.hasOwnProperty('value') ? option.value : option"
           :id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
           :data-test-id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"

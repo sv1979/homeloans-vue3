@@ -76,17 +76,6 @@ $blue: #0200b9;
     }
 }
 
-.v-input__details {
-    display: none;
-}
-
-.v-autocomplete__selection-text:empty {
-    &::before {
-        content: 'Start typing...';
-        color: #aaa;
-    }
-}
-
 .input, 
 .textarea,
 .number_control__wrap button, 
@@ -400,19 +389,6 @@ $blue: #0200b9;
 
 }
 
-.v-radio.radio {
-    @media screen and (max-width: 767px) {
-        &.mobile-mr-2 {
-            margin-right: 2rem;
-        }
-    }
-    @media screen and (min-width: 768px) {
-        &.desktop_160 {
-            min-width: 160px;
-        }
-    }
-}
-
 .validation_message {
     text-align: right;
     font-size: smaller;
@@ -701,7 +677,7 @@ $blue: #0200b9;
     .group-field .remove-row {
       right: 15px;
     }
-  }
+}
 
 .group-field {
     @include tablet {
@@ -951,17 +927,6 @@ $blue: #0200b9;
             margin-bottom: 5px !important;
         }
     }
-}
-
-.v-autocomplete .v-input__control {
-    box-shadow: 0 3px 15px 0 rgba(2,0,185,.15)!important;
-    .v-field__input {
-        min-height: auto !important;
-        display: flex !important;
-        align-items: center !important;
-        padding-top: 7px;
-        padding-bottom: 7px;
-      }
 }
 
 .text_input {

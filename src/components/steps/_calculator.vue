@@ -55,8 +55,6 @@ export default {
           :disabled="preProcessed || processed || submitted"
           v-on:change="changeExactAddressKnown"
         />
-    </v-col>
-    <v-col cols="7" class="columns mb-0">
         <field
           v-if="useAddressRight"
           fieldName="Addressright_Text_Property"
