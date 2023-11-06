@@ -72,12 +72,6 @@ export default {
         </v-col>
         <!--<div class="columns mb-2">
             <div class="column is-6 pt-0">
-                <template v-if="loanPurpose !== 'refinance'">
-                    <field name="Purchase_Price" :skipSave="true" :disabled="preProcessed || processed || submitted"
-                        @change="repaymentsCalculator" />
-                    <field name="Deposit" :skipSave="true" :disabled="preProcessed || processed || submitted"
-                        @change="repaymentsCalculator" />
-                </template>
                 <template v-else>
                     <field name="Estimated_Home_Value" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
                         @change="repaymentsCalculator" />

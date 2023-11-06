@@ -80,7 +80,8 @@ $blue: #0200b9;
 .textarea,
 .number_control__wrap button, 
 .select select,
-.text_input {
+.text_input
+.v-text-field input.v-field__input {
     border: 1px solid transparent;
     transition: border .3s;
     box-shadow: 0px 3px 15px 0 rgba(2,0,185, 0.15) !important;
@@ -122,7 +123,8 @@ $blue: #0200b9;
 }
 
 .input, 
-.select select {
+.select select,
+.v-text-field input.v-field__input {
     height: 40px;
 }
 
@@ -934,3 +936,15 @@ $blue: #0200b9;
     width: 100%;
 }
 
+.v-text-field {
+    input.v-field__input {
+        @extend .textInput;
+        min-height: 40px;
+    }
+    .v-text-field__prefix {
+        min-height: 40px;
+        padding-top: 0;
+        padding-bottom: 0;
+        color: $blue;
+    }
+}

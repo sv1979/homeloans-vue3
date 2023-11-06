@@ -176,24 +176,25 @@ export default {
         :classes="classes"
         country="nz"
        />
-
-      <!-- <div class="control" v-else-if="field.type === 'address'">
-        <vue-google-autocomplete id="map" class="input" 
-          :class="$v.$anyError ? 'is-danger' : !$v.value.$invalid && value ? 'is-success' : '' " 
-          :placeholder="field.placeholder" :value="value" :disabled="disabled" :this_field="this_field" country="nz"
-          key="address" ref="address" :types="field.settings && field.settings.regions ? '(regions)' : ''"
-          @placechanged="setAddressData" @saveaddressslash="reworkAddress" @change.native="clearRaw($event.target.value)"
-          @focus="autocompleteFocus" :data-test-id="field.name" />
-      </div> -->
       <div v-else-if="field.type === 'label'">{{ value }}</div>
       <div v-else-if="field.type === 'currency'" class="control" :class="commonClassesObject" v-cleave="masks.numeral">
-        <input class="input" 
+        <v-text-field 
         :class="{
           'is-danger': (isAmountField && this.wrongAmountField) || $v.$anyError,
         }" 
-        v-model="value" :placeholder="field.placeholder" :disabled="disabled"
-          :type="field.type === 'textarea' ? 'textarea' : 'text'" :inputmode="field.type === 'currency' ? 'numeric' : ''"
-          maxlength="13" :data-field="field.name" v-on:blur="onchange(value)" ref="input" :data-test-id="field.name" />
+          variant="solo"
+          v-model="value" 
+          :placeholder="field.placeholder" 
+          :disabled="disabled"
+          :type="field.type === 'textarea' ? 'textarea' : 'number'" 
+          :inputmode="field.type === 'currency' ? 'numeric' : ''"
+          maxlength="13" 
+          prefix="$"
+          :data-field="field.name" 
+          v-on:blur="onchange(value)" 
+          ref="input" 
+          :data-test-id="field.name">
+        </v-text-field>
       </div>
 
       <div v-else class="control" :class="commonClassesObject">
@@ -219,6 +220,7 @@ export default {
         ? 'Max loan amount $4,000,000'
         : 'Min loan amount $100,000'
         " />
+
       <p v-if="$v.$anyError && this.wrongAddressRightSelection" class="help is-danger">Please select address from the
         dropdown</p>
     </div>
