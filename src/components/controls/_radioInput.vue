@@ -3,6 +3,7 @@ import { onMounted, computed, reactive, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import RadioButton from 'primevue/radiobutton';
 const emit = defineEmits(['change', 'save', 'validate'])
 
 const route = useRoute()
@@ -147,38 +148,22 @@ export default {
   <div>
     <tooltip-label :field="field"></tooltip-label>
     <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
-    <div class="radio_button_wrapper" :class="getWrapperClassObject(field.options[0])">
-      <v-radio-group inline :class="shellClass" v-model="fieldValue">
-        <v-radio v-for="(option, i) in field.options" 
-          :key="`${field.name}-${i}`"
-          :class="classObject" 
-          :disabled="disabled" 
-          :name="field.name"
-          :value="option.hasOwnProperty('value') ? option.value : option"
-          :id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
-          :data-test-id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
-          @change="onChange($event)"
-          :label="workoutLabel(option.name, option.name_joint)">
-          <!-- <label :for="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`">
-            <span v-if="field.modifier && field.modifier === 'big_buttons'">
-              <span class="big_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option
-              }}</span>
-              <span class="big_button_description">{{ option.hasOwnProperty('description') ? option.description : ''
-              }}</span>
-              <span class="checkmark"> </span>
-            </span>
-            <span v-else-if="field.modifier && field.modifier === 'mid_buttons'">
-              <span class="mid_button_title button_title">{{ option.hasOwnProperty('name') ? option.name : option
-              }}</span>
-              <span class="checkmark"> </span>
-            </span>
-            <span v-else>
-              {{ option.hasOwnProperty('name') ? workoutLabel(option.name, option.name_joint) : workoutLabel(option) }}
-            </span>
-          </label> -->
-        </v-radio>
+    <div class="radio_button_wrapper mb-1" :class="getWrapperClassObject(field.options[0])">
+      <div class="flex gap-3">
+        <div class="flex align-items-center" 
+          v-for="(option, i) in field.options" :key="`${field.name}-${i}`">
 
-      </v-radio-group>
+          <RadioButton :inputId="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
+            :class="classObject" 
+            v-model="field.value"
+            :disabled="disabled" :name="field.name" @change="onChange($event)"
+            :data-test-id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
+            :value="option.hasOwnProperty('value') ? option.value : option" />
+
+          <label :for="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
+            class="ml-1">{{ workoutLabel(option.name, option.name_joint) }}</label>
+        </div>
+      </div>
     </div>
   </div>
 </template>

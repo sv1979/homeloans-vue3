@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { useApplicationStore } from '@/stores/application'
 import { useDebounceFn } from "@vueuse/core"
+import AutoComplete from 'primevue/autocomplete';
 const { getFields, setFields, saveFields } = useApplicationStore()
 const emit = defineEmits(['change', 'save', 'validate'])
 
@@ -134,10 +135,24 @@ export default {
 </script>
 
 <template>
-    <v-autocomplete variant="solo" :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }"
+    <AutoComplete 
+        v-model="addressRightValue" 
+        :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }"
+        ref="autocomplete"
+        :this_field="this_field"
+        :suggestions="addressRightSuggestions" 
+        v-on:input="getAddressRightData"
+        :placeholder="field.placeholder"
+        @update:modelValue="setAutocompleteValue"
+        :disabled="disabled"
+        optionLabel="label"
+        :data-test-id="field.name" :name="field.name"
+         />
+
+    <!-- <v-autocomplete variant="solo" :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }"
         v-model="addressRightValue" ref="autocomplete" max-height="172" :this_field="this_field"
         v-on:input="getAddressRightData" :items="addressRightSuggestions" return-object required item-title="label"
         :placeholder="field.placeholder" @update:modelValue="setAutocompleteValue" :disabled="disabled"
         :data-test-id="field.name" :name="field.name">
-    </v-autocomplete>
+    </v-autocomplete> -->
 </template>
