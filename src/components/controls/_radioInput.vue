@@ -96,19 +96,6 @@ watch(fieldValue, (newValue, oldValue) => {
 
 const $v = useVuelidate(validations, fieldValue)
 
-function onChange(event) {
-  const value = event.target.value
-  if (value && fieldValue !== null && fieldValue !== '') {
-    emit('change', {
-      name: props.field.name,
-      value: value,
-      valid: !$v.$invalid
-    })
-    emit('save', { [props.field.name]: value })
-    emit('validate', { steps: [route.params.step] })
-  }
-}
-
 function getWrapperClassObject(obj) {
   var string_classes = obj.classes,
     obj_classes = {}
@@ -132,6 +119,21 @@ function workoutLabel(name, joint_name = '') {
   return joint_name ? joint_name : name
 }
 
+function selectValue(event) {
+  let value = event
+  // if (value.toString() === 'false' | value.toString() === 'true') {
+  //   value = value.toString()
+  // }
+  if (fieldValue !== null && fieldValue !== '') {
+    emit('change', {
+      name: props.field.name,
+      value: value,
+      valid: !$v.$invalid
+    })
+    emit('save', { [props.field.name]: value })
+    emit('validate', { steps: [route.params.step] })
+  }
+}
 </script>
 
 <script>
@@ -156,7 +158,8 @@ export default {
           <RadioButton :inputId="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
             :class="classObject" 
             v-model="field.value"
-            :disabled="disabled" :name="field.name" @change="onChange($event)"
+            @update:modelValue="selectValue" 
+            :disabled="disabled" :name="field.name" 
             :data-test-id="`${field.name}-${option.hasOwnProperty('value') ? option.value.toString() : option}`"
             :value="option.hasOwnProperty('value') ? option.value : option" />
 

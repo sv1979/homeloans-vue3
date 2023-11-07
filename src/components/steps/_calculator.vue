@@ -13,7 +13,8 @@ const loanPurpose = computed(() => {
 })
 
 const useAddressRight = computed(() => {
-    let useAR = toRaw(getFields['Exact_Address_Known'].value) !== "false"
+    let eak_value = toRaw(getFields['Exact_Address_Known'].value)
+    let useAR = eak_value !== "false" && eak_value.toString() !== "false"
 
     if (preProcessed.value) {
         let nonExactAddressFilledAndPreprocessed =
@@ -43,6 +44,7 @@ export default {
 <template>
     <v-row>
         <v-col cols="7" class="columns mb-0">
+            {{ useAddressRight }}
             <field fieldName="Loan_Purpose" :disabled="preProcessed || processed || submitted"
                 @change="callRepaymentsCalculator" input-classes="test test3" />
             <field fieldName="Exact_Address_Known" v-if="loanPurpose !== 'refinance'"

@@ -94,33 +94,40 @@ const getAddressDataDebounced = useDebounceFn(() => {
             });
         }
     });
-}, 1000, { maxWait: 5000 })
+}, 100, { maxWait: 5000 })
 
 function getAddressRightData(event) {
-    const searchTerm = event.target.value;
+    const searchTerm = event.query;
     searchUrl.value = `${constants.URLS.ADDRESSRIGHT_API_CALL}${searchTerm}`;
     getAddressDataDebounced()
 }
 
-function setAutocompleteValue() {
-    if (addressRightValue.value && addressRightValue.value.label) {
-        setFields({ [props.field.name]: addressRightValue.value.label })
-        saveFields()
-    } else {
-        addressRightValue.value = props.field.value
-    }
-
-    if (props.field.corresponding_field) {
-        if (addressRightValue.value && addressRightValue.value.id) {
-            emit('placechanged', addressRightValue.value.label)
-            setFields({ [props.field.corresponding_field]: addressRightValue.value.id })
+function selectValue(event) {
+    if (typeof event === 'object') {
+        if (event.label) {
+            setFields({ [props.field.name]: event.label })
             saveFields()
         } else {
-            setFields({ [props.field.corresponding_field]: '' })
-            saveFields();
+            addressRightValue.value = props.field.value
+        }
+
+        if (props.field.corresponding_field && event.id) {
+            if (event.id) {
+                emit('placechanged', event.label)
+                setFields({ [props.field.corresponding_field]: event.id })
+                saveFields()
+            } else {
+                setFields({ [props.field.corresponding_field]: '' })
+                saveFields();
+            }
         }
     }
 }
+
+function blur() {
+    addressRightValue.value = props.field.value
+}
+
 </script>
 
 <script>
@@ -138,21 +145,15 @@ export default {
     <AutoComplete 
         v-model="addressRightValue" 
         :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }"
-        ref="autocomplete"
-        :this_field="this_field"
+        ref="autocomplete" 
+        :this_field="this_field" 
         :suggestions="addressRightSuggestions" 
-        v-on:input="getAddressRightData"
-        :placeholder="field.placeholder"
-        @update:modelValue="setAutocompleteValue"
-        :disabled="disabled"
-        optionLabel="label"
-        :data-test-id="field.name" :name="field.name"
-         />
-
-    <!-- <v-autocomplete variant="solo" :class="{ 'autocomplete_input': true, 'is-danger': $v.$anyError }"
-        v-model="addressRightValue" ref="autocomplete" max-height="172" :this_field="this_field"
-        v-on:input="getAddressRightData" :items="addressRightSuggestions" return-object required item-title="label"
-        :placeholder="field.placeholder" @update:modelValue="setAutocompleteValue" :disabled="disabled"
-        :data-test-id="field.name" :name="field.name">
-    </v-autocomplete> -->
+        @complete="getAddressRightData"
+        :placeholder="field.placeholder" 
+        :disabled="disabled" 
+        optionLabel="label" 
+        :data-test-id="field.name"
+        :name="field.name" 
+        @update:modelValue="selectValue" 
+        @blur="blur"/>
 </template>
