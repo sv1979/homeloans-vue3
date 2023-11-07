@@ -42,9 +42,8 @@ export default {
 </script>
 
 <template>
-    <v-row>
-        <v-col cols="7" class="columns mb-0">
-            {{ useAddressRight }}
+    <div class="grid">
+        <div class="col-7 mb-0">
             <field fieldName="Loan_Purpose" :disabled="preProcessed || processed || submitted"
                 @change="callRepaymentsCalculator" input-classes="test test3" />
             <field fieldName="Exact_Address_Known" v-if="loanPurpose !== 'refinance'"
@@ -71,7 +70,7 @@ export default {
                     @change="repaymentsCalculator"
                 />
             </template>    
-        </v-col>
+        </div>
         <!--<div class="columns mb-2">
             <div class="column is-6 pt-0">
                 <template v-else>
@@ -169,5 +168,5 @@ export default {
         </div> -->
 
         <privacy-modal v-model="privacyOpen" />
-    </v-row>
+    </div>
 </template>

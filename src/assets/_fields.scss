@@ -949,9 +949,28 @@ $blue: #0200b9;
     }
 }
 
+.textFieldWrap {
+    width: 100%;
+}
+
+.p-inputwrapper {
+    width: 100%;
+    display: block;
+    .p-inputtext {
+        width: 100%;
+    }
+}
+
 .p-autocomplete-loader {
-    width: 2rem;
-    height: 2rem;
-    top: 6px;
+    width: 20px;
+    height: 20px;
+    top: 10px;
     color: $blue;
+    animation: rotating 2s infinite;
+}
+
+@keyframes rotating {
+    to { 
+        transform: rotate(360deg);
+    }
 }

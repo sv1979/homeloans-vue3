@@ -137,7 +137,9 @@ export default {
     <tooltip-label :field="field"></tooltip-label>
     <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
 
-    <div :data-extra="$v.$anyError
+    <div 
+      class="textFieldWrap"
+      :data-extra="$v.$anyError
       ? 'is-danger'
       : !$v.value.$invalid && value
         ? 'is-success'
@@ -166,7 +168,7 @@ export default {
         :classes="classes"
        />
 
-       <google-autocomplete 
+      <google-autocomplete 
         v-else-if="field.type === 'address'"
         :field="field"
         :val="val"

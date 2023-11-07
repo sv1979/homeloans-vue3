@@ -6,7 +6,7 @@ import 'tippy.js/dist/tippy.css' // optional for styling
 // import { aliases, mdi } from 'vuetify/iconsets/mdi'
 // import * as components from 'vuetify/components'
 // import * as directives from 'vuetify/directives'
-import 'primevue/resources/themes/lara-light-teal/theme.css';
+import './assets/theme.css';
 import './assets/main.scss'
 
 // const vuetify = createVuetify({
