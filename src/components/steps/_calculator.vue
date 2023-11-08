@@ -1,7 +1,7 @@
 <script setup>
-import { ref, onMounted, computed, isProxy, toRaw } from 'vue'
+import { ref, onMounted, computed, isProxy, toRaw, watch } from 'vue'
 import { useApplicationStore } from '@/stores/application'
-const { repaymentsCalculator, getFields } = useApplicationStore()
+const { repaymentsCalculator, getFields, setFields, saveFields } = useApplicationStore()
 
 function callRepaymentsCalculator(event) {
     console.log(333, 'RC')
@@ -27,6 +27,15 @@ const useAddressRight = computed(() => {
 
 const preProcessed = computed(() => {
     return toRaw(getFields['Application_Status'].value) === 'PreProcessing';
+})
+
+watch(useAddressRight, (newValue, oldValue) => {
+  console.log(200, 'AR', newValue, oldValue)
+  if (newValue | oldValue) {
+    setFields({ ['Addressright_Text_Property']: '' })
+    setFields({ ['Address_Text_Property']: '' })
+    saveFields()
+  }
 })
 
 </script>

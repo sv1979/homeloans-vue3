@@ -1,0 +1,29 @@
+$blue: #0200b9;
+
+.p-inputwrapper {
+    width: 100%;
+    display: block;
+    .p-inputtext {
+        width: 100%;
+    }
+}
+
+.p-autocomplete {
+    padding: 0 0;
+    min-height: 42px;
+    border: none;
+}
+
+.p-autocomplete-loader {
+    width: 20px;
+    height: 20px;
+    top: 10px;
+    color: $blue;
+    animation: rotating 2s infinite;
+}
+
+@keyframes rotating {
+    to { 
+        transform: rotate(360deg);
+    }
+}

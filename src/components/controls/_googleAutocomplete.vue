@@ -1,5 +1,5 @@
 <template>
-  <input ref="autocomplete_input" type="text" :class="classname" class="text_input" placeholder="Start typing..."
+  <InputText ref="autocomplete_input" type="text" :class="classname" class="text_input" placeholder="Start typing..."
     v-model="autocompleteText" @focus="onFocus()" @blur="onBlur()" @change="onChange" @keypress="onKeyPress"
     @keyup="onKeyUp" />
 </template>
@@ -9,6 +9,7 @@ import { computed, ref, watch, onMounted } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { useApplicationStore } from '@/stores/application'
 import { useDebounceFn } from "@vueuse/core"
+import InputText from 'primevue/autocomplete';
 const { getFields, setFields, saveFields } = useApplicationStore()
 const emit = defineEmits(['change', 'save', 'validate'])
 
