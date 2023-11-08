@@ -112,6 +112,11 @@ const validations = computed(() => {
 
 const $v = useVuelidate(validations, value)
 
+function onchangeCurrency(value) {
+  setFields({ [props.field.name]: value })
+  saveFields()
+}
+
 </script>
 
 <script>
@@ -120,6 +125,7 @@ import TooltipLabel from '@/components/TooltipLabel.vue'
 import AutocompleteInput from '@/components/controls/_autocompleteInput.vue'
 import SimpleText from '@/components/controls/_simpleText.vue'
 import GoogleAutocomplete from '@/components/controls/_googleAutocomplete.vue'
+import InputNumber from 'primevue/inputnumber';
 
 export default {
   name: 'text-input',
@@ -137,9 +143,7 @@ export default {
     <tooltip-label :field="field"></tooltip-label>
     <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
 
-    <div 
-      class="textFieldWrap"
-      :data-extra="$v.$anyError
+    <div class="textFieldWrap" :data-extra="$v.$anyError
       ? 'is-danger'
       : !$v.value.$invalid && value
         ? 'is-success'
@@ -158,60 +162,32 @@ export default {
         }}</template>
       </b-autocomplete>
 
-      <autocomplete-input 
-        v-else-if="field.type === 'addressright'"
-        :field="field"
-        :val="val"
-        :disabled="disabled"
-        :this_field="this_field"
-        :id="id"
-        :classes="classes"
-       />
+      <autocomplete-input v-else-if="field.type === 'addressright'" :field="field" :val="val" :disabled="disabled"
+        :this_field="this_field" :id="id" :classes="classes" />
 
-      <google-autocomplete 
-        v-else-if="field.type === 'address'"
-        :field="field"
-        :val="val"
-        :disabled="disabled"
-        :this_field="this_field"
-        :id="id"
-        :classes="classes"
-        country="nz"
-       />
+      <google-autocomplete v-else-if="field.type === 'address'" :field="field" :val="val" :disabled="disabled"
+        :this_field="this_field" :id="id" :classes="classes" country="nz" />
+        
       <div v-else-if="field.type === 'label'">{{ value }}</div>
       <div v-else-if="field.type === 'currency'" class="control" :class="commonClassesObject" v-cleave="masks.numeral">
-        <v-text-field 
-        :class="{
-          'is-danger': (isAmountField && this.wrongAmountField) || $v.$anyError,
-        }" 
-          variant="solo"
-          v-model="value" 
-          :placeholder="field.placeholder" 
-          :disabled="disabled"
-          :type="field.type === 'textarea' ? 'textarea' : 'number'" 
-          :inputmode="field.type === 'currency' ? 'numeric' : ''"
-          maxlength="13" 
-          prefix="$"
-          :data-field="field.name" 
-          v-on:blur="onchange(value)" 
-          ref="input" 
-          :data-test-id="field.name">
-        </v-text-field>
+        <div class="p-inputgroup flex-1 currency_wrap">
+          <span class="p-inputgroup-addon">$</span>
+          <InputNumber v-model="value" locale="en-NZ" :minFractionDigits="0"
+            :maxFractionDigits="2" 
+            :class="{
+              'is-danger': (isAmountField && this.wrongAmountField) || $v.$anyError,
+            }" 
+            :placeholder="field.placeholder" :disabled="disabled" maxlength="13" :data-field="field.name"
+            v-on:blur="onchangeCurrency(value)" ref="input" :data-test-id="field.name" />
+        </div>
       </div>
 
       <div v-else class="control" :class="commonClassesObject">
         <textarea v-if="field.type === 'textarea'" class="input input_textarea" :class="{ 'is-danger': $v.$anyError }"
           v-model="value" :placeholder="field.placeholder" :disabled="disabled" v-on:blur="onchange(value)" ref="input"
           cols="30" rows="5" :data-test-id="field.name" />
-        <simple-text v-else
-          :class="{ 'is-danger': $v.$anyError }"
-          :field="field"
-          :val="val"
-          :disabled="disabled"
-          :this_field="this_field"
-          :id="id"
-          :classes="classes"
-        />  
+        <simple-text v-else :class="{ 'is-danger': $v.$anyError }" :field="field" :val="val" :disabled="disabled"
+          :this_field="this_field" :id="id" :classes="classes" />
 
         <p v-if="suffix" class="suffix_part">
           {{ suffix }}
