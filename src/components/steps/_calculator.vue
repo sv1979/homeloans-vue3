@@ -65,7 +65,28 @@ export default {
                 :disabled="preProcessed || processed || submitted" :labelOverride="addressFieldLabel" :skipSave="true"
                 @placechanged="setProperty" key="Address_Text_Property" />
 
-            <template v-if="loanPurpose !== 'refinance'">
+            <template v-if="loanPurpose === 'refinance'">
+                <field
+                    fieldName="Estimated_Home_Value"
+                    :alwaysSave="true"
+                    :disabled="preProcessed || processed || submitted"
+                    @change="repaymentsCalculator"
+                />
+                <field
+                    fieldName="Mortgage_Balance"
+                    :alwaysSave="true"
+                    :disabled="preProcessed || processed || submitted"
+                    @change="repaymentsCalculator"
+                />
+                <field
+                    fieldName="Loan_topup"
+                    :alwaysSave="true"
+                    :disabled="preProcessed || processed || submitted"
+                    @change="repaymentsCalculator"
+                />
+            </template>   
+
+            <template v-else>
                 <field
                     fieldName="Purchase_Price"
                     :skipSave="true"
@@ -79,6 +100,13 @@ export default {
                     @change="repaymentsCalculator"
                 />
             </template>    
+
+            <field
+                fieldName="Loan_Interest_Rate"
+                :skipSave="true"
+                :disabled="preProcessed || processed || submitted"
+                @change="repaymentsCalculator"
+            />
         </div>
         <!--<div class="columns mb-2">
             <div class="column is-6 pt-0">

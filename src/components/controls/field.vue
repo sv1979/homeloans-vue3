@@ -33,11 +33,12 @@
 <script>
 import RadioInput from '@/components/controls/_radioInput.vue'
 import TextInput from '@/components/controls/_textInput.vue'
+import SelectInput from '@/components/controls/_selectInput.vue'
 export default {
   name: 'field',
   components: {
     TextInput,
-    // SelectInput,
+    SelectInput,
     // NumberControl,
     RadioInput
     // RangeInput,
@@ -163,6 +164,9 @@ const componentName = computed({
       case 'radio':
         return 'radio-input'
         break
+      case 'select':
+        return 'select-input'
+        break  
       case 'range':
         return 'range-input'
         break

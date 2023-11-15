@@ -467,10 +467,7 @@ $blue: #0200b9;
 }
 
 .control-wrap {
-    margin-bottom: 15px;
-    &:last-child {
-        margin-bottom: 0;
-    }
+    margin-bottom: 10px;
 
     .icon.is-right.has-text-success {
         display: none;
