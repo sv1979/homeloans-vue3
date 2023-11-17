@@ -4,29 +4,30 @@ import { useApplicationStore } from '@/stores/application'
 const { repaymentsCalculator, getFields, setFields, saveFields } = useApplicationStore()
 
 function callRepaymentsCalculator(event) {
-    console.log(333, 'RC')
-    repaymentsCalculator()
+  console.log(333, 'RC')
+  repaymentsCalculator()
 }
 
 const loanPurpose = computed(() => {
-    return toRaw(getFields['Loan_Purpose'].value)
+  return toRaw(getFields['Loan_Purpose'].value)
 })
 
 const useAddressRight = computed(() => {
-    let eak_value = toRaw(getFields['Exact_Address_Known'].value)
-    let useAR = eak_value !== "false" && eak_value.toString() !== "false"
+  let eak_value = toRaw(getFields['Exact_Address_Known'].value)
+  let useAR = eak_value !== 'false' && eak_value.toString() !== 'false'
 
-    if (preProcessed.value) {
-        let nonExactAddressFilledAndPreprocessed =
-            toRaw(getFields['Address_Text_Property'].value) && !toRaw(getFields['Addressright_Text_Property'].value)
-        return loanPurpose.value === 'refinance' || !nonExactAddressFilledAndPreprocessed
-    }
+  if (preProcessed.value) {
+    let nonExactAddressFilledAndPreprocessed =
+      toRaw(getFields['Address_Text_Property'].value) &&
+      !toRaw(getFields['Addressright_Text_Property'].value)
+    return loanPurpose.value === 'refinance' || !nonExactAddressFilledAndPreprocessed
+  }
 
-    return loanPurpose.value === 'refinance' || useAR
+  return loanPurpose.value === 'refinance' || useAR
 })
 
 const preProcessed = computed(() => {
-    return toRaw(getFields['Application_Status'].value) === 'PreProcessing';
+  return toRaw(getFields['Application_Status'].value) === 'PreProcessing'
 })
 
 watch(useAddressRight, (newValue, oldValue) => {
@@ -37,78 +38,104 @@ watch(useAddressRight, (newValue, oldValue) => {
     saveFields()
   }
 })
-
 </script>
 <script>
 import field from '../controls/field.vue'
 
 export default {
-    name: 'calculator',
-    components: {
-        field
-    }
+  name: 'calculator',
+  components: {
+    field
+  }
 }
 </script>
 
 <template>
-    <div class="grid">
-        <div class="col-7 mb-0">
-            <field fieldName="Loan_Purpose" :disabled="preProcessed || processed || submitted"
-                @change="callRepaymentsCalculator" input-classes="test test3" />
-            <field fieldName="Exact_Address_Known" v-if="loanPurpose !== 'refinance'"
-                :disabled="preProcessed || processed || submitted" v-on:change="changeExactAddressKnown" />
-            <field v-if="useAddressRight" fieldName="Addressright_Text_Property" this_field="Address_Text_Property"
-                :disabled="preProcessed || processed || submitted" :labelOverride="addressFieldLabel"
-                key="Addressright_Text_Property" />
-            <field v-if="useAddressRight" class="hidden" fieldName="Addressright_ID_Text_Property" />
-            <field v-if="!useAddressRight" fieldName="Address_Text_Property" this_field="Address_Text_Property"
-                :disabled="preProcessed || processed || submitted" :labelOverride="addressFieldLabel" :skipSave="true"
-                @placechanged="setProperty" key="Address_Text_Property" />
+  <div class="grid">
+    <div class="col-7 mb-0">
+      <field
+        fieldName="Loan_Purpose"
+        :disabled="preProcessed || processed || submitted"
+        @change="callRepaymentsCalculator"
+        input-classes="test test3"
+      />
+      <field
+        fieldName="Exact_Address_Known"
+        v-if="loanPurpose !== 'refinance'"
+        :disabled="preProcessed || processed || submitted"
+        v-on:change="changeExactAddressKnown"
+      />
+      <field
+        v-if="useAddressRight"
+        fieldName="Addressright_Text_Property"
+        this_field="Address_Text_Property"
+        :disabled="preProcessed || processed || submitted"
+        :labelOverride="addressFieldLabel"
+        key="Addressright_Text_Property"
+      />
+      <field v-if="useAddressRight" class="hidden" fieldName="Addressright_ID_Text_Property" />
+      <field
+        v-if="!useAddressRight"
+        fieldName="Address_Text_Property"
+        this_field="Address_Text_Property"
+        :disabled="preProcessed || processed || submitted"
+        :labelOverride="addressFieldLabel"
+        :skipSave="true"
+        @placechanged="setProperty"
+        key="Address_Text_Property"
+      />
 
-            <template v-if="loanPurpose === 'refinance'">
-                <field
-                    fieldName="Estimated_Home_Value"
-                    :alwaysSave="true"
-                    :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator"
-                />
-                <field
-                    fieldName="Mortgage_Balance"
-                    :alwaysSave="true"
-                    :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator"
-                />
-                <field
-                    fieldName="Loan_topup"
-                    :alwaysSave="true"
-                    :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator"
-                />
-            </template>   
+      <template v-if="loanPurpose === 'refinance'">
+        <field
+          fieldName="Estimated_Home_Value"
+          :alwaysSave="true"
+          :disabled="preProcessed || processed || submitted"
+          @change="repaymentsCalculator"
+        />
+        <field
+          fieldName="Mortgage_Balance"
+          :alwaysSave="true"
+          :disabled="preProcessed || processed || submitted"
+          @change="repaymentsCalculator"
+        />
+        <field
+          fieldName="Loan_topup"
+          :alwaysSave="true"
+          :disabled="preProcessed || processed || submitted"
+          @change="repaymentsCalculator"
+        />
+      </template>
 
-            <template v-else>
-                <field
-                    fieldName="Purchase_Price"
-                    :skipSave="true"
-                    :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator"
-                />
-                <field
-                    fieldName="Deposit"
-                    :skipSave="true"
-                    :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator"
-                />
-            </template>    
+      <template v-else>
+        <field
+          fieldName="Purchase_Price"
+          :skipSave="true"
+          :disabled="preProcessed || processed || submitted"
+          @change="repaymentsCalculator"
+        />
+        <field
+          fieldName="Deposit"
+          :skipSave="true"
+          :disabled="preProcessed || processed || submitted"
+          @change="repaymentsCalculator"
+        />
+      </template>
 
-            <field
-                fieldName="Loan_Interest_Rate"
-                :skipSave="true"
-                :disabled="preProcessed || processed || submitted"
-                @change="repaymentsCalculator"
-            />
-        </div>
-        <!--<div class="columns mb-2">
+      <field
+        fieldName="Loan_Interest_Rate"
+        :skipSave="true"
+        :disabled="preProcessed || processed || submitted"
+        @change="repaymentsCalculator"
+      />
+
+      <field
+        fieldName="Loan_Term"
+        :skipSave="true"
+        :disabled="preProcessed || processed || submitted"
+        @change="repaymentsCalculator"
+      />
+    </div>
+    <!--<div class="columns mb-2">
             <div class="column is-6 pt-0">
                 <template v-else>
                     <field name="Estimated_Home_Value" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
@@ -204,6 +231,6 @@ export default {
             </div>
         </div> -->
 
-        <privacy-modal v-model="privacyOpen" />
-    </div>
+    <privacy-modal v-model="privacyOpen" />
+  </div>
 </template>

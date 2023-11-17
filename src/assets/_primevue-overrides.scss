@@ -58,3 +58,11 @@ $blue: #0200b9;
         transform: rotate(360deg);
     }
 }
+
+.p-slider.p-slider-horizontal {
+    .p-slider-handle {
+        background-color: white;
+        border-radius: 50%;
+    }
+}
+

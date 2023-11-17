@@ -2,6 +2,7 @@ $blue: #0200b9;
 
 .label {
     font-weight: 600;
+
     &:not([class*='mb-']) {
         margin-bottom: 0 !important;
     }
@@ -34,7 +35,7 @@ $blue: #0200b9;
     }
 
     .radio_button_wrapper {
-        input[type=radio] + .check {
+        input[type=radio]+.check {
             border-color: $heartland-gray;
             transition: border-color .2s;
             background-color: white;
@@ -42,6 +43,7 @@ $blue: #0200b9;
             border-color: $heartland-purple;
             width: 22px;
             height: 22px;
+
             &::before {
                 position: relative;
                 margin: auto;
@@ -54,14 +56,15 @@ $blue: #0200b9;
                 content: '';
             }
         }
-        input[type=radio]:checked + .check {
+
+        input[type=radio]:checked+.check {
             &::before {
                 opacity: 1;
             }
         }
     }
-    
-    + .radio_button_wrapper {
+
+    +.radio_button_wrapper {
         margin-left: 0.9em;
     }
 
@@ -69,22 +72,21 @@ $blue: #0200b9;
 
 
         &.is-danger {
-            input[type=radio]:not(:disabled) + .check {
+            input[type=radio]:not(:disabled)+.check {
                 border-color: $red;
             }
         }
     }
 }
 
-.input, 
+.input,
 .textarea,
-.number_control__wrap button, 
+.number_control__wrap button,
 .select select,
-.text_input
-.v-text-field input.v-field__input {
+.text_input .v-text-field input.v-field__input {
     border: 1px solid transparent;
     transition: border .3s;
-    box-shadow: 0px 3px 15px 0 rgba(2,0,185, 0.15) !important;
+    box-shadow: 0px 3px 15px 0 rgba(2, 0, 185, 0.15) !important;
     border-radius: 4px;
     transition: box-shadow 0.2s;
 
@@ -93,6 +95,7 @@ $blue: #0200b9;
         border-color: transparent;
         box-shadow: none !important;
         opacity: 0.7;
+
         &::placeholder {
             color: #7a7a7a;
         }
@@ -122,7 +125,7 @@ $blue: #0200b9;
     }
 }
 
-.input, 
+.input,
 .select select,
 .v-text-field input.v-field__input {
     height: 40px;
@@ -140,7 +143,10 @@ $blue: #0200b9;
 
 .not-check {
     pointer-events: none;
-    a { pointer-events: all; }
+
+    a {
+        pointer-events: all;
+    }
 }
 
 .select {
@@ -164,7 +170,7 @@ $blue: #0200b9;
             border-color: transparent;
 
             &:hover {
-                border-color: transparent;  
+                border-color: transparent;
             }
         }
     }
@@ -173,7 +179,8 @@ $blue: #0200b9;
         height: initial;
     }
 
-    select, option {
+    select,
+    option {
         white-space: normal;
     }
 
@@ -184,6 +191,7 @@ $blue: #0200b9;
 
 .label {
     font-weight: 600;
+
     &:not([class*='mb-']) {
         margin-bottom: 0 !important;
     }
@@ -206,33 +214,31 @@ $blue: #0200b9;
         padding-top: 10px;
     }
 
-    .v-slider {
-        margin-bottom: 5px;
-        margin-top: 5px;
-
-        .v-slider-thumb {
-            border-color: $heartland-purple;
-            height: 20px;
-            width: 20px;
-        }
+    .p-inputnumber {
+        margin-bottom: 0;
     }
 
-    input {
-        max-width: 25px;
-        text-align: center;
-        font-weight: 600;
+    .slider-message {
+        color: #67747c;
+        font-size: 0.875em;
+        line-height: 1;
+    }
+
+    .slider-message-right {
+        float: right;
     }
 }
 
 .checkbox {
     &.is-danger {
-         ~ .help.is-danger {
+        ~.help.is-danger {
             margin-top: 0;
         }
     }
 }
 
-.big_buttons_shell, .mid_buttons_shell {
+.big_buttons_shell,
+.mid_buttons_shell {
     @media screen and (min-width: 768px) {
         display: flex;
         flex-wrap: nowrap;
@@ -243,22 +249,27 @@ $blue: #0200b9;
 
 .radio_button_wrapper {
     display: block;
+
     .v-selection-control-group--inline {
         gap: 1rem;
         margin-left: -.5rem;
     }
+
     .v-icon {
         color: $blue;
     }
+
     &.is-vertical {
         width: 100%;
         margin-top: .8rem;
     }
+
     &.big-buttons {
         .big_button_description {
             font-weight: 600;
             font-size: 16px;
         }
+
         .big_button_title {
             font-weight: 600;
             font-size: 26px;
@@ -266,27 +277,35 @@ $blue: #0200b9;
             display: block;
             margin-bottom: 20px;
         }
+
         label {
             padding: 65px 20px 20px;
         }
+
         .checkmark {
             top: 20px;
         }
     }
+
     &.mid-buttons {
         label {
             padding: 20px;
         }
+
         .mid_button_title {
             font-weight: 600;
         }
+
         .checkmark {
             top: 15px;
         }
     }
-    &.big-buttons, &.mid-buttons {
+
+    &.big-buttons,
+    &.mid-buttons {
         width: 100%;
         margin-bottom: .5rem;
+
         label {
             display: block;
             background-color: #fff;
@@ -297,9 +316,11 @@ $blue: #0200b9;
             margin-bottom: 10px;
             box-shadow: none;
             transition: box-shadow .4s;
+
             &:hover {
                 box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.35);
             }
+
             &::after {
                 content: '';
                 display: block;
@@ -312,10 +333,12 @@ $blue: #0200b9;
                 left: 24px;
             }
         }
+
         .check {
             position: absolute !important;
             left: -200px;
         }
+
         .button_title {
             &::before {
                 position: absolute;
@@ -330,17 +353,21 @@ $blue: #0200b9;
                 transition: border-color .4s;
             }
         }
+
         @media screen and (min-width: 768px) {
             width: 48%;
+
             &:first-child {
                 margin-right: 15px;
             }
         }
     }
+
     .radio_bigbutton_sublabel {
         font-size: 14px;
         line-height: 18px;
     }
+
     .checkmark {
         display: block;
         position: absolute;
@@ -354,35 +381,42 @@ $blue: #0200b9;
         opacity: 0;
         background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='14' cy='14' r='14' fill='%230200B9'/%3E%3Cpath d='M22.1201 8.56222C21.7944 8.30799 21.3218 8.35806 21.0597 8.67391L12.0803 19.4554C12.0207 19.5247 11.9413 19.5401 11.9016 19.5401C11.8619 19.5401 11.7824 19.5363 11.7388 19.4901L6.9095 14.3863C6.62753 14.0897 6.15095 14.0666 5.84515 14.3401C5.53935 14.6136 5.51553 15.0758 5.7975 15.3724L10.6466 20.4954C10.9762 20.819 11.425 21 11.8936 21C11.9175 21 11.9413 21 11.9651 21C12.4576 20.9807 12.9222 20.7573 13.2439 20.3837L22.2313 9.59067C22.4934 9.27481 22.4457 8.81644 22.1201 8.56222Z' fill='white'/%3E%3C/svg%3E%0A");
     }
-    :checked ~ .control-label {
+
+    :checked~.control-label {
         .checkmark {
             opacity: 1;
         }
+
         .button_title {
             &::before {
                 border-color: $blue;
             }
         }
     }
+
     &.as-checkboxes {
         width: 100%;
         margin-top: .8rem;
+
         .v-radio.radio input[type=radio] {
-            + .check {
+            +.check {
                 border-radius: 5px;
                 border-width: 2px !important;
                 border-color: #2e3b41;
             }
+
             &:not(:checked) {
-                + .check {
+                +.check {
                     background-color: #fff;
                 }
             }
+
             &:checked {
-                + .check {
+                +.check {
                     &::before {
                         display: none;
                     }
+
                     background: $blue url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cpath style='fill:%23fff' d='M 0.04038059,0.6267767 0.14644661,0.52071068 0.42928932,0.80355339 0.3232233,0.90961941 z M 0.21715729,0.80355339 0.85355339,0.16715729 0.95961941,0.2732233 0.3232233,0.90961941 z'%3E%3C/path%3E%3C/svg%3E") no-repeat center center;
                 }
             }
@@ -396,6 +430,7 @@ $blue: #0200b9;
     font-size: smaller;
     font-style: italic;
 }
+
 .big-buttons {
     &.encrypted {
         label {
@@ -404,6 +439,7 @@ $blue: #0200b9;
             }
         }
     }
+
     &.manual {
         label {
             &::after {
@@ -426,9 +462,10 @@ $blue: #0200b9;
         line-height: 20px;
         display: inline-block;
     }
+
     .v-radio {
         &.radio {
-            input[type=radio] + .check {
+            input[type=radio]+.check {
                 border-color: $heartland-gray;
                 transition: border-color .2s;
                 background-color: white;
@@ -436,6 +473,7 @@ $blue: #0200b9;
                 border-color: $heartland-purple;
                 width: 22px;
                 height: 22px;
+
                 &::before {
                     position: relative;
                     margin: auto;
@@ -447,19 +485,20 @@ $blue: #0200b9;
                     height: 14px;
                 }
             }
-            input[type=radio]:checked + .check {
+
+            input[type=radio]:checked+.check {
                 &::before {
                     opacity: 1;
                 }
             }
         }
-        
-        + .radio {
+
+        +.radio {
             margin-left: 0.9em;
         }
 
         &.is-danger {
-            input[type=radio]:not(:disabled) + .check {
+            input[type=radio]:not(:disabled)+.check {
                 border-color: $red;
             }
         }
@@ -483,11 +522,11 @@ $blue: #0200b9;
 .control {
     &.currency {
         position: relative;
-    
+
         .input {
             padding-left: 21px !important;
         }
-    
+
         &:before {
             content: '$';
             position: absolute;
@@ -506,17 +545,20 @@ $blue: #0200b9;
         &.desktop_160 {
             width: 160px;
         }
+
         &.desktop_538 {
             width: 538px;
         }
     }
 }
 
-.field-currency, .field-addressright {
+.field-currency,
+.field-addressright {
     .has-addons {
         display: block;
     }
-    p.is-danger + p.is-danger {
+
+    p.is-danger+p.is-danger {
         display: none;
     }
 }
@@ -525,6 +567,7 @@ $blue: #0200b9;
     .has-addons {
         display: block;
     }
+
     .phonefield {
         .suffix_part {
             position: absolute;
@@ -541,6 +584,7 @@ $blue: #0200b9;
 
     .select {
         margin-left: 4px;
+
         select {
             background: none;
             border: none;
@@ -557,9 +601,11 @@ $blue: #0200b9;
 
         &.is-danger {
             color: $red !important;
+
             select {
                 color: $red !important;
             }
+
             &:after {
                 border-color: $red !important;
             }
@@ -594,12 +640,14 @@ $blue: #0200b9;
     .v-checkbox {
         &.checkbox {
             align-items: flex-start;
-            input[type=checkbox] + .check {
+
+            input[type=checkbox]+.check {
                 border-radius: 0;
                 border-width: 1px;
             }
+
             &.is-danger {
-                input[type=checkbox] + .check {
+                input[type=checkbox]+.check {
                     border-color: $red;
                 }
             }
@@ -611,12 +659,14 @@ $blue: #0200b9;
     .v-checkbox {
         &.checkbox {
             margin-right: 0;
-            input[type=checkbox] + .check {
+
+            input[type=checkbox]+.check {
                 border-radius: 5px;
                 border-width: 2px;
                 border-color: $heartland-purple !important;
             }
-            input[type=checkbox]:not(:checked) + .check {
+
+            input[type=checkbox]:not(:checked)+.check {
                 background-color: #fff;
             }
         }
@@ -625,22 +675,25 @@ $blue: #0200b9;
 
 .checkbox-wrap {
     display: flex;
-    
+
     .help {
         position: absolute;
     }
 
     &.pos_relative {
         position: relative;
+
         .help {
             bottom: -30px;
             width: 250px;
             margin-bottom: 5px;
         }
     }
+
     @include totablet {
         &.pos_relative {
             position: relative;
+
             .sm {
                 margin-bottom: 10px;
             }
@@ -650,31 +703,31 @@ $blue: #0200b9;
 
 .dotted-group-container {
     .group-field-row {
-      padding: 15px;
-      border: 1px dashed #8492a0;
-      border-radius: 5px;
+        padding: 15px;
+        border: 1px dashed #8492a0;
+        border-radius: 5px;
     }
 
     .group-field-row:first-child {
         border: none;
         padding: 0;
 
-        > .control-wrap:first-child {
+        >.control-wrap:first-child {
             display: none;
         }
-      }
-  
-    .group-field-row .control-wrap.break {
-      margin-top: 1rem;
     }
-  
+
+    .group-field-row .control-wrap.break {
+        margin-top: 1rem;
+    }
+
     .group-field-row .control-wrap.break:first-child {
         margin-top: -10px;
         margin-bottom: 10px;
     }
-  
+
     .group-field .remove-row {
-      right: 15px;
+        right: 15px;
     }
 }
 
@@ -696,9 +749,10 @@ $blue: #0200b9;
         @include tablet {
             display: flex;
         }
-        
+
         &:not(:last-child) {
             margin-bottom: 20px;
+
             @include tablet {
                 margin-bottom: 10px;
             }
@@ -723,6 +777,7 @@ $blue: #0200b9;
             @media screen and (max-width: 768px) {
                 margin-bottom: 10px;
             }
+
             @include tablet {
                 margin-right: 10px;
             }
@@ -756,8 +811,8 @@ $blue: #0200b9;
         background-position: center;
         background-size: 20px;
 
-        > .mdi {
-            display:none;
+        >.mdi {
+            display: none;
         }
     }
 }
@@ -817,17 +872,20 @@ $blue: #0200b9;
     font-size: 18px;
 }
 
-.vdp-datepicker__calendar .cell.selected{
+.vdp-datepicker__calendar .cell.selected {
     background-color: rgba(76, 56, 215, 0.24) !important;
 }
 
-.vdp-datepicker__calendar header .prev:not(.disabled):hover, .vdp-datepicker__calendar header .next:not(.disabled):hover, .vdp-datepicker__calendar header .up:not(.disabled):hover {
+.vdp-datepicker__calendar header .prev:not(.disabled):hover,
+.vdp-datepicker__calendar header .next:not(.disabled):hover,
+.vdp-datepicker__calendar header .up:not(.disabled):hover {
     background-color: rgba(76, 56, 215, 0.24) !important;
 }
 
 .card-content.content {
     overflow-y: auto;
     max-height: 100vh;
+
     &.for_calc {
         overflow-y: visible;
     }
@@ -835,12 +893,16 @@ $blue: #0200b9;
 
 .card-content.income_modal_content {
     font-weight: 500;
+
     .buttons {
-        flex-direction: column;;
+        flex-direction: column;
+        ;
     }
+
     a {
         text-decoration: underline;
     }
+
     @media screen and (min-width: 768px) {
         padding: 4rem 4.375rem 3rem;
     }
@@ -849,6 +911,7 @@ $blue: #0200b9;
 .link_wrap {
     display: flex;
     justify-content: flex-end;
+
     .link {
         font-weight: 700;
     }
@@ -863,12 +926,14 @@ $blue: #0200b9;
     align-items: center;
     justify-content: flex-start;
     flex-wrap: nowrap;
+
     .number_control__label {
         display: flex;
         align-items: center;
         justify-content: flex-start;
         flex: 0 0 100px;
     }
+
     .number_control__wrap {
         display: flex;
         align-items: center;
@@ -877,23 +942,29 @@ $blue: #0200b9;
         font-size: 0;
         padding: .37rem .75rem;
     }
+
     .number_control__button {
         background-color: $heartland-purple;
         color: white;
         outline: none !important;
+
         &:first-child {
             border-radius: 4px 0 0 4px;
         }
+
         &:last-child {
             border-radius: 0 4px 4px 0;
         }
+
         svg {
             display: block;
             width: 22px;
             margin: 0 auto;
         }
     }
-    .number_control__button, input {
+
+    .number_control__button,
+    input {
         flex: 0 0 45px;
         max-width: 45px;
         width: 45px;
@@ -901,9 +972,11 @@ $blue: #0200b9;
         text-align: center;
         appearance: none;
     }
+
     input {
         -moz-appearance: textfield;
     }
+
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
@@ -920,7 +993,8 @@ $blue: #0200b9;
 }
 
 .control-wrap {
-    &.field-select ,
+
+    &.field-select,
     &.field-currency {
         label {
             margin-bottom: 5px !important;
@@ -938,6 +1012,7 @@ $blue: #0200b9;
         @extend .textInput;
         min-height: 40px;
     }
+
     .v-text-field__prefix {
         min-height: 40px;
         padding-top: 0;

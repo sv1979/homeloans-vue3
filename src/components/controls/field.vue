@@ -34,14 +34,16 @@
 import RadioInput from '@/components/controls/_radioInput.vue'
 import TextInput from '@/components/controls/_textInput.vue'
 import SelectInput from '@/components/controls/_selectInput.vue'
+import RangeInput from '@/components/controls/_rangeInput.vue'
+
 export default {
   name: 'field',
   components: {
     TextInput,
     SelectInput,
     // NumberControl,
-    RadioInput
-    // RangeInput,
+    RadioInput,
+    RangeInput
     // CheckInput,
     // CheckInputMultiple,
     // CodeInput,
