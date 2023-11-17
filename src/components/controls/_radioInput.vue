@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, reactive, watch } from 'vue'
+import { onMounted, computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
@@ -47,16 +47,7 @@ const props = defineProps({
   }
 })
 
-let fieldValue = reactive(props.val)
-
-const shellClass = computed(() => {
-  const big_buttons_class = props.field.modifier === 'big_buttons'
-  const mid_buttons_class = props.field.modifier === 'mid_buttons'
-  return {
-    big_buttons_shell: big_buttons_class,
-    mid_buttons_shell: mid_buttons_class
-  }
-})
+let fieldValue = ref(props.val)
 
 const classObject = computed(() => {
   let string_classes = props.inputClasses,

@@ -134,21 +134,16 @@ export default {
         :disabled="preProcessed || processed || submitted"
         @change="repaymentsCalculator"
       />
+
+      <field
+        fieldName="Repayments_Frequency"
+        :skipSave="true"
+        :disabled="preProcessed || processed || submitted"
+        @change="repaymentsCalculator"
+      />
     </div>
     <!--<div class="columns mb-2">
             <div class="column is-6 pt-0">
-                <template v-else>
-                    <field name="Estimated_Home_Value" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
-                        @change="repaymentsCalculator" />
-                    <field name="Mortgage_Balance" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
-                        @change="repaymentsCalculator" />
-                    <field name="Loan_topup" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
-                        @change="repaymentsCalculator" />
-                </template>
-                <field name="Loan_Interest_Rate" :skipSave="true" :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator" />
-                <field name="Loan_Term" :skipSave="true" :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator" />
                 <field name="Repayments_Frequency" :skipSave="true" :disabled="preProcessed || processed || submitted"
                     @change="repaymentsCalculator" />
                 <field name="Has_RVC" :labelOverride="hasRvcLabel" :skipSave="true"

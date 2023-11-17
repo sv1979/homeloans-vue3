@@ -64,7 +64,7 @@ const dateops = reactive({
   maxDate: null,
   focused: null,
 });
-const mask = reactive(null);
+const mask = ref(null);
 const masks = reactive(
   {
     numeral: true,

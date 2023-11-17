@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, reactive, watch, toRaw } from 'vue'
+import { onMounted, computed, ref, watch, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
@@ -49,7 +49,7 @@ const props = defineProps({
   }
 })
 
-let fieldValue = reactive(props.val)
+let fieldValue = ref(props.val)
 
 const validations = computed(() => {
   const valids = {}
@@ -90,7 +90,6 @@ const $v = useVuelidate(validations, fieldValue)
 
 function selectValue(event) {
   let value;
-
   if (typeof event !== 'string') {
     value = event.value || toRaw(event).value
   } else {
