@@ -20,8 +20,6 @@
         ref="fieldref"
         @save="saveField"
         @change="updateField"
-        @placechanged="$emit('placechanged', $event)"
-        @amountchanged="$emit('amountchanged', $event)"
       >
         <slot />
       </component>

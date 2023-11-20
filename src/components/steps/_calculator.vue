@@ -12,6 +12,10 @@ const loanPurpose = computed(() => {
   return toRaw(getFields['Loan_Purpose'].value)
 })
 
+const hasRvc = computed(() => {
+  return toRaw(getFields['Has_RVC'].value)
+})
+
 const useAddressRight = computed(() => {
   let eak_value = toRaw(getFields['Exact_Address_Known'].value)
   let useAR = eak_value !== 'false' && eak_value.toString() !== 'false'
@@ -141,13 +145,25 @@ export default {
         :disabled="preProcessed || processed || submitted"
         @change="repaymentsCalculator"
       />
+
+      <field
+        fieldName="Has_RVC"
+        :labelOverride="hasRvcLabel"
+        :skipSave="true"
+        :disabled="preProcessed || processed || submitted"
+        @change="repaymentsCalculator"
+      />
+
+      <field
+        v-if="hasRvc"
+        fieldName="Desired_RVC_Limit"
+        :skipSave="true"
+        :disabled="preProcessed || processed || submitted"
+        @change="repaymentsCalculator"
+      />
     </div>
     <!--<div class="columns mb-2">
             <div class="column is-6 pt-0">
-                <field name="Repayments_Frequency" :skipSave="true" :disabled="preProcessed || processed || submitted"
-                    @change="repaymentsCalculator" />
-                <field name="Has_RVC" :labelOverride="hasRvcLabel" :skipSave="true"
-                    :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator" />
                 <field v-if="hasRvc" name="Desired_RVC_Limit" :skipSave="true"
                     :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator" />
                 <field name="Has_Required_RVC_Limit" v-if="hasRvc" :labelOverride="hasRequiredRvcLabel" :skipSave="true"
