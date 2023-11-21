@@ -57,7 +57,7 @@ export default {
 <template>
   <div class="grid">
     <div class="col-7 mb-0">
-      <field
+      <!-- <field
         fieldName="Loan_Purpose"
         :disabled="preProcessed || processed || submitted"
         @change="callRepaymentsCalculator"
@@ -144,7 +144,7 @@ export default {
         :skipSave="true"
         :disabled="preProcessed || processed || submitted"
         @change="repaymentsCalculator"
-      />
+      /> -->
 
       <field
         fieldName="Has_RVC"
