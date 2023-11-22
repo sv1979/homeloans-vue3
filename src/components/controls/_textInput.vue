@@ -20,6 +20,7 @@ import AutocompleteInput from '@/components/controls/_autocompleteInput.vue'
 import SimpleText from '@/components/controls/_simpleText.vue'
 import GoogleAutocomplete from '@/components/controls/_googleAutocomplete.vue'
 import InputNumber from 'primevue/inputnumber'
+import { validationRules, validationMessage } from '@/helpers/validationMixin.js'
 
 export default {
   name: 'text-input',
@@ -91,93 +92,19 @@ export default {
       focused: null
     })
     const rules = computed(() => {
-      const valids = {}
-      const fv = toRaw(props.field.validations)
-      console.log(11, fv)
-      if (fv && fv.required) valids['required'] = required
-      if (fv && fv.email) valids['email'] = email
-      if (fv && fv.minLength) valids['minLength'] = minLength(fv.minLength)
-      if (fv && fv.maxLength) valids['maxLength'] = maxLength(fv.maxLength)
-      if (fv && fv.minValue) {
-        valids['minValue'] = minValue(props.field.type === 'date' ? new Date(fv.minValue) : fv.minValue)
-      }
-      if (fv && fv.maxValue) {
-        valids['maxValue'] = maxValue(
-          props.field.type === 'date'
-            ? new Date(fv.maxValue)
-            : props.maxValueOverride !== null
-              ? Number(this.maxValueOverride)
-              : fv.maxValue
-        )
-      }
-
-      if (props.field.type === 'date' && props.field.adult)
-        valids['maxValue'] = maxValue(props.dateopts.maxDate)
-      if (props.field.amountField) {
-        valids['lookLoanAmount'] = () => {
-          return !(
-            toRaw(getFields['Loan_Amount'].value) >= 100000 &&
-            toRaw(getFields['Loan_Amount'].value) <= 4000000
-          )
-        }
-      }
-      if (props.field.type === 'address') {
-        valids['address'] = () => {
-          return props.rawValue !== 'novalid'
-        }
-      }
-      return { fieldValue: valids }
-    })
-    const validationMessage = computed(() => {
-      const fv = toRaw(props.field.validations)
-
-      console.log(fv)
-
-      return fv && fv.email && v$.value.$errors && v$.value.$errors.length && !v$.value.email
-        ? 'Must be a valid email'
-        : fv && fv.minLength && v$.value.$errors && v$.value.$errors.length && !v$.value.minLength
-          ? `Must have at least ${fv.minLength} characters`
-          : fv && fv.maxLength && v$.value.$errors && v$.value.$errors.length && !v$.value.maxLength
-            ? `Must be no longer than ${fv.maxLength} characters`
-            : fv && fv.minValue && v$.value.$errors && v$.value.$errors.length && !v$.value.minValue
-              ? `Minimum is ${fv.minValue}`
-              : fv && fv.maxValue && v$.value.$errors && v$.value.$errors.length && !v$.value.maxValue
-                ? `Maximum is ${maxValueOverride !== null ? maxValueOverride : fv.maxValue}`
-                : fv &&
-                  fv.includes && v$.value.$errors &&
-                  v$.value.$errors.length &&
-                  !v$.value.custom &&
-                  props.field.customValidationText
-                  ? props.field.customValidationText
-                  : props.field.type === 'date' && props.field.adult && v$.value.$errors && v$.value.$errors.length && !v$.value.maxValue
-                    ? 'Should be 18 years old'
-                    : props.field.type === 'address' && v$.value.$errors.length
-                      ? 'We can’t find this address – please check the spelling.'
-                      : props.field.type === 'address' && v$.value.$errors &&
-                        v$.value.$errors.length &&
-                        !v$.value.full_address &&
-                        v$.value.required
-                        ? 'Please select full address'
-                        : fv &&
-                          fv.required && v$.value.$errors &&
-                          v$.value.$errors.length &&
-                          !v$.value.required &&
-                          props.field.type === 'textarea'
-                          ? 'Please complete this field'
-                          : fv && fv.required && v$.value.$errors && v$.value.$errors.length && !v$.value.required
-                            ? 'This field is required'
-                            : ''
+      if (validationRules) return validationRules(props);
+      return { fieldValue: {} }
     })
     const v$ = useVuelidate(rules, state)
 
     function onchangeCurrency(event) {
-      console.log(event)
       setFields({ [props.field.name]: event.value })
       saveFields()
     }
 
     return {
       v$,
+      props,
       validationMessage,
       onchangeCurrency,
       state
@@ -192,7 +119,6 @@ export default {
     <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
 
     <div class="textFieldWrap"
-      :data-extra="v$ && v$.$errors.length ? 'is-danger' : v$ && !v$.$invalid && fieldValue ? 'is-success' : ''"
       :key="field.name" :message="validationMessage">
       <div class="pre-label" v-if="field.leftLabel">{{ field.leftLabel }}</div>
 
@@ -213,11 +139,12 @@ export default {
         :this_field="this_field" :id="id" :classes="classes" country="nz" />
 
       <div v-else-if="field.type === 'label'">{{ fieldValue }}</div>
+      
       <div v-else-if="field.type === 'currency'" class="control" :class="commonClassesObject">
         <div class="p-inputgroup flex-1 currency_wrap">
           <span class="p-inputgroup-addon">$</span>
           <InputNumber v-model="v$.fieldValue.$model" locale="en-NZ" :minFractionDigits="0" :maxFractionDigits="2" :class="{
-            'is-danger': (isAmountField && this.wrongAmountField) || (v$ && v$.$errors.length)
+            'p-invalid': (isAmountField && this.wrongAmountField) || (v$ && v$.$errors.length)
           }" :placeholder="field.placeholder" :disabled="disabled" maxlength="13" :data-field="field.name"
             v-on:blur="onchangeCurrency" ref="input" :data-test-id="field.name" />
         </div>
@@ -243,7 +170,7 @@ export default {
       </p>
 
       <div class="input-errors" v-for="error of v$.fieldValue.$errors" :key="error.$uid">
-        <div class="error-msg">{{ error.$message }}</div>
+        <div class="error-msg">{{ validationMessage(props, v$) }}</div>
       </div>
     </div>
   </div>
