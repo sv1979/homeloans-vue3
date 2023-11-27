@@ -443,7 +443,24 @@
                 }
             ],
             "value": false,
-            "rate": null
+            "rate": null,
+            "triggers": [
+                {
+                    "fieldName": "Desired_RVC_Limit",
+                    "triggerOn": false,
+                    "triggerSet": 0
+                },
+                {
+                    "fieldName": "Has_Required_RVC_Limit",
+                    "triggerOn": false,
+                    "triggerSet": false
+                },
+                {
+                    "fieldName": "Required_RVC_Limit",
+                    "triggerOn": false,
+                    "triggerSet": 0
+                }
+            ]
         },
         "Disclosed_Existing_Revolving_Credit_Limit": {
             "name": "Disclosed_Existing_Revolving_Credit_Limit",
@@ -527,7 +544,14 @@
                     "value": false
                 }
             ],
-            "value": false
+            "value": false,
+            "triggers": [
+                {
+                    "fieldName": "Required_RVC_Limit",
+                    "triggerOn": false,
+                    "triggerSet": 0
+                }
+            ]
         },
         "Required_RVC_Limit": {
             "name": "Required_RVC_Limit",

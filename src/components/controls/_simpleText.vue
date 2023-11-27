@@ -57,7 +57,7 @@ const validations = computed(() => {
         valids['maxValue'] = maxValue(
             props.field.type === 'date'
                 ? new Date(fv.maxValue)
-                : props.maxValueOverride !== null ? Number(this.maxValueOverride) : fv.maxValue
+                : props.maxValueOverride !== null ? Number(props.maxValueOverride) : fv.maxValue
         );
     }
 

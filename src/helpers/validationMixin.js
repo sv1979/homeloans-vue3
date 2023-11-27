@@ -4,6 +4,8 @@ import { toRaw } from 'vue'
 export function validationRules(props) {
     const valids = {}
     const fv = toRaw(props.field.validations)
+    const maxValueOverride = props.maxValueOverride ? parseInt(props.maxValueOverride.replace(/,/g, ''), 10) : 0
+
     if (fv && fv.required) valids['required'] = required
     if (fv && fv.email) valids['email'] = email
     if (fv && fv.minLength) valids['minLength'] = minLength(fv.minLength)
@@ -12,13 +14,13 @@ export function validationRules(props) {
         valids['minValue'] = minValue(props.field.type === 'date' ? new Date(fv.minValue) : fv.minValue)
     }
     if (fv && fv.maxValue) {
-        valids['maxValue'] = maxValue(
-            props.field.type === 'date'
-                ? new Date(fv.maxValue)
-                : props.maxValueOverride !== null
-                    ? Number(props.maxValueOverride)
-                    : fv.maxValue
-        )
+        if (props.field.type === 'date') {
+            valids['maxValue'] = maxValue(new Date(fv.maxValue))
+        } else if (maxValueOverride !== 0) {
+            valids['maxValue'] = maxValue(maxValueOverride)
+        } else {
+            valids['maxValue'] = maxValue(fv.maxValue)
+        }
     }
 
     if (props.field.type === 'date' && props.field.adult)
@@ -45,13 +47,13 @@ export function validationMessage(props, v$) {
     const hasErrors = v$?.$errors?.length;
 
     if (!fv || !hasErrors) return '';
-    if (fValue.minValue.$invalid) {
+    if (fValue.minValue?.$invalid) {
         return `Minimum is ${fv.minValue}`
     }
-    if (fValue.maxValue.$invalid) {
+    if (fValue.maxValue?.$invalid) {
         return `Maximum is ${props.maxValueOverride !== null ? props.maxValueOverride : fv.maxValue}`
     }
-    if (fValue.required.$invalid) {
+    if (fValue.required?.$invalid) {
         return 'This field is required'
     }
     return fv && fv.email && v$.value.$errors && v$.value.$errors.length && !v$.value.email

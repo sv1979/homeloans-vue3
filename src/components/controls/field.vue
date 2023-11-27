@@ -137,7 +137,6 @@ const field = computed(() => {
   //   cloneField.label = labelOverrideRef
   // }
   // return { ...cloneField }
-  console.log(props.fieldName)
   return getFields[props.fieldName]
 })
 
@@ -202,7 +201,20 @@ function updateField(ev) {
   //     this.$store.commit('setFields', { ['InterestRateId']: selectedRate.id })
   //   }
   // }
+
+  if (field.value.triggers) {
+    toggleTriggers(ev)
+  }
+
   emit('change', ev)
+}
+
+function toggleTriggers(ev) {
+  field.value.triggers.map((trigger) => {
+    if (ev.value === trigger.triggerOn) {
+      setFields({ [trigger.fieldName]: trigger.triggerSet })
+    }
+  })
 }
 
 function saveField(ev) {

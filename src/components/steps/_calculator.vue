@@ -16,6 +16,23 @@ const hasRvc = computed(() => {
   return toRaw(getFields['Has_RVC'].value)
 })
 
+const hasRequiredRvc = computed(() => {
+  return toRaw(getFields['Has_Required_RVC_Limit'].value)
+})
+
+const hasRequiredRvcLabel = computed(() => {
+  let loan_purpose = toRaw(getFields['Has_RVC'].value)
+  let label = toRaw(getFields['Has_Required_RVC_Limit'].label)
+  if (loan_purpose == 'new-home') {
+    return `${label} your home purchase?`;
+  }
+  return `${label} paying off your current mortgage?`;
+})
+
+const desiredRvc = computed(() => {
+  return toRaw(getFields['Desired_RVC_Limit'].value) ? toRaw(getFields['Desired_RVC_Limit'].value) : 0
+})
+
 const useAddressRight = computed(() => {
   let eak_value = toRaw(getFields['Exact_Address_Known'].value)
   let useAR = eak_value !== 'false' && eak_value.toString() !== 'false'
@@ -57,110 +74,55 @@ export default {
 <template>
   <div class="grid">
     <div class="col-7 mb-0">
-      <field
-        fieldName="Loan_Purpose"
-        :disabled="preProcessed || processed || submitted"
-        @change="callRepaymentsCalculator"
-        input-classes="test test3"
-      />
-      <field
-        fieldName="Exact_Address_Known"
-        v-if="loanPurpose !== 'refinance'"
-        :disabled="preProcessed || processed || submitted"
-        v-on:change="changeExactAddressKnown"
-      />
-      <field
-        v-if="useAddressRight"
-        fieldName="Addressright_Text_Property"
-        this_field="Address_Text_Property"
-        :disabled="preProcessed || processed || submitted"
-        :labelOverride="addressFieldLabel"
-        key="Addressright_Text_Property"
-      />
+      <field fieldName="Loan_Purpose" :disabled="preProcessed || processed || submitted"
+        @change="callRepaymentsCalculator" input-classes="test test3" />
+      <field fieldName="Exact_Address_Known" v-if="loanPurpose !== 'refinance'"
+        :disabled="preProcessed || processed || submitted" v-on:change="changeExactAddressKnown" />
+      <field v-if="useAddressRight" fieldName="Addressright_Text_Property" this_field="Address_Text_Property"
+        :disabled="preProcessed || processed || submitted" :labelOverride="addressFieldLabel"
+        key="Addressright_Text_Property" />
       <field v-if="useAddressRight" class="hidden" fieldName="Addressright_ID_Text_Property" />
-      <field
-        v-if="!useAddressRight"
-        fieldName="Address_Text_Property"
-        this_field="Address_Text_Property"
-        :disabled="preProcessed || processed || submitted"
-        :labelOverride="addressFieldLabel"
-        :skipSave="true"
-        @placechanged="setProperty"
-        key="Address_Text_Property"
-      />
+      <field v-if="!useAddressRight" fieldName="Address_Text_Property" this_field="Address_Text_Property"
+        :disabled="preProcessed || processed || submitted" :labelOverride="addressFieldLabel" :skipSave="true"
+        @placechanged="setProperty" key="Address_Text_Property" />
 
       <template v-if="loanPurpose === 'refinance'">
-        <field
-          fieldName="Estimated_Home_Value"
-          :alwaysSave="true"
-          :disabled="preProcessed || processed || submitted"
-          @change="repaymentsCalculator"
-        />
-        <field
-          fieldName="Mortgage_Balance"
-          :alwaysSave="true"
-          :disabled="preProcessed || processed || submitted"
-          @change="repaymentsCalculator"
-        />
-        <field
-          fieldName="Loan_topup"
-          :alwaysSave="true"
-          :disabled="preProcessed || processed || submitted"
-          @change="repaymentsCalculator"
-        />
+        <field fieldName="Estimated_Home_Value" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
+          @change="repaymentsCalculator" />
+        <field fieldName="Mortgage_Balance" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
+          @change="repaymentsCalculator" />
+        <field fieldName="Loan_topup" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
+          @change="repaymentsCalculator" />
       </template>
 
       <template v-else>
-        <field
-          fieldName="Purchase_Price"
-          :skipSave="true"
-          :disabled="preProcessed || processed || submitted"
-          @change="repaymentsCalculator"
-        />
-        <field
-          fieldName="Deposit"
-          :skipSave="true"
-          :disabled="preProcessed || processed || submitted"
-          @change="repaymentsCalculator"
-        />
+        <field fieldName="Purchase_Price" :skipSave="true" :disabled="preProcessed || processed || submitted"
+          @change="repaymentsCalculator" />
+        <field fieldName="Deposit" :skipSave="true" :disabled="preProcessed || processed || submitted"
+          @change="repaymentsCalculator" />
       </template>
 
-      <field
-        fieldName="Loan_Interest_Rate"
-        :skipSave="true"
-        :disabled="preProcessed || processed || submitted"
-        @change="repaymentsCalculator"
-      />
+      <field fieldName="Loan_Interest_Rate" :skipSave="true" :disabled="preProcessed || processed || submitted"
+        @change="repaymentsCalculator" />
 
-      <field
-        fieldName="Loan_Term"
-        :skipSave="true"
-        :disabled="preProcessed || processed || submitted"
-        @change="repaymentsCalculator"
-      />
+      <field fieldName="Loan_Term" :skipSave="true" :disabled="preProcessed || processed || submitted"
+        @change="repaymentsCalculator" />
 
-      <field
-        fieldName="Repayments_Frequency"
-        :skipSave="true"
-        :disabled="preProcessed || processed || submitted"
-        @change="repaymentsCalculator"
-      />
+      <field fieldName="Repayments_Frequency" :skipSave="true" :disabled="preProcessed || processed || submitted"
+        @change="repaymentsCalculator" />
 
-      <field
-        fieldName="Has_RVC"
-        :labelOverride="hasRvcLabel"
-        :skipSave="true"
-        :disabled="preProcessed || processed || submitted"
-        @change="repaymentsCalculator"
-      />
+      <field fieldName="Has_RVC" :labelOverride="hasRvcLabel" :skipSave="true"
+        :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator" />
 
-      <field
-        v-if="hasRvc"
-        fieldName="Desired_RVC_Limit"
-        :skipSave="true"
-        :disabled="preProcessed || processed || submitted"
-        @change="repaymentsCalculator"
-      />
+      <field v-if="hasRvc" fieldName="Desired_RVC_Limit" :skipSave="true"
+        :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator" />
+
+      <field fieldName="Has_Required_RVC_Limit" v-if="hasRvc" :labelOverride="hasRequiredRvcLabel" :skipSave="true"
+        :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator" />
+
+      <field v-if="hasRvc && hasRequiredRvc" fieldName="Required_RVC_Limit" :skipSave="true"
+        :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator"
+        :maxValueOverride="desiredRvc.toString()" />
     </div>
     <!--<div class="columns mb-2">
             <div class="column is-6 pt-0">

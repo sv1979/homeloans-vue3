@@ -16,5 +16,9 @@ export default {
           .find(k => k.toLowerCase() === asLowercase)
         ];
         return found ? found : fallback
+    },
+    cleanNumber: (str) => {
+        if (!str) return 0;
+        return parseInt(str.replace(/,/g, ''), 10)
     }
 }

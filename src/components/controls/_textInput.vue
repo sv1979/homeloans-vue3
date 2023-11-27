@@ -143,9 +143,10 @@ export default {
       <div v-else-if="field.type === 'currency'" class="control" :class="commonClassesObject">
         <div class="p-inputgroup flex-1 currency_wrap">
           <span class="p-inputgroup-addon">$</span>
-          <InputNumber v-model="v$.fieldValue.$model" locale="en-NZ" :minFractionDigits="0" :maxFractionDigits="2" :class="{
-            'p-invalid': (isAmountField && this.wrongAmountField) || (v$ && v$.$errors.length)
-          }" :placeholder="field.placeholder" :disabled="disabled" maxlength="13" :data-field="field.name"
+          <InputNumber v-model="v$.fieldValue.$model" locale="en-NZ" 
+            :minFractionDigits="0" :maxFractionDigits="2" :class="{
+            'p-invalid': (isAmountField && this.wrongAmountField) || (v$ && v$.$errors.length) }" 
+            :placeholder="field.placeholder" :disabled="disabled" maxlength="13" :data-field="field.name"
             v-on:blur="onchangeCurrency" ref="input" :data-test-id="field.name" />
         </div>
       </div>
