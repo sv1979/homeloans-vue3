@@ -33,6 +33,10 @@ const desiredRvc = computed(() => {
   return toRaw(getFields['Desired_RVC_Limit'].value) ? toRaw(getFields['Desired_RVC_Limit'].value) : 0
 })
 
+const showMetRepaymentsQuestion = computed(() => {
+  return toRaw(getFields['Had_Defaults'].value)
+})
+
 const useAddressRight = computed(() => {
   let eak_value = toRaw(getFields['Exact_Address_Known'].value)
   let useAR = eak_value !== 'false' && eak_value.toString() !== 'false'
@@ -123,17 +127,26 @@ export default {
       <field v-if="hasRvc && hasRequiredRvc" fieldName="Required_RVC_Limit" :skipSave="true"
         :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator"
         :maxValueOverride="desiredRvc.toString()" />
+
+    </div>
+    <div class="col-12 mb-3" v-if="loanPurpose === 'refinance'" >
+      <field input-classes="" fieldName="Had_Defaults"
+        :disabled="preProcessed || processed || submitted" />
+
+      <field v-if="showMetRepaymentsQuestion" input-classes="" fieldName="Met_Repayments"
+        :disabled="preProcessed || processed || submitted" />
+    </div>
+    <div class="col-12 checkbox-wrap pos_relative long-text mb-3">
+      <field fieldName="Accepted_Privacy_Declaration" @change="saveAll" :skipSave="true"
+        :disabled="preProcessed || processed || submitted" />
+      <div class="sm">
+        I have read and understood the
+        <span class="link" @click="privacyOpen = true">Privacy Declaration.</span>
+        and I agree to my information being collected and dealt with
+        accordingly.
+      </div>
     </div>
     <!--<div class="columns mb-2">
-            <div class="column is-6 pt-0">
-                <field v-if="hasRvc" name="Desired_RVC_Limit" :skipSave="true"
-                    :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator" />
-                <field name="Has_Required_RVC_Limit" v-if="hasRvc" :labelOverride="hasRequiredRvcLabel" :skipSave="true"
-                    :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator" />
-                <field v-if="hasRvc && hasRequiredRvc" name="Required_RVC_Limit" :skipSave="true"
-                    :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator"
-                    :maxValueOverride="desiredRvc.toString()" />
-            </div>
             <div class="column is-5 is-offset-1 is-relative" v-if="TotalInterest">
                 <div class="card calculator-card">
                     <div class="card-content content for_calc">

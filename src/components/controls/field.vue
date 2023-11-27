@@ -33,6 +33,7 @@ import RadioInput from '@/components/controls/_radioInput.vue'
 import TextInput from '@/components/controls/_textInput.vue'
 import SelectInput from '@/components/controls/_selectInput.vue'
 import RangeInput from '@/components/controls/_rangeInput.vue'
+import CheckInput from '@/components/controls/_checkInput.vue'
 
 export default {
   name: 'field',
@@ -41,8 +42,8 @@ export default {
     SelectInput,
     // NumberControl,
     RadioInput,
-    RangeInput
-    // CheckInput,
+    RangeInput,
+    CheckInput
     // CheckInputMultiple,
     // CodeInput,
     // TooltipLabel,
