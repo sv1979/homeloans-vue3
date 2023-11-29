@@ -80,17 +80,24 @@ function selectValue(event) {
   if (fieldValue !== null && fieldValue !== '') {
     emit('change', {
       name: props.field.name,
-      value: value,
+      value: props.field.reversed ? !value : value,
       valid: !$v.$invalid
     })
-    emit('save', { [props.field.name]: value })
+    emit('save', { [props.field.name]: props.field.reversed ? !value : value })
     emit('validate', { steps: [route.params.step] })
   }
 }
 
 function checkboxInput(event) {
-  console.log(44, event)
+  // console.log(44, event)
 }
+
+onMounted(() => {
+  if (props.field.reversed) {
+    fieldValue.value = !fieldValue.value
+  }
+});
+
 </script>
 
 <script>
@@ -111,6 +118,7 @@ export default {
         unstyled
         :class="classObject" 
         v-model="fieldValue"
+        :modelValue="fieldValue"
         @update:modelValue="selectValue" 
         :disabled="disabled" 
         :data-test-id="`${field.name}`"
@@ -125,6 +133,7 @@ export default {
         unstyled
         :class="classObject" 
         v-model="fieldValue"
+        :modelValue="fieldValue"
         @update:modelValue="selectValue" 
         :disabled="disabled" 
         :data-test-id="`${field.name}`"
