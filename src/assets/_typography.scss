@@ -1,0 +1,165 @@
+html, body {
+    font-size: 18px !important;
+}
+
+.is-bold {
+    font-weight: 700;
+}
+.is-medium {
+    font-weight: 600;
+}
+
+.buttons {
+    &.expanded {
+        justify-content: space-between;
+    }
+}
+
+.button {
+    border-radius: 50px;
+    border: none;
+    transition: color .3s, background-color .3s, transform .3s;
+    box-shadow: inset 0 0 0 1px $black;
+    padding: .375em 20px;
+    
+    &:hover {
+        background-color: $heartland-lightgray;
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        box-shadow: 2px 8px 20px 0px rgba($color: #333, $alpha: 0.4);
+        border-radius: 60px;
+        opacity: 0;
+        transition: opacity .3s;
+    }
+
+    &.is-simple {
+        background-color: transparent;
+        border-width: 0;
+        box-shadow: none;
+        font-weight: 600;
+        color: $heartland-purple;
+        text-decoration: underline;
+    }
+
+    &.is-primary,
+    &.is-danger,
+    &.is-success {
+        box-shadow: none;
+        font-weight: 600;
+        &:hover {
+            transform: translateY(-4px);
+            &:after {
+                opacity: 1;
+            }
+        }
+    }
+
+    &.is-mobile {
+        @include totablet {
+            width: 100%;
+        }
+    }
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+.sm {
+    font-size: 14px;
+}
+
+.tool {
+    background-color: $heartland-gray3;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    line-height: 13px;
+    margin-left: 3px;
+    transform: translateY(-2px);
+    appearance: none;
+    border: none;
+    padding: 0 0;
+    font-family: Lora;
+
+    &:after {
+        content: 'i';
+    }
+}
+
+.text_button {
+    font-weight: bold;
+    appearance: none;
+    border: none;
+    padding: 0 0;
+    background-color: transparent;
+    font-size: 1em;
+}
+
+.link {
+    text-decoration: underline;
+    color: $heartland-purple;
+    cursor: pointer;
+    display: inline-block;
+    transition: all .3s;
+    &:hover, &:focus {
+        transform: translateY(-4px);
+    }
+}
+
+@mixin link-button {
+    position: relative;
+    display: inline-block;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:after {
+        display: none;
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 4px;
+        height: 1px;
+        background-color: currentColor;
+        bottom: -2px;
+    }
+
+    &:hover {
+        &:before {
+            color: $heartland-purple;
+        }
+    }
+}
+
+.link-button {
+    @include link-button;
+}
+
+.is-purple {
+    color: $heartland-purple;
+}
+
+.is-red {
+    color: $red;
+}
+
+.is-pink {
+    color: $heartland-pink;
+}

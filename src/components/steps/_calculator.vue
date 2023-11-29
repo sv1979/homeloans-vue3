@@ -3,6 +3,8 @@ import { ref, onMounted, computed, isProxy, toRaw, watch } from 'vue'
 import { useApplicationStore } from '@/stores/application'
 const { repaymentsCalculator, getFields, setFields, saveFields } = useApplicationStore()
 
+const privacyOpen = ref(false);
+
 function callRepaymentsCalculator(event) {
   console.log(333, 'RC')
   repaymentsCalculator()
@@ -66,11 +68,15 @@ watch(useAddressRight, (newValue, oldValue) => {
 </script>
 <script>
 import field from '../controls/field.vue'
+import privacyModal from '@/components/PrivacyModal.vue'
+import Button from 'primevue/button';
 
 export default {
   name: 'calculator',
   components: {
-    field
+    field,
+    privacyModal,
+    Button
   }
 }
 </script>
@@ -136,16 +142,21 @@ export default {
       <field v-if="showMetRepaymentsQuestion" input-classes="" fieldName="Met_Repayments"
         :disabled="preProcessed || processed || submitted" />
     </div>
-    <div class="col-12 checkbox-wrap pos_relative long-text mb-3">
-      <field fieldName="Accepted_Privacy_Declaration" @change="saveAll" :skipSave="true"
-        :disabled="preProcessed || processed || submitted" />
-      <div class="sm">
-        I have read and understood the
-        <span class="link" @click="privacyOpen = true">Privacy Declaration.</span>
-        and I agree to my information being collected and dealt with
-        accordingly.
-      </div>
+    <div class="col-12 pos_relative long-text mb-3">
+      <label class="checkbox_wrapper mb-1">
+        <field fieldName="Accepted_Privacy_Declaration" @change="saveAll" :skipSave="true"
+          :disabled="preProcessed || processed || submitted" />
+        <div class="check_label sm checkbox-wrap-text">
+          I have read and understood the
+          <Button class="link" @click="privacyOpen = true">Privacy Declaration.</Button>
+          and I agree to my information being collected and dealt with
+          accordingly.
+        </div>
+      </label>
     </div>
+
+    <privacy-modal :isOpen="privacyOpen" v-on:close="privacyOpen = false"/>
+
     <!--<div class="columns mb-2">
             <div class="column is-5 is-offset-1 is-relative" v-if="TotalInterest">
                 <div class="card calculator-card">
@@ -217,6 +228,6 @@ export default {
             </div>
         </div> -->
 
-    <privacy-modal v-model="privacyOpen" />
+    
   </div>
 </template>
