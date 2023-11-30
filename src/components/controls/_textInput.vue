@@ -14,13 +14,14 @@ import { required, email, minLength, maxLength, minValue, maxValue } from '@vuel
 import { computed, reactive, ref, toRaw } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { useApplicationStore } from '@/stores/application'
-// const emit = defineEmits(['change', 'save', 'validate'])
+// const emit = defineEmits(['inputChange','change', 'save', 'validate'])
 import TooltipLabel from '@/components/TooltipLabel.vue'
 import AutocompleteInput from '@/components/controls/_autocompleteInput.vue'
 import SimpleText from '@/components/controls/_simpleText.vue'
 import GoogleAutocomplete from '@/components/controls/_googleAutocomplete.vue'
 import InputNumber from 'primevue/inputnumber'
 import { validationRules, validationMessage } from '@/helpers/validationMixin.js'
+import { useRoute } from 'vue-router'
 
 export default {
   name: 'text-input',
@@ -82,9 +83,10 @@ export default {
       default: false
     }
   },
-  setup(props) {
+  setup(props, context) {
     const { getFields, setFields, saveFields } = useApplicationStore()
     const state = reactive({ fieldValue: props.val })
+    const route = useRoute()
     const rawValue = ref('')
     const dateops = reactive({
       minYear: null,
@@ -92,14 +94,22 @@ export default {
       focused: null
     })
     const rules = computed(() => {
-      if (validationRules) return validationRules(props);
+      if (validationRules) return validationRules(props, getFields);
       return { fieldValue: {} }
     })
     const v$ = useVuelidate(rules, state)
 
     function onchangeCurrency(event) {
-      setFields({ [props.field.name]: event.value })
-      saveFields()
+      // setFields({ [props.field.name]: event.value })
+      // saveFields()
+
+      context.emit('change', {
+        name: props.field.name,
+        value: event.value,
+        valid: !v$.$invalid
+      })
+      context.emit('save', { [props.field.name]: event.value })
+      context.emit('validate', { steps: [route.params.step] })
     }
 
     return {
@@ -147,7 +157,8 @@ export default {
             :minFractionDigits="0" :maxFractionDigits="2" :class="{
             'p-invalid': (isAmountField && this.wrongAmountField) || (v$ && v$.$errors.length) }" 
             :placeholder="field.placeholder" :disabled="disabled" maxlength="13" :data-field="field.name"
-            v-on:blur="onchangeCurrency" ref="input" :data-test-id="field.name" />
+            v-on:input="onchangeCurrency" ref="input" :data-test-id="field.name" 
+            />
         </div>
       </div>
 

@@ -1,12 +1,13 @@
 <script setup>
 import { ref, onMounted, computed, isProxy, toRaw, watch } from 'vue'
 import { useApplicationStore } from '@/stores/application'
+import constants from '../../helpers/constants'
 const { repaymentsCalculator, getFields, setFields, saveFields } = useApplicationStore()
 
 const privacyOpen = ref(false);
 
 function callRepaymentsCalculator(event) {
-  console.log(333, 'RC')
+  console.log(333, 'RC', event)
   repaymentsCalculator()
 }
 
@@ -85,7 +86,7 @@ export default {
   <div class="grid">
     <div class="col-7 mb-0">
       <field fieldName="Loan_Purpose" :disabled="preProcessed || processed || submitted"
-        @change="callRepaymentsCalculator" input-classes="test test3" />
+        @change="callRepaymentsCalculator" input-classes="" />
       <field fieldName="Exact_Address_Known" v-if="loanPurpose !== 'refinance'"
         :disabled="preProcessed || processed || submitted" v-on:change="changeExactAddressKnown" />
       <field v-if="useAddressRight" fieldName="Addressright_Text_Property" this_field="Address_Text_Property"
@@ -98,7 +99,7 @@ export default {
 
       <template v-if="loanPurpose === 'refinance'">
         <field fieldName="Estimated_Home_Value" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
-          @change="repaymentsCalculator" />
+          @change="callRepaymentsCalculator" />
         <field fieldName="Mortgage_Balance" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
           @change="repaymentsCalculator" />
         <field fieldName="Loan_topup" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
@@ -107,7 +108,7 @@ export default {
 
       <template v-else>
         <field fieldName="Purchase_Price" :skipSave="true" :disabled="preProcessed || processed || submitted"
-          @change="repaymentsCalculator" />
+          @change="callRepaymentsCalculator" />
         <field fieldName="Deposit" :skipSave="true" :disabled="preProcessed || processed || submitted"
           @change="repaymentsCalculator" />
       </template>
@@ -142,8 +143,8 @@ export default {
       <field v-if="showMetRepaymentsQuestion" input-classes="" fieldName="Met_Repayments"
         :disabled="preProcessed || processed || submitted" />
     </div>
-    <div class="col-12 pos_relative long-text mb-3">
-      <label class="checkbox_wrapper mb-1">
+    <div class="col-12 pos_relative long-text mb-1">
+      <label class="checkbox_wrapper">
         <field fieldName="Accepted_Privacy_Declaration" @change="saveAll" :skipSave="true"
           :disabled="preProcessed || processed || submitted" />
         <div class="check_label sm checkbox-wrap-text">
@@ -152,6 +153,14 @@ export default {
           and I agree to my information being collected and dealt with
           accordingly.
         </div>
+      </label>
+    </div>
+
+    <div class="col-12 pos_relative long-text mb-1">
+      <label class="checkbox_wrapper">
+        <field fieldName="Accepted_Financial_Statement" :skipSave="true"
+          :disabled="preProcessed || processed || submitted" />
+        <div class="check_label sm checkbox-wrap-text" v-html="constants.ACCEPTED_FINANCIAL_STATEMENT_LABEL"></div>
       </label>
     </div>
 
@@ -196,38 +205,6 @@ export default {
                     </p>
                 </div>
             </div>
-        </div>
-        <div class="mb-3" v-if="loanPurpose === 'refinance'">
-            <field input-classes="desktop_160 mb-3" name="Had_Defaults"
-                :disabled="preProcessed || processed || submitted" />
-            <field v-if="showMetRepaymentsQuestion" input-classes="desktop_160 mb-3" name="Met_Repayments"
-                :disabled="preProcessed || processed || submitted" />
-        </div>
-        <div class="checkbox-wrap pos_relative long-text mb-3">
-            <field name="Accepted_Privacy_Declaration" @change="saveAll" :skipSave="true"
-                :disabled="preProcessed || processed || submitted" />
-            <div class="sm">
-                I have read and understood the
-                <span class="link" @click="privacyOpen = true">Privacy Declaration.</span>
-                and I agree to my information being collected and dealt with
-                accordingly.
-            </div>
-        </div>
-        <div class="checkbox-wrap pos_relative extra-long-text">
-            <field name="Accepted_Financial_Statement" :skipSave="true"
-                :disabled="preProcessed || processed || submitted" />
-            <div class="sm">
-                I have read and understood the following statement regarding financial
-                advice:<br />
-                You are protected by responsible lending laws. Because of these
-                protections, the recommendations given to you about Heartland loans are
-                not regulated financial advice. This means that duties and requirements
-                imposed on people who give financial advice do not apply to these
-                recommendations. This includes a duty to comply with a code of conduct
-                and a requirement to be licensed.
-            </div>
         </div> -->
-
-    
   </div>
 </template>

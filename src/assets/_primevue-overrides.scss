@@ -114,3 +114,24 @@ $blue: #0200b9;
         }
     }
 }
+
+.p-autocomplete-panel {
+    .p-autocomplete-items {
+        list-style: none;
+        .p-autocomplete-item{
+            padding-left: 20px;
+            &::before {
+                display: none;
+            }
+        }
+    }
+} 
+
+.p-dropdown-items {
+    li {
+        padding-left: 20px;
+        &::before {
+            display: none;
+        }
+    }
+} 

@@ -1,7 +1,7 @@
 import { required, email, minLength, maxLength, minValue, maxValue } from '@vuelidate/validators'
 import { toRaw } from 'vue'
 
-export function validationRules(props) {
+export function validationRules(props, fields) {
     const valids = {}
     const fv = toRaw(props.field.validations)
     const maxValueOverride = props.maxValueOverride ? parseInt(props.maxValueOverride.replace(/,/g, ''), 10) : 0
@@ -27,9 +27,10 @@ export function validationRules(props) {
         valids['maxValue'] = maxValue(props.dateopts.maxDate)
     if (props.field.amountField) {
         valids['lookLoanAmount'] = () => {
+            // console.log(12, toRaw(fields))
             return !(
-                toRaw(getFields['Loan_Amount'].value) >= 100000 &&
-                toRaw(getFields['Loan_Amount'].value) <= 4000000
+                toRaw(fields['Loan_Amount'].value) >= 100000 &&
+                toRaw(fields['Loan_Amount'].value) <= 4000000
             )
         }
     }

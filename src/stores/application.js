@@ -205,6 +205,7 @@ export const useApplicationStore = defineStore({
         }
       });
     },
+
     setFieldsValues(dataFields) {
       Object.entries(this.fields).forEach(([key, field]) => {
         if (typeof dataFields[key] !== 'undefined') {
@@ -217,36 +218,88 @@ export const useApplicationStore = defineStore({
       });
     },
 
-    repaymentsCalculator(init) {
+    setLoanAmount() {
+      console.log('sli')
+      const loanAmount = this.fields['Loan_Purpose'].value === 'refinance' ?
+        Number(this.fields['Mortgage_Balance'].value) + Number(this.fields['Loan_topup'].value) :
+        Number(this.fields['Purchase_Price'].value) - Number(this.fields['Deposit'].value);
+
+      this.setFields({ ['Loan_Amount']: loanAmount })
+
+
+      const desiredRvc = this.fields['Has_RVC'].value &&
+        this.fields['Desired_RVC_Limit'].value !== null
+          ? Number(this.fields['Desired_RVC_Limit'].value)
+          : null;
+
+      this.setFields({ ['Desired_RVC_Limit']: desiredRvc })
+
+      const requiredRvc =
+        this.fields['Has_RVC'].value &&
+        this.fields['Has_Required_RVC_Limit'].value &&
+        this.fields['Required_RVC_Limit'].value !== null
+            ? Number(this.fields['Required_RVC_Limit'].value)
+            : null;
+      
+      this.setFields({ ['Required_RVC_Limit']: requiredRvc })      
+
+      this.setFields({ ['Term_Loan_Amount']: loanAmount - Number(requiredRvc || 0) }) 
+
+      // let calcInvalidNH =
+      //   state.fields.Loan_Purpose.value === 'new-home' &&
+      //   state.fields.Purchase_Price.value !== '' &&
+      //   state.fields.Loan_Amount.value !== '';
+      // let calcInvalidRE =
+      //   state.fields.Loan_Purpose.value === 'refinance' &&
+      //   state.fields.Mortgage_Balance.value !== '';
+      // if (calcInvalidNH || calcInvalidRE) {
+      //   if (
+      //     state.fields.Loan_Amount.value < 100000 ||
+      //     state.fields.Loan_Amount.value > 4000000
+      //   ) {
+      //     const ind = state.steps.findIndex((s) => s.slug === 'calculator');
+      //     state.steps[ind].valid = false;
+      //     if (typeof state.steps[ind].inError !== 'undefined')
+      //       state.steps[ind].inError = true;
+      //   }
+      // }
+    },
+
+    async repaymentsCalculator(init) {
       // commit('clearSaveDelay');
-      // commit('setLoanAmount');
       console.log('rep', init)
-      let rate_is_string = typeof this.fields.Loan_Interest_Rate.value === 'string';
+      this.setLoanAmount()
+      const _fields = this.fields;
+
+      const rate_is_string = typeof _fields.Loan_Interest_Rate.value === 'string';
       if (
         this.guid &&
-        this.fields.Loan_Amount.value &&
-        this.fields.Loan_Interest_Rate.value &&
-        this.fields.Loan_Term.value
+        _fields.Loan_Amount.value &&
+        _fields.Loan_Interest_Rate.value &&
+        _fields.Loan_Term.value
       ) {
-        axios
-          .post('/homeloan/repaymentscalculator', {
-            LoanAmount: this.fields.Loan_Amount.value,
-            TermLoanAmount: this.fields.Term_Loan_Amount.value,
-            AnnualInterestRate: rate_is_string && this.fields.Loan_Interest_Rate.value.indexOf('---') > -1 
-              ? this.fields.Loan_Interest_Rate.value.substr(0, state.fields.Loan_Interest_Rate.value.indexOf('---')) 
-              : this.fields.Loan_Interest_Rate.value,
-            LoanPeriodInYears: this.fields.Loan_Term.value,
-            PurchasePrice: this.fields.Purchase_Price.value,
-            EstimatedHomeValue: this.fields.Estimated_Home_Value.value,
-            LoanPurpose: this.fields.Loan_Purpose.value,
-            DesiredRVC: this.fields.Has_RVC.value
-              ? this.fields.Desired_RVC_Limit.value
+        const url = import.meta.env.VITE_BASE_URL + constants.URLS.CALCULATOR;
+        const rate = rate_is_string && _fields.Loan_Interest_Rate.value.indexOf('---') > -1 
+          ? _fields.Loan_Interest_Rate.value.substr(0, _fields.Loan_Interest_Rate.value.indexOf('---')) 
+          : _fields.Loan_Interest_Rate.value;
+
+        console.log(this.fields.Loan_Interest_Rate.value)
+        axios.post(url, {
+            LoanAmount: _fields.Loan_Amount.value,
+            TermLoanAmount: _fields.Term_Loan_Amount.value,
+            AnnualInterestRate: rate,
+            LoanPeriodInYears: _fields.Loan_Term.value,
+            PurchasePrice: _fields.Purchase_Price.value,
+            EstimatedHomeValue: _fields.Estimated_Home_Value.value,
+            LoanPurpose: _fields.Loan_Purpose.value,
+            DesiredRVC: _fields.Has_RVC.value
+              ? _fields.Desired_RVC_Limit.value
               : null,
-            RequiredRVC: this.fields.Has_Required_RVC_Limit.value
-              ? this.fields.Required_RVC_Limit.value
+            RequiredRVC: _fields.Has_Required_RVC_Limit.value
+              ? _fields.Required_RVC_Limit.value
               : null,
-            Required_RVC_Limit: this.fields.Has_Required_RVC_Limit.value
-              ? this.fields.Required_RVC_Limit.value
+            Required_RVC_Limit: _fields.Has_Required_RVC_Limit.value
+              ? _fields.Required_RVC_Limit.value
               : null
           })
           .then(({ data }) => {
@@ -301,6 +354,7 @@ export const useApplicationStore = defineStore({
             // commit('setErrors', get(error, 'response.data.Errors'));
             // dispatch('showErrors');
           });
+          console.log('rp3')
       } else if (!init) {
         console.log('here2')
         this.saveFields(
@@ -323,6 +377,7 @@ export const useApplicationStore = defineStore({
         });
       }
     },
+
     async saveFields(fieldsData) {
       console.log(fieldsData)
       let $this = this;
