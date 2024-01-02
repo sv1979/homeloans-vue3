@@ -2927,6 +2927,14 @@
                 }
             },
             "addLabel": "+ Add more"
+        },
+        "Payment_Infos": {
+            "name": "Payment_Infos",
+            "value": []
+        },
+        "Lvr_Percentage": {
+            "name": "Lvr_Percentage",
+            "value": 0
         }
     }
 }

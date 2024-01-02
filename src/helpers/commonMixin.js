@@ -20,5 +20,6 @@ export default {
     cleanNumber: (str) => {
         if (!str) return 0;
         return parseInt(str.replace(/,/g, ''), 10)
-    }
+    },
+    currencyFormatter: () => new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'})
 }

@@ -102,12 +102,13 @@ export default {
     function onchangeCurrency(event) {
       // setFields({ [props.field.name]: event.value })
       // saveFields()
-
+console.log(111,event)
       context.emit('change', {
         name: props.field.name,
         value: event.value,
         valid: !v$.$invalid
       })
+      setFields({ [props.field.name]: event.value.replace(/,/g, '') })
       context.emit('save', { [props.field.name]: event.value })
       context.emit('validate', { steps: [route.params.step] })
     }
@@ -157,7 +158,7 @@ export default {
             :minFractionDigits="0" :maxFractionDigits="2" :class="{
             'p-invalid': (isAmountField && this.wrongAmountField) || (v$ && v$.$errors.length) }" 
             :placeholder="field.placeholder" :disabled="disabled" maxlength="13" :data-field="field.name"
-            v-on:input="onchangeCurrency" ref="input" :data-test-id="field.name" 
+            v-on:blur="onchangeCurrency" ref="input" :data-test-id="field.name" 
             />
         </div>
       </div>

@@ -42,7 +42,7 @@ export const useApplicationStore = defineStore({
       }, {});
       return transformedArray
     },
-    getGuid: (state) => { return state.guid },
+    getGuid: (state) => { return state.guid }
   },
   actions: {
     // async fetchPosts() {
@@ -224,7 +224,8 @@ export const useApplicationStore = defineStore({
         Number(this.fields['Mortgage_Balance'].value) + Number(this.fields['Loan_topup'].value) :
         Number(this.fields['Purchase_Price'].value) - Number(this.fields['Deposit'].value);
 
-      this.setFields({ ['Loan_Amount']: loanAmount })
+      console.log('sli2', Number(this.fields['Mortgage_Balance'].value), Number(this.fields['Deposit'].value))
+      this.setFields({ ['Purchase_Price']: loanAmount })
 
 
       const desiredRvc = this.fields['Has_RVC'].value &&
@@ -270,8 +271,13 @@ export const useApplicationStore = defineStore({
       console.log('rep', init)
       this.setLoanAmount()
       const _fields = this.fields;
+      const $this = this;
 
       const rate_is_string = typeof _fields.Loan_Interest_Rate.value === 'string';
+      console.log( this.guid,
+        _fields.Loan_Amount.value,
+        _fields.Loan_Interest_Rate.value,
+        _fields.Loan_Term.value)
       if (
         this.guid &&
         _fields.Loan_Amount.value &&
@@ -283,7 +289,6 @@ export const useApplicationStore = defineStore({
           ? _fields.Loan_Interest_Rate.value.substr(0, _fields.Loan_Interest_Rate.value.indexOf('---')) 
           : _fields.Loan_Interest_Rate.value;
 
-        console.log(this.fields.Loan_Interest_Rate.value)
         axios.post(url, {
             LoanAmount: _fields.Loan_Amount.value,
             TermLoanAmount: _fields.Term_Loan_Amount.value,
@@ -303,7 +308,8 @@ export const useApplicationStore = defineStore({
               : null
           })
           .then(({ data }) => {
-            // commit('setPaymentInfos', data.Data.PaymentInfos);
+            $this.setFields({ ['Payment_Infos']: data.Data.PaymentInfos})
+            $this.setFields({ ['Lvr_Percentage']: data.Data.LvrPercentage})
             // commit('setLvrPercentage', data.Data.LvrPercentage);
             // commit('clearSaveDelay');
             const monthlyRepayments = data.Data.PaymentInfos.find(
@@ -346,6 +352,7 @@ export const useApplicationStore = defineStore({
                 Required_RVC_Limit: this.fields.Has_Required_RVC_Limit.value
                   ? Number(this.fields.Required_RVC_Limit.value)
                   : null,
+                Lvr_Percentage: this.fields.Lvr_Percentage.value ? this.fields.Lvr_Percentage.value : 0
               });
             }, 2000);
             // commit('setSaveDelay', saveDelay);
@@ -387,7 +394,7 @@ export const useApplicationStore = defineStore({
         fieldsToSave = fieldsData;
         valuesToSave = fieldsData;
       }
-      if (!this.getGuid) await createApp();
+      if (!this.getGuid) await this.createApp();
       if (this.getGuid) {
         this.saveCombinedFields(fieldsToSave)
         axios
@@ -408,11 +415,11 @@ export const useApplicationStore = defineStore({
     },
 
     async createApp({ newApp } = {}) {
-      if (state.guid) return;
+      if (this.getGuid) return;
       var createAppFunction = function (recaptchaToken) {
         console.log('create app')
         axios
-          .post('/homeloan', { RecaptchaToken: recaptchaToken })
+          .post(import.meta.env.VITE_BASE_URL + constants.URLS.HOMELOAN, { RecaptchaToken: recaptchaToken })
           .then(({ data }) => {
             if (data.Data.Guid) {
               state.guid = data.Data.Guid
@@ -430,11 +437,10 @@ export const useApplicationStore = defineStore({
             }
           })
           .catch((error) => {
-            this.errors = response.data.Errors
-            this.showErrors()
+            // this.showErrors()
           });
       };
-      executeWithRecaptcha('HomeLoansCreateApp', createAppFunction);
+      reCaptcha.executeWithRecaptcha('HomeLoansCreateApp', createAppFunction);
     },
 
     async saveCombinedFields(fields) {

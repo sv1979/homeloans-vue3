@@ -7,7 +7,6 @@ const { repaymentsCalculator, getFields, setFields, saveFields } = useApplicatio
 const privacyOpen = ref(false);
 
 function callRepaymentsCalculator(event) {
-  console.log(333, 'RC', event)
   repaymentsCalculator()
 }
 
@@ -58,6 +57,58 @@ const preProcessed = computed(() => {
   return toRaw(getFields['Application_Status'].value) === 'PreProcessing'
 })
 
+const getPaymentInfos = computed(() => {
+  return toRaw(getFields['Payment_Infos'].value)
+})
+
+const getFreq = computed(() => {
+  return toRaw(getFields['Repayments_Frequency'].value)
+})
+
+const totalInterest = computed(() => {
+  if (getPaymentInfos.value.length > 0) {
+    return getPaymentInfos.value[parseInt(getFreq.value)].TotalInterest
+  }
+  return null
+})
+
+const termLoanAmount = computed(() => { return toRaw(getFields['Term_Loan_Amount'].value) })
+
+const loanAmount = computed(() => { return toRaw(getFields['Loan_Amount'].value) })
+
+const totalCostOfLoan = computed(() => {
+  if (getPaymentInfos.value.length > 0) {
+    return getPaymentInfos.value[parseInt(getFreq.value)].TotalCostOfLoan
+  }
+  return 0
+})
+
+const paymentType = computed(() => {
+  if (getPaymentInfos.value.length > 0) {
+    return getPaymentInfos.value[parseInt(getFreq.value)].PaymentType
+  }
+  return 0
+})
+
+const paymentAmount = computed(() => {
+  if (getPaymentInfos.value.length > 0) {
+    return getPaymentInfos.value[parseInt(getFreq.value)].PaymentAmount
+  }
+  return 0
+})
+
+const lvrPercentage = computed(() => { return toRaw(getFields['Lvr_Percentage'].value) })
+
+const lvrMessage = computed(() => {
+  if (lvrPercentage.value >= 0) {
+    return `${lvrPercentage.value}%`
+  }
+  if (loanPurpose.value === 'refinance') {
+    return `Your revolving credit limit cannot be greater than your equity.`;
+  }
+  return `Your revolving credit limit cannot be greater than your deposit.`;
+})
+
 watch(useAddressRight, (newValue, oldValue) => {
   console.log(200, 'AR', newValue, oldValue)
   if (newValue | oldValue) {
@@ -83,8 +134,8 @@ export default {
 </script>
 
 <template>
-  <div class="grid">
-    <div class="col-7 mb-0">
+  <div class="grid calc_grid">
+    <div class="col-12 lg:col-7 mb-0">
       <field fieldName="Loan_Purpose" :disabled="preProcessed || processed || submitted"
         @change="callRepaymentsCalculator" input-classes="" />
       <field fieldName="Exact_Address_Known" v-if="loanPurpose !== 'refinance'"
@@ -101,48 +152,85 @@ export default {
         <field fieldName="Estimated_Home_Value" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
           @change="callRepaymentsCalculator" />
         <field fieldName="Mortgage_Balance" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
-          @change="repaymentsCalculator" />
+          @change="callRepaymentsCalculator" />
         <field fieldName="Loan_topup" :alwaysSave="true" :disabled="preProcessed || processed || submitted"
-          @change="repaymentsCalculator" />
+          @change="callRepaymentsCalculator" />
       </template>
 
       <template v-else>
         <field fieldName="Purchase_Price" :skipSave="true" :disabled="preProcessed || processed || submitted"
           @change="callRepaymentsCalculator" />
         <field fieldName="Deposit" :skipSave="true" :disabled="preProcessed || processed || submitted"
-          @change="repaymentsCalculator" />
+          @change="callRepaymentsCalculator" />
       </template>
 
       <field fieldName="Loan_Interest_Rate" :skipSave="true" :disabled="preProcessed || processed || submitted"
-        @change="repaymentsCalculator" />
+        @change="callRepaymentsCalculator" />
 
       <field fieldName="Loan_Term" :skipSave="true" :disabled="preProcessed || processed || submitted"
-        @change="repaymentsCalculator" />
+        @change="callRepaymentsCalculator" />
 
       <field fieldName="Repayments_Frequency" :skipSave="true" :disabled="preProcessed || processed || submitted"
-        @change="repaymentsCalculator" />
+        @change="callRepaymentsCalculator" />
 
       <field fieldName="Has_RVC" :labelOverride="hasRvcLabel" :skipSave="true"
-        :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator" />
+        :disabled="preProcessed || processed || submitted" @change="callRepaymentsCalculator" />
 
       <field v-if="hasRvc" fieldName="Desired_RVC_Limit" :skipSave="true"
-        :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator" />
+        :disabled="preProcessed || processed || submitted" @change="callRepaymentsCalculator" />
 
       <field fieldName="Has_Required_RVC_Limit" v-if="hasRvc" :labelOverride="hasRequiredRvcLabel" :skipSave="true"
-        :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator" />
+        :disabled="preProcessed || processed || submitted" @change="callRepaymentsCalculator" />
 
       <field v-if="hasRvc && hasRequiredRvc" fieldName="Required_RVC_Limit" :skipSave="true"
-        :disabled="preProcessed || processed || submitted" @change="repaymentsCalculator"
+        :disabled="preProcessed || processed || submitted" @change="callRepaymentsCalculator"
         :maxValueOverride="desiredRvc.toString()" />
 
     </div>
-    <div class="col-12 mb-3" v-if="loanPurpose === 'refinance'" >
-      <field input-classes="" fieldName="Had_Defaults"
-        :disabled="preProcessed || processed || submitted" />
+
+    <div class="col calc_result" v-if="totalInterest">
+      <div class="calc_result_data">
+        <b>Term loan amount:</b>
+        <p :class="{ 'is-red': loanAmount > 4000000 || loanAmount < 100000 }">
+          {{ constants.CURRENCY.format(termLoanAmount > 0 ? termLoanAmount : 0) }}
+          <br />
+          <span class="sm" v-if="loanAmount > 4000000">Max loan amount $4,000,000</span>
+          <span class="sm" v-if="loanAmount < 100000">Min loan amount $100,000</span>
+        </p>
+
+        <b>Total term loan interest:</b>
+        <p>{{ constants.CURRENCY.format((totalInterest > 0 ? totalInterest : 0)) }}</p>
+
+        <b>Total term loan cost:</b>
+        <p>{{ constants.CURRENCY.format((totalCostOfLoan > 0 ? totalCostOfLoan : 0)) }}</p>
+
+        <b>{{ paymentType }} term loan repayments:</b>
+        <p>{{ constants.CURRENCY.format((paymentAmount > 0 ? paymentAmount : 0)) }}</p>
+
+        <b>Equity percentage:</b>
+        <p :class="{ 'is-red': lvrPercentage < 0 }">{{ lvrMessage }}</p>
+      </div>
+
+      <div class="calculator-disclaimer sm">
+        <p>
+          Your repayments are calculated at the interest rate and loan term
+          selected, and are based on the interest rate being constant for the
+          entire loan term. Changes to interest rates and/or the repayment
+          amounts will change this.
+          <br />
+          Other than the equity percentage, the above does not take into
+          consideration a revolving credit account.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-12 mb-3" v-if="loanPurpose === 'refinance'">
+      <field input-classes="" fieldName="Had_Defaults" :disabled="preProcessed || processed || submitted" />
 
       <field v-if="showMetRepaymentsQuestion" input-classes="" fieldName="Met_Repayments"
         :disabled="preProcessed || processed || submitted" />
     </div>
+
     <div class="col-12 pos_relative long-text mb-1">
       <label class="checkbox_wrapper">
         <field fieldName="Accepted_Privacy_Declaration" @change="saveAll" :skipSave="true"
@@ -164,47 +252,6 @@ export default {
       </label>
     </div>
 
-    <privacy-modal :isOpen="privacyOpen" v-on:close="privacyOpen = false"/>
-
-    <!--<div class="columns mb-2">
-            <div class="column is-5 is-offset-1 is-relative" v-if="TotalInterest">
-                <div class="card calculator-card">
-                    <div class="card-content content for_calc">
-                        <TooltipLabel :field="loanLabel"></TooltipLabel>
-                        <p :class="{ 'is-red': loanAmount > 4000000 || loanAmount < 100000 }">
-                            {{ (termLoanAmount > 0 ? termLoanAmount : 0) | currency }}
-                            <br />
-                            <span class="sm" v-if="loanAmount > 4000000">Max loan amount $4,000,000</span>
-                            <span class="sm" v-if="loanAmount < 100000">Min loan amount $100,000</span>
-                        </p>
-                        <TooltipLabel :field="{ label: 'Total term loan interest:' }"></TooltipLabel>
-
-                        <p>{{ (TotalInterest > 0 ? TotalInterest : 0) | currency }}</p>
-                        <b>Total term loan cost:</b>
-                        <br />
-                        <p>{{ (TotalCostOfLoan > 0 ? TotalCostOfLoan : 0) | currency }}</p>
-                        <b>{{ PaymentType }} term loan repayments:</b>
-                        <br />
-                        <p>{{ (PaymentAmount > 0 ? PaymentAmount : 0) | currency }}</p>
-                        <span>
-                            <b>{{ lvrLabel }}</b>
-                            <br />
-                            <p :class="{ 'is-red': lvrPercentage < 0 }">{{ lvrMessage }}</p>
-                        </span>
-                    </div>
-                </div>
-                <div class="calculator-disclaimer sm">
-                    <p>
-                        Your repayments are calculated at the interest rate and loan term
-                        selected, and are based on the interest rate being constant for the
-                        entire loan term. Changes to interest rates and/or the repayment
-                        amounts will change this.
-                        <br />
-                        Other than the equity percentage, the above does not take into
-                        consideration a revolving credit account.
-                    </p>
-                </div>
-            </div>
-        </div> -->
+    <privacy-modal :isOpen="privacyOpen" v-on:close="privacyOpen = false" />
   </div>
 </template>

@@ -19,5 +19,6 @@ export default {
             not regulated financial advice. This means that duties and requirements
             imposed on people who give financial advice do not apply to these
             recommendations. This includes a duty to comply with a code of conduct
-            and a requirement to be licensed.`
+            and a requirement to be licensed.`,
+    CURRENCY: new Intl.NumberFormat('en-NZ', { style: 'currency', currency: 'NZD' })        
 }

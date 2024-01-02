@@ -44,7 +44,6 @@ $violet: #723ab3;
 *::after {
   box-sizing: border-box;
   margin: 0;
-  font-weight: normal;
 }
 
 html,
@@ -95,6 +94,18 @@ svg {
   }
 }
 
+.is-purple {
+  color: $heartland-purple;
+}
+
+.is-red {
+  color: $red;
+}
+
+.is-pink {
+  color: $heartland-pink;
+}
+
 .loading_spinner {
   width: 100vw;
   height: calc(100vh - 240px);
@@ -141,4 +152,21 @@ li:before {
   margin-top: -0.3em;
   position: absolute;
   font-size: 1.75em;
+}
+
+.calc_grid {
+  column-gap: 20px;
+}
+
+.calc_result {
+  margin-bottom: 20px;
+}
+
+.calc_result_data {
+  background-color: #fff;
+  border: 2px solid $blue;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  line-height: 1.3;
 }
