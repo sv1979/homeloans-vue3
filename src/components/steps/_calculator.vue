@@ -191,11 +191,11 @@ export default {
     <div class="col calc_result" v-if="totalInterest">
       <div class="calc_result_data">
         <b>Term loan amount:</b>
-        <p :class="{ 'is-red': loanAmount > 4000000 || loanAmount < 100000 }">
+        <p :class="{ 'is-red': termLoanAmount > 4000000 || termLoanAmount < 100000 }">
           {{ constants.CURRENCY.format(termLoanAmount > 0 ? termLoanAmount : 0) }}
           <br />
-          <span class="sm" v-if="loanAmount > 4000000">Max loan amount $4,000,000</span>
-          <span class="sm" v-if="loanAmount < 100000">Min loan amount $100,000</span>
+          <span class="sm" v-if="termLoanAmount > 4000000">Max loan amount $4,000,000</span>
+          <span class="sm" v-if="termLoanAmount < 100000">Min loan amount $100,000</span>
         </p>
 
         <b>Total term loan interest:</b>

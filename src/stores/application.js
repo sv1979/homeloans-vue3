@@ -273,12 +273,12 @@ export const useApplicationStore = defineStore({
 
       const rate_is_string = typeof _fields.Loan_Interest_Rate.value === 'string';
       console.log( this.guid, 2,
-        _fields.Loan_Amount.value, 3,
+        _fields.Term_Loan_Amount.value, 3,
         _fields.Loan_Interest_Rate.value,4,
         _fields.Loan_Term.value)
       if (
         this.guid &&
-        _fields.Loan_Amount.value &&
+        _fields.Term_Loan_Amount.value &&
         _fields.Loan_Interest_Rate.value &&
         _fields.Loan_Term.value
       ) {
@@ -288,7 +288,7 @@ export const useApplicationStore = defineStore({
           : _fields.Loan_Interest_Rate.value;
 
         axios.post(url, {
-            LoanAmount: _fields.Loan_Amount.value,
+            LoanAmount: _fields.Term_Loan_Amount.value,
             TermLoanAmount: _fields.Term_Loan_Amount.value,
             AnnualInterestRate: rate,
             LoanPeriodInYears: _fields.Loan_Term.value,
@@ -325,7 +325,7 @@ export const useApplicationStore = defineStore({
                 Estimated_Home_Value: this.fields.Estimated_Home_Value.value,
                 Mortgage_Balance: this.fields.Mortgage_Balance.value,
                 Loan_topup: this.fields.Loan_topup.value,
-                Loan_Amount: this.fields.Loan_Amount.value,
+                Loan_Amount: this.fields.Term_Loan_Amount.value,
                 Term_Loan_Amount: this.fields.Term_Loan_Amount.value,
                 Loan_Interest_Rate: this.fields.Loan_Interest_Rate.value,
                 Loan_Interest_Rate: rate_is_string && this.fields.Loan_Interest_Rate.value.indexOf('---') > -1 
@@ -370,7 +370,7 @@ export const useApplicationStore = defineStore({
           Estimated_Home_Value: this.fields.Estimated_Home_Value.value,
           Mortgage_Balance: this.fields.Mortgage_Balance.value,
           Loan_topup: this.fields.Loan_topup.value,
-          Loan_Amount: this.fields.Loan_Amount.value,
+          Loan_Amount: this.fields.Term_Loan_Amount.value,
           Term_Loan_Amount: this.fields.Term_Loan_Amount.value,
           Loan_Interest_Rate: this.fields.Loan_Interest_Rate.value,
           InterestRateId: this.fields.InterestRateId.value,
