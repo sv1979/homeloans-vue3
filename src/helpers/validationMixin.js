@@ -27,7 +27,6 @@ export function validationRules(props, fields) {
         valids['maxValue'] = maxValue(props.dateopts.maxDate)
     if (props.field.amountField) {
         valids['lookLoanAmount'] = () => {
-            // console.log(12, toRaw(fields))
             return !(
                 toRaw(fields['Loan_Amount'].value) >= 100000 &&
                 toRaw(fields['Loan_Amount'].value) <= 4000000
@@ -58,38 +57,38 @@ export function validationMessage(props, v$) {
         return 'This field is required'
     }
     return fv && fv.email && v$.value.$errors && v$.value.$errors.length && !v$.value.email
-      ? 'Must be a valid email'
-      : fv && fv.minLength && v$.value.$errors && v$.value.$errors.length && !v$.value.minLength
-        ? `Must have at least ${fv.minLength} characters`
-        : fv && fv.maxLength && v$.value.$errors && v$.value.$errors.length && !v$.value.maxLength
-          ? `Must be no longer than ${fv.maxLength} characters`
-          : fv && fv.minValue && v$?.value?.$errors?.length && !v$.value.minValue
-            ? `Minimum iws ${fv.minValue}`
-            : fv && fv.maxValue && v$?.value?.$errors?.length && !v$.value.maxValue
-              ? `Maximum is ${maxValueOverride !== null ? maxValueOverride : fv.maxValue}`
-              : fv &&
-                fv.includes && v$.value.$errors &&
-                v$.value.$errors.length &&
-                !v$.value.custom &&
-                props.field.customValidationText
-                ? props.field.customValidationText
-                : props.field.type === 'date' && props.field.adult && v$.value.$errors && v$.value.$errors.length && !v$.value.maxValue
-                  ? 'Should be 18 years old'
-                  : props.field.type === 'address' && v$.value.$errors.length
-                    ? 'We can’t find this address – please check the spelling.'
-                    : props.field.type === 'address' && v$.value.$errors &&
-                      v$.value.$errors.length &&
-                      !v$.value.full_address &&
-                      v$.value.required
-                      ? 'Please select full address'
-                      : fv &&
-                        fv.required && 
-                        v$?.value?.$errors?.length &&
-                        !v$.value.required &&
-                        props.field.type === 'textarea'
-                        ? 'Please complete this field'
-                        : fv && fv.required && v$?.value?.$errors?.length && !v$.value.required
-                          ? 'This field is required'
-                          : ''
-  }
+        ? 'Must be a valid email'
+        : fv && fv.minLength && v$.value.$errors && v$.value.$errors.length && !v$.value.minLength
+            ? `Must have at least ${fv.minLength} characters`
+            : fv && fv.maxLength && v$.value.$errors && v$.value.$errors.length && !v$.value.maxLength
+                ? `Must be no longer than ${fv.maxLength} characters`
+                : fv && fv.minValue && v$?.value?.$errors?.length && !v$.value.minValue
+                    ? `Minimum iws ${fv.minValue}`
+                    : fv && fv.maxValue && v$?.value?.$errors?.length && !v$.value.maxValue
+                        ? `Maximum is ${maxValueOverride !== null ? maxValueOverride : fv.maxValue}`
+                        : fv &&
+                            fv.includes && v$.value.$errors &&
+                            v$.value.$errors.length &&
+                            !v$.value.custom &&
+                            props.field.customValidationText
+                            ? props.field.customValidationText
+                            : props.field.type === 'date' && props.field.adult && v$.value.$errors && v$.value.$errors.length && !v$.value.maxValue
+                                ? 'Should be 18 years old'
+                                : props.field.type === 'address' && v$.value.$errors.length
+                                    ? 'We can’t find this address – please check the spelling.'
+                                    : props.field.type === 'address' && v$.value.$errors &&
+                                        v$.value.$errors.length &&
+                                        !v$.value.full_address &&
+                                        v$.value.required
+                                        ? 'Please select full address'
+                                        : fv &&
+                                            fv.required &&
+                                            v$?.value?.$errors?.length &&
+                                            !v$.value.required &&
+                                            props.field.type === 'textarea'
+                                            ? 'Please complete this field'
+                                            : fv && fv.required && v$?.value?.$errors?.length && !v$.value.required
+                                                ? 'This field is required'
+                                                : ''
+}
 

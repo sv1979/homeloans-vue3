@@ -81,7 +81,6 @@ const updateValue = (newValue) => {
 }
 
 watch(fieldValue, (newValue, oldValue) => {
-  console.log(222, newValue, oldValue)
   updateValue(newValue)
 })
 

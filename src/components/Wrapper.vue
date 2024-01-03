@@ -19,8 +19,6 @@ const hideSaveAndExitButton = ref(false)
 async function init() {
   await parseQuery(router, route)
   getLookup()
-  // console.log(guid.value, fields.value.Has_RVC.value)
-
   // TODO: setCoappVerification / setPrimVerification
 
   if (guid.value && typeof guid.value === 'string' && guid.value.length === 36) {

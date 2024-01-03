@@ -110,7 +110,6 @@ const lvrMessage = computed(() => {
 })
 
 watch(useAddressRight, (newValue, oldValue) => {
-  console.log(200, 'AR', newValue, oldValue)
   if (newValue | oldValue) {
     setFields({ ['Addressright_Text_Property']: '' })
     setFields({ ['Address_Text_Property']: '' })

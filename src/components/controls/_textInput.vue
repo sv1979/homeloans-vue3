@@ -4,7 +4,6 @@ import { useVuelidate } from '@vuelidate/core'
 import { useApplicationStore } from '@/stores/application'
 const { getFields, setFields, saveFields } = useApplicationStore()
 const emit = defineEmits(['change', 'save', 'validate'])
-console.log(22)
 </script > -->
 
 

@@ -85,7 +85,6 @@ export const useApplicationStore = defineStore({
       }
     },
     async getLookup() {
-      console.log('getlookup..')
       let url = import.meta.env.VITE_BASE_URL
       if (this.fields.Query_String.value.toLowerCase().indexOf('interportalname') > -1) {
         url += constants.URLS.INIT
@@ -121,7 +120,6 @@ export const useApplicationStore = defineStore({
       })
     },
     async loadToken(params) {
-      console.log('loadToken')
       let setGuid = params && params.setGuid;
       let $this = this;
 
@@ -139,7 +137,6 @@ export const useApplicationStore = defineStore({
           }
         })
         .catch((response) => {
-          console.log(response, response.data)
           $this.errors = response.data.Errors
           $this.showErrors()
         });
@@ -184,7 +181,6 @@ export const useApplicationStore = defineStore({
     showErrors() {
       this.hasError = false
       this.errors?.forEach((e) => {
-        console.log(e.message)
         // TODO: doToast(e.Message, 'is-danger');
       });
       setTimeout(() => { this.hasError = true }, 5000)
@@ -219,13 +215,9 @@ export const useApplicationStore = defineStore({
     },
 
     setLoanAmount() {
-      console.log('sli')
       const loanAmount = this.fields['Loan_Purpose'].value === 'refinance' ?
         commonMixin.transformStringToInteger(this.fields['Mortgage_Balance'].value) + commonMixin.transformStringToInteger(this.fields['Loan_topup'].value) :
         commonMixin.transformStringToInteger(this.fields['Purchase_Price'].value) - commonMixin.transformStringToInteger(this.fields['Deposit'].value);
-
-      // this.setFields({ ['Purchase_Price']: loanAmount })
-
       const desiredRvc = this.fields['Has_RVC'].value &&
         this.fields['Desired_RVC_Limit'].value !== null
           ? commonMixin.transformStringToInteger(this.fields['Desired_RVC_Limit'].value)
@@ -266,16 +258,11 @@ export const useApplicationStore = defineStore({
 
     async repaymentsCalculator(init) {
       // commit('clearSaveDelay');
-      console.log('rep', init)
       this.setLoanAmount()
       const _fields = this.fields;
       const $this = this;
-
       const rate_is_string = typeof _fields.Loan_Interest_Rate.value === 'string';
-      console.log( this.guid, 2,
-        _fields.Term_Loan_Amount.value, 3,
-        _fields.Loan_Interest_Rate.value,4,
-        _fields.Loan_Term.value)
+
       if (
         this.guid &&
         _fields.Term_Loan_Amount.value &&
@@ -359,10 +346,7 @@ export const useApplicationStore = defineStore({
             // commit('setErrors', get(error, 'response.data.Errors'));
             // dispatch('showErrors');
           });
-          console.log('rp3')
       } else if (!init) {
-        console.log('here2')
-        console.log(this.fields.value)
         this.saveFields(
         {
           Purchase_Price: this.fields.Purchase_Price.value,
@@ -385,7 +369,6 @@ export const useApplicationStore = defineStore({
     },
 
     async saveFields(fieldsData) {
-      console.log(fieldsData)
       let $this = this;
       let fieldsToSave = this.getFields;
       let valuesToSave = this.getFieldsValues;
