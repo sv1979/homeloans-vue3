@@ -11,7 +11,7 @@ import TestApplication from './steps/_test-application.vue'
 const router = useRouter()
 const route = useRoute()
 const { parseQuery, getLookup, loadToken, runInitialLoad } = useApplicationStore()
-const { guid, initialLoad, fields, processing, history, steps, activeIndex } = storeToRefs(useApplicationStore())
+const { guid, initialLoad, fields, processing, history, steps, activeIndex, decisionGateAfterExpensesAlreadyCalled, decisionGateAfterExpensesDeclined } = storeToRefs(useApplicationStore())
 
 const mobileOpen = ref(false)
 const hideSaveAndExitButton = ref(false)
@@ -27,12 +27,24 @@ async function init() {
     // TODO: getBiometrics status
     // TODO: load app by guid 
   } else {
-    loadToken({setGuid: true})
+    loadToken({ setGuid: true })
     runInitialLoad()
   }
 }
 
 init()
+
+const saveAndExitShown = computed(() => {
+  if (decisionGateAfterExpensesAlreadyCalled.value && decisionGateAfterExpensesDeclined.value) {
+    return false
+  }
+  return true
+})
+
+const nextButtonText = computed(() => {
+  if (activeIndex.value === 5) return "Submit"
+  return "Next"
+})
 
 const backLink = computed(() => {
   if (window.location.href.indexOf('localhost') > -1 | window.location.href.indexOf('staging') > -1) {
@@ -85,7 +97,7 @@ const notFirstStep = computed(() => {
 })
 
 const stepSlug = computed(() => {
-  return route.path.replace("/","")
+  return route.path.replace("/", "")
 })
 
 function checkIfLocked(step) {

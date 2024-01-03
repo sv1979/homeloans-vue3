@@ -21,7 +21,9 @@ export const useApplicationStore = defineStore({
     steps: steps,
     activeIndex: 0,
     loading: false,
-    error: null
+    error: null,
+    decisionGateAfterExpensesAlreadyCalled: false,
+    decisionGateAfterExpensesDeclined: true,
   }),
   getters: {
     // getPostsPerAuthor: (state) => {

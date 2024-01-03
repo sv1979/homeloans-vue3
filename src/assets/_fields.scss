@@ -706,6 +706,11 @@ $blue: #0200b9;
             background: $blue url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cpath d='M.04.627L.146.52.43.804.323.91zm.177.177L.854.167.96.273.323.91z' fill='%23fff'/%3E%3C/svg%3E") no-repeat 50%;
         }
     }
+    &:has(input:focus) {
+        .check {
+            border-color: $blue;
+        }
+    }
 }
 
 .dotted-group-container {
