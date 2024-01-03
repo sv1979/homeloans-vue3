@@ -22,6 +22,7 @@ import GoogleAutocomplete from '@/components/controls/_googleAutocomplete.vue'
 import InputNumber from 'primevue/inputnumber'
 import { validationRules, validationMessage } from '@/helpers/validationMixin.js'
 import { useRoute } from 'vue-router'
+import commonMixin from '@/helpers/commonMixin'
 
 export default {
   name: 'text-input',
@@ -100,16 +101,13 @@ export default {
     const v$ = useVuelidate(rules, state)
 
     function onchangeCurrency(event) {
-      // setFields({ [props.field.name]: event.value })
-      // saveFields()
-console.log(111,event)
       context.emit('change', {
         name: props.field.name,
-        value: event.value,
+        value: commonMixin.transformStringToInteger(event.value),
         valid: !v$.$invalid
       })
-      setFields({ [props.field.name]: event.value.replace(/,/g, '') })
-      context.emit('save', { [props.field.name]: event.value })
+      setFields({ [props.field.name]: commonMixin.transformStringToInteger(event.value) })
+      context.emit('save', { [props.field.name]: commonMixin.transformStringToInteger(event.value) })
       context.emit('validate', { steps: [route.params.step] })
     }
 

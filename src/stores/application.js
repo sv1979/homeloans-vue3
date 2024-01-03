@@ -221,16 +221,14 @@ export const useApplicationStore = defineStore({
     setLoanAmount() {
       console.log('sli')
       const loanAmount = this.fields['Loan_Purpose'].value === 'refinance' ?
-        Number(this.fields['Mortgage_Balance'].value) + Number(this.fields['Loan_topup'].value) :
-        Number(this.fields['Purchase_Price'].value) - Number(this.fields['Deposit'].value);
+        commonMixin.transformStringToInteger(this.fields['Mortgage_Balance'].value) + commonMixin.transformStringToInteger(this.fields['Loan_topup'].value) :
+        commonMixin.transformStringToInteger(this.fields['Purchase_Price'].value) - commonMixin.transformStringToInteger(this.fields['Deposit'].value);
 
-      console.log('sli2', Number(this.fields['Mortgage_Balance'].value), Number(this.fields['Deposit'].value))
-      this.setFields({ ['Purchase_Price']: loanAmount })
-
+      // this.setFields({ ['Purchase_Price']: loanAmount })
 
       const desiredRvc = this.fields['Has_RVC'].value &&
         this.fields['Desired_RVC_Limit'].value !== null
-          ? Number(this.fields['Desired_RVC_Limit'].value)
+          ? commonMixin.transformStringToInteger(this.fields['Desired_RVC_Limit'].value)
           : null;
 
       this.setFields({ ['Desired_RVC_Limit']: desiredRvc })
@@ -239,12 +237,12 @@ export const useApplicationStore = defineStore({
         this.fields['Has_RVC'].value &&
         this.fields['Has_Required_RVC_Limit'].value &&
         this.fields['Required_RVC_Limit'].value !== null
-            ? Number(this.fields['Required_RVC_Limit'].value)
+            ? commonMixin.transformStringToInteger(this.fields['Required_RVC_Limit'].value)
             : null;
       
       this.setFields({ ['Required_RVC_Limit']: requiredRvc })      
 
-      this.setFields({ ['Term_Loan_Amount']: loanAmount - Number(requiredRvc || 0) }) 
+      this.setFields({ ['Term_Loan_Amount']: loanAmount - commonMixin.transformStringToInteger(requiredRvc || 0) }) 
 
       // let calcInvalidNH =
       //   state.fields.Loan_Purpose.value === 'new-home' &&
@@ -274,9 +272,9 @@ export const useApplicationStore = defineStore({
       const $this = this;
 
       const rate_is_string = typeof _fields.Loan_Interest_Rate.value === 'string';
-      console.log( this.guid,
-        _fields.Loan_Amount.value,
-        _fields.Loan_Interest_Rate.value,
+      console.log( this.guid, 2,
+        _fields.Loan_Amount.value, 3,
+        _fields.Loan_Interest_Rate.value,4,
         _fields.Loan_Term.value)
       if (
         this.guid &&
@@ -364,6 +362,7 @@ export const useApplicationStore = defineStore({
           console.log('rp3')
       } else if (!init) {
         console.log('here2')
+        console.log(this.fields.value)
         this.saveFields(
         {
           Purchase_Price: this.fields.Purchase_Price.value,
@@ -391,8 +390,8 @@ export const useApplicationStore = defineStore({
       let fieldsToSave = this.getFields;
       let valuesToSave = this.getFieldsValues;
       if (fieldsData) {
-        fieldsToSave = fieldsData;
-        valuesToSave = fieldsData;
+        fieldsToSave = commonMixin.transformArrayValues(fieldsData);
+        valuesToSave = commonMixin.transformArrayValues(fieldsData);
       }
       if (!this.getGuid) await this.createApp();
       if (this.getGuid) {

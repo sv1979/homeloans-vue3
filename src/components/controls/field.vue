@@ -206,8 +206,12 @@ function updateField(ev) {
   if (field.value.triggers) {
     toggleTriggers(ev)
   }
-  console.log(112, ev)
-  emit('change', ev)
+  
+  emit('change', {
+    name: ev.name,
+    value: commonMixin.transformStringToInteger(ev.value),
+    valid: ev.valid
+  })
 }
 
 function toggleTriggers(ev) {
