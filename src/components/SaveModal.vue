@@ -30,7 +30,7 @@ function handleClose() {
                 Please confirm your email so we can send you a link which you can
                 use to resume your application.
             </p>
-            <field fieldName="EmailAddress" ref="email1" />
+            <field fieldName="EmailAddress" ref="email1" class="w-100"/>
             <div class="buttons mt-4 expanded flex">
                 <Button class="button is-mobile" outlined rounded @click="handleClose" label="Return to application" />
                 <Button class="is-primary button is-mobile" rounded @click="save" label="Send email" />

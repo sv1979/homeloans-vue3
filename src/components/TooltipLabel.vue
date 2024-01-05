@@ -49,3 +49,9 @@ useTippy(button, {
         <button v-if="!!tooltipObject" ref="button" class="tool"></button>
     </label>
 </template>
+
+<style scoped>
+    .label {
+        margin-bottom: 0.3rem;
+    }
+</style>

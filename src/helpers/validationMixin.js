@@ -66,7 +66,7 @@ export function validationMessage(props, v$) {
             : fv && fv.maxLength && v$.value.$errors && v$.value.$errors.length && !v$.value.maxLength
                 ? `Must be no longer than ${fv.maxLength} characters`
                 : fv && fv.minValue && v$?.value?.$errors?.length && !v$.value.minValue
-                    ? `Minimum iws ${fv.minValue}`
+                    ? `Minimum is ${fv.minValue}`
                     : fv && fv.maxValue && v$?.value?.$errors?.length && !v$.value.maxValue
                         ? `Maximum is ${maxValueOverride !== null ? maxValueOverride : fv.maxValue}`
                         : fv &&

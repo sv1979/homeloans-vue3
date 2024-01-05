@@ -3,10 +3,6 @@ $blue: #0200b9;
 .label {
     font-weight: 600;
 
-    &:not([class*='mb-']) {
-        margin-bottom: 0 !important;
-    }
-
     &:not(:last-child) {
         margin-bottom: 0.3em;
     }
@@ -191,10 +187,6 @@ $blue: #0200b9;
 
 .label {
     font-weight: 600;
-
-    &:not([class*='mb-']) {
-        margin-bottom: 0 !important;
-    }
 
     &:not(:last-child) {
         margin-bottom: 0.3em;

@@ -1,7 +1,9 @@
 <template>
-  <InputText ref="autocomplete_input" type="text" :class="classname" class="text_input" placeholder="Start typing..."
-    v-model="autocompleteText" @focus="onFocus()" @blur="onBlur()" @change="onChange" @keypress="onKeyPress"
-    @keyup="onKeyUp" />
+  <div class="p-component p-inputwrapper">  
+    <input ref="autocomplete_input" type="text" :class="classname" class="p-inputtext" placeholder="Start typing..."
+      v-model="autocompleteText" @focus="onFocus()" @blur="onBlur()" @change="onChange" @keypress="onKeyPress"
+      @keyup="onKeyUp"/> 
+  </div>   
 </template>
 
 <script setup>
@@ -9,7 +11,6 @@ import { computed, ref, watch, onMounted } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { useApplicationStore } from '@/stores/application'
 import { useDebounceFn } from "@vueuse/core"
-import InputText from 'primevue/autocomplete';
 const { getFields, setFields, saveFields } = useApplicationStore()
 const emit = defineEmits(['change', 'save', 'validate'])
 

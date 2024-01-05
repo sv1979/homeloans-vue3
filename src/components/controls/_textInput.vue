@@ -115,7 +115,8 @@ export default {
       props,
       validationMessage,
       onchangeCurrency,
-      state
+      state,
+      rules
     }
   }
 }
@@ -161,7 +162,7 @@ export default {
       </div>
 
       <div v-else-if="field.type === 'email'" class="control">
-        <simple-text :class="{ 'is-danger': v$.$errors.length }" :field="field" :val="val" :disabled="disabled"
+        <simple-text :class="{ 'is-danger': v$.$errors.length }" v-model="v$.fieldValue.$model" :disabled="disabled"
           :this_field="this_field" :id="id" :classes="classes" />
       </div>
       
