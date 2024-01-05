@@ -5,8 +5,6 @@ import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 const emit = defineEmits(['close'])
 
-const modalOpen = ref(props.isOpen);
-
 const props = defineProps({
     isOpen: {
         type: Boolean,

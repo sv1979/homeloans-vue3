@@ -120,31 +120,21 @@ p {
 }
 
 @mixin link-button {
+    appearance: none;
     position: relative;
     display: inline-block;
     font-weight: 600;
     cursor: pointer;
     font-size: 14px;
-
-    &:after {
-        display: none;
-    }
-
-    &:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 4px;
-        height: 1px;
-        background-color: currentColor;
-        bottom: -2px;
-    }
-
-    &:hover {
-        &:before {
-            color: $heartland-purple;
-        }
+    border: none;
+    background-color: transparent;
+    padding: 0 0 2px;
+    border-bottom: 1px solid currentColor;
+    &:hover, &:focus {
+        border-bottom-color: $heartland-purple;
+        padding-bottom: 4px;
+        border-bottom-width: 2px;
+        border-bottom-style: dotted;
     }
 }
 

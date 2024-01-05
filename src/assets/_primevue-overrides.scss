@@ -98,6 +98,11 @@ $blue: #0200b9;
             text-decoration-style: dotted;
         }
     }
+    &.p-button-outlined {
+        &:focus {
+            color: #fff;
+        }
+    }
 }
 
 .p-button-label {

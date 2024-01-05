@@ -15,6 +15,7 @@ const { guid, initialLoad, fields, processing, history, steps, activeIndex, deci
 
 const mobileOpen = ref(false)
 const hideSaveAndExitButton = ref(false)
+const saveOpen = ref(false)
 
 async function init() {
   await parseQuery(router, route)
@@ -139,11 +140,13 @@ onMounted(() => {
 
 <script>
 import Calculator from './steps/_calculator.vue'
+import SaveModal from './SaveModal.vue'
 
 export default {
   name: 'Wrapper',
   components: {
-    Calculator
+    Calculator,
+    SaveModal
   }
 }
 </script>
@@ -235,12 +238,12 @@ export default {
                     </div>
                   </div>
                 </div>
-                <div class="menu-list-item save item_wrapper" v-if="status !== 'Submitted'" @click="
-                  saveOpen = true;
-                mobileOpen = false;
-                ">
-                  <span class="link-button" :id="`tracking__hl-app__${stepSlug}_save-exit`">Save and exit
-                    application</span>
+                <div class="menu-list-item save item_wrapper" v-if="status !== 'Submitted'">
+                  <button class="link-button" :id="`tracking__hl-app__${stepSlug}_save-exit`" @click="
+                    saveOpen = true;
+                  mobileOpen = false;
+                  ">Save and exit
+                    application</button>
                 </div>
               </div>
             </Transition>
@@ -300,12 +303,12 @@ export default {
       </div>
       <div class="bottom_links">
         <div>
-          <span v-if="status !== 'Submitted' && !hideSaveAndExitButton && saveAndExitShown"
+          <button v-if="status !== 'Submitted' && !hideSaveAndExitButton && saveAndExitShown"
             :id="`tracking__hl-app__${stepSlug}_save-exit`" class="link-button"
             data-test-id="save-and-exit-application-button" @click="
               saveOpen = true;
             mobileOpen = false;
-            ">Save and exit application</span>
+            ">Save and exit application</button>
         </div>
         <button class="next-button bottom_links__button" :disabled="nextButtonDisabled" @click="clickNextButtonHandler"
           :class="{ hide: !activeStep.showNext }" data-test-id="next-button" :id="`tracking__hl-app__${stepSlug}-next`"
@@ -314,7 +317,7 @@ export default {
         </button>
       </div>
     </div>
-    <!-- <save-modal v-model="saveOpen" /> -->
+    <save-modal :isOpen="saveOpen" v-on:close="saveOpen = false" />
   </div>
   <div v-else class="loading_spinner">
     <div class="sk-plane sk-center" />

@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
+import { email } from '@vuelidate/validators'
 import { useApplicationStore } from '@/stores/application'
 const { getFields, setFields, saveFields } = useApplicationStore()
 const emit = defineEmits(['change', 'save', 'validate'])

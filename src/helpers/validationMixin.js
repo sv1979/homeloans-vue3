@@ -56,6 +56,9 @@ export function validationMessage(props, v$) {
     if (fValue.required?.$invalid) {
         return 'This field is required'
     }
+    if (fValue.email?.$invalid) {
+        return 'Please enter valid email'
+    }
     return fv && fv.email && v$.value.$errors && v$.value.$errors.length && !v$.value.email
         ? 'Must be a valid email'
         : fv && fv.minLength && v$.value.$errors && v$.value.$errors.length && !v$.value.minLength

@@ -160,7 +160,12 @@ export default {
         </div>
       </div>
 
-      <div v-else class="control" :class="commonClassesObject">
+      <div v-else-if="field.type === 'email'" class="control">
+        <simple-text :class="{ 'is-danger': v$.$errors.length }" :field="field" :val="val" :disabled="disabled"
+          :this_field="this_field" :id="id" :classes="classes" />
+      </div>
+      
+      <div v-else class="control" :class="commonClassesObject"> 
         <textarea v-if="field.type === 'textarea'" class="input input_textarea"
           :class="{ 'is-danger': v$.$errors.length }" v-model="fieldValue" :placeholder="field.placeholder"
           :disabled="disabled" v-on:blur="onchange(fieldValue)" ref="input" cols="30" rows="5"
