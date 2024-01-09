@@ -110,11 +110,31 @@ export default {
       context.emit('validate', { steps: [route.params.step] })
     }
 
+    function onchangeText(event) {
+      let _field = {
+        name: props.field.name,
+        value: event,
+        valid: !v$.value.$invalid
+      };
+
+      context.emit('change', _field)
+      setFields({ [props.field.name]: event })
+      context.emit('save', { [props.field.name]: event })
+      context.emit('validate', { steps: [route.params.step] })
+
+      if (!v$.value.$invalid) {
+        // setFields({ [props.field.name]: event })
+        // context.emit('save', { [props.field.name]: event })
+        // context.emit('validate', { steps: [route.params.step] })
+      }
+    }
+
     return {
       v$,
       props,
       validationMessage,
       onchangeCurrency,
+      onchangeText,
       state,
       rules
     }
@@ -127,8 +147,7 @@ export default {
     <tooltip-label :field="field"></tooltip-label>
     <slot v-if="field.sublabel"><span class="sublabel" v-html="field.sublabel"></span></slot>
 
-    <div class="textFieldWrap"
-      :key="field.name" :message="validationMessage">
+    <div class="textFieldWrap" :key="field.name" :message="validationMessage">
       <div class="pre-label" v-if="field.leftLabel">{{ field.leftLabel }}</div>
 
       <b-datepicker v-if="field.type === 'date'" :placeholder="field.placeholder" :min-date="dateopts.minYear"
@@ -148,25 +167,24 @@ export default {
         :this_field="this_field" :id="id" :classes="classes" country="nz" />
 
       <div v-else-if="field.type === 'label'">{{ fieldValue }}</div>
-      
+
       <div v-else-if="field.type === 'currency'" class="control" :class="commonClassesObject">
         <div class="p-inputgroup flex-1 currency_wrap">
           <span class="p-inputgroup-addon">$</span>
-          <InputNumber v-model="v$.fieldValue.$model" locale="en-NZ" 
-            :minFractionDigits="0" :maxFractionDigits="2" :class="{
-            'p-invalid': (isAmountField && this.wrongAmountField) || (v$ && v$.$errors.length) }" 
-            :placeholder="field.placeholder" :disabled="disabled" maxlength="13" :data-field="field.name"
-            v-on:blur="onchangeCurrency" ref="input" :data-test-id="field.name" 
-            />
+          <InputNumber v-model="v$.fieldValue.$model" locale="en-NZ" :minFractionDigits="0" :maxFractionDigits="2" :class="{
+            'p-invalid': (isAmountField && this.wrongAmountField) || (v$ && v$.$errors.length)
+          }" :placeholder="field.placeholder" :disabled="disabled" maxlength="13" :data-field="field.name"
+            v-on:blur="onchangeCurrency" ref="input" :data-test-id="field.name" />
         </div>
       </div>
 
       <div v-else-if="field.type === 'email'" class="control">
         <simple-text :class="{ 'is-danger': v$.$errors.length }" v-model="v$.fieldValue.$model" :disabled="disabled"
-          :this_field="this_field" :id="id" :classes="classes" />
+          :this_field="this_field" :id="id" :classes="classes" :val="val" :field="field" v-on:change="onchangeText"
+          v-on:emited-update="onchangeText" />
       </div>
-      
-      <div v-else class="control" :class="commonClassesObject"> 
+
+      <div v-else class="control" :class="commonClassesObject">
         <textarea v-if="field.type === 'textarea'" class="input input_textarea"
           :class="{ 'is-danger': v$.$errors.length }" v-model="fieldValue" :placeholder="field.placeholder"
           :disabled="disabled" v-on:blur="onchange(fieldValue)" ref="input" cols="30" rows="5"

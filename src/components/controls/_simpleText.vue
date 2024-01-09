@@ -1,11 +1,12 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { reactive, computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-// import { useVuelidate } from '@vuelidate/core'
+import { useVuelidate } from '@vuelidate/core'
 // import { email } from '@vuelidate/validators'
 import { useApplicationStore } from '@/stores/application'
+import { validationRules, validationMessage } from '@/helpers/validationMixin.js'
 const { getFields, setFields, saveFields } = useApplicationStore()
-const emit = defineEmits(['change', 'save', 'validate'])
+const emit = defineEmits(['change', 'save', 'validate', 'emited-update'])
 const route = useRoute()
 
 const props = defineProps({
@@ -39,8 +40,13 @@ const props = defineProps({
         default: ''
     },
 })
-
+const state = reactive({ fieldValue: props.val })
 const value = ref(null);
+const rules = computed(() => {
+    if (validationRules) return validationRules(props, getFields);
+    return { fieldValue: {} }
+})
+const v$ = useVuelidate(rules, state)
 
 // const validations = computed(() => {
 //     const valids = {};
@@ -82,13 +88,17 @@ const value = ref(null);
 
 // const $v = useVuelidate(validations, value)
 
-watch(() => props.val, function(newVal, oldVal) {
+watch(() => props.val, function (newVal, oldVal) {
     const _value = !newVal && props.field.default ? props.field.default : newVal;
     value.value = _value
     emit('validate', { steps: [route.params.step | route.path] })
 },
     { immediate: true }
 );
+
+function onchange(event) {
+    emit('emited-update', event)
+}
 
 </script>
 
@@ -103,8 +113,7 @@ export default {
 </script>
 
 <template>
-    <input class="input p-inputtext" v-model="value" :placeholder="field.placeholder"
-        :disabled="disabled" :type="field.type === 'email' ? 'email' : 'text'"
-        :inputmode="field.type === 'tel' ? 'numeric' : ''" v-on:keyup="keypressed" v-on:blur="onchange(value)" ref="input"
-        :data-test-id="field.name" />
+    <input class="input p-inputtext" v-model="value" :placeholder="field.placeholder" :disabled="disabled"
+        :type="field.type === 'email' ? 'email' : 'text'" :inputmode="field.type === 'tel' ? 'numeric' : ''"
+        v-on:keyup="keypressed" v-on:blur="onchange(value)" ref="input" :data-test-id="field.name" />
 </template>

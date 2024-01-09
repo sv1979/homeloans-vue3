@@ -1,9 +1,12 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, toRaw } from 'vue'
 import field from '@/components/controls/field.vue'
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
+import { useApplicationStore } from '@/stores/application'
+const { getFields } = useApplicationStore()
 const emit = defineEmits(['close'])
+const isEmailValid = ref(true)
 
 const props = defineProps({
     isOpen: {
@@ -14,6 +17,23 @@ const props = defineProps({
 
 function handleClose() {
     emit('close')
+}
+
+const getEmail = computed(() => { return toRaw(getFields['EmailAddress'].value) })
+
+function save() {
+    console.log(111, getEmail.value)
+    // const validate = Object.values(this.$refs).map((c) => {
+    //     const v = this.get(c, '$refs.email1.$v');
+    //     if (v) {
+    //         v.$touch();
+    //         return v;
+    //     } else return false;
+    // });
+    // if (!validate.some((v) => v.$invalid)) {
+    //     this.close();
+    //     this.$store.dispatch('saveExit');
+    // }
 }
 
 </script>
@@ -30,7 +50,7 @@ function handleClose() {
                 Please confirm your email so we can send you a link which you can
                 use to resume your application.
             </p>
-            <field fieldName="EmailAddress" ref="email1" class="w-100"/>
+            <field fieldName="EmailAddress" class="w-100" @change="save"/>
             <div class="buttons mt-4 expanded flex">
                 <Button class="button is-mobile" outlined rounded @click="handleClose" label="Return to application" />
                 <Button class="is-primary button is-mobile" rounded @click="save" label="Send email" />

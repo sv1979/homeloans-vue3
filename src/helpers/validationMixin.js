@@ -38,6 +38,7 @@ export function validationRules(props, fields) {
             return props.rawValue !== 'novalid'
         }
     }
+    console.log(32, valids)
     return { fieldValue: valids }
 }
 
@@ -59,9 +60,7 @@ export function validationMessage(props, v$) {
     if (fValue.email?.$invalid) {
         return 'Please enter valid email'
     }
-    return fv && fv.email && v$.value.$errors && v$.value.$errors.length && !v$.value.email
-        ? 'Must be a valid email'
-        : fv && fv.minLength && v$.value.$errors && v$.value.$errors.length && !v$.value.minLength
+    return fv && fv.minLength && v$.value.$errors && v$.value.$errors.length && !v$.value.minLength
             ? `Must have at least ${fv.minLength} characters`
             : fv && fv.maxLength && v$.value.$errors && v$.value.$errors.length && !v$.value.maxLength
                 ? `Must be no longer than ${fv.maxLength} characters`
